@@ -1,3 +1,9 @@
 /SistemaSushi-war/dist/
 /SistemaSushi-war/build/
 /SistemaSushi-ejb/dist/
+/nbproject/private/
+/build/
+/dist/
+/SistemaSushi-war/nbproject/private/
+/SistemaSushi-ejb/nbproject/private/
+/SistemaSushi-ejb/build/

@@ -1,4 +1,4 @@
-<ui:composition template="templateVisita.xhtml"
+<ui:composition template="templateCliente.xhtml"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -9,8 +9,10 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>SITIO Visitas</h1>
-        <p>súper marico el que lo lea</p>
+        <h1>SITIO Clientes</h1>
+        <h2><h:outputText value="Bienvenido #{usuarioBean.userLogueado.nombre}"/></h2>
+        <p>marico el que lo lea</p>
+        
     </ui:define>
 </ui:composition>
 
