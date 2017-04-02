@@ -38,9 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Pedido.findAll", query = "SELECT p FROM Pedido p")
     , @NamedQuery(name = "Pedido.findByIdpedido", query = "SELECT p FROM Pedido p WHERE p.idpedido = :idpedido")
-    , @NamedQuery(name = "Pedido.findByValorpedido", query = "SELECT p FROM Pedido p WHERE p.valorpedido = :valorpedido")
-    , @NamedQuery(name = "Pedido.findByFechapedido", query = "SELECT p FROM Pedido p WHERE p.fechapedido = :fechapedido")
-    , @NamedQuery(name = "Pedido.findByEstadopedido", query = "SELECT p FROM Pedido p WHERE p.estadopedido = :estadopedido")})
+    , @NamedQuery(name = "Pedido.findByValor", query = "SELECT p FROM Pedido p WHERE p.valor = :valor")
+    , @NamedQuery(name = "Pedido.findByFecha", query = "SELECT p FROM Pedido p WHERE p.fecha = :fecha")
+    , @NamedQuery(name = "Pedido.findByEstado", query = "SELECT p FROM Pedido p WHERE p.estado = :estado")})
 public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,23 +52,23 @@ public class Pedido implements Serializable {
     private BigDecimal idpedido;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "VALORPEDIDO")
-    private BigInteger valorpedido;
+    @Column(name = "VALOR")
+    private BigInteger valor;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "FECHAPEDIDO")
+    @Column(name = "FECHA")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechapedido;
+    private Date fecha;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "ESTADOPEDIDO")
-    private String estadopedido;
+    @Column(name = "ESTADO")
+    private String estado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedidoIdpedido")
     private Collection<Producto> productoCollection;
-    @JoinColumn(name = "CLIENTE_IDCLIENTE", referencedColumnName = "IDCLIENTE")
+    @JoinColumn(name = "USUARIO_IDUSUARIO", referencedColumnName = "IDUSUARIO")
     @ManyToOne(optional = false)
-    private Cliente clienteIdcliente;
+    private Usuario usuarioIdusuario;
 
     public Pedido() {
     }
@@ -77,11 +77,11 @@ public class Pedido implements Serializable {
         this.idpedido = idpedido;
     }
 
-    public Pedido(BigDecimal idpedido, BigInteger valorpedido, Date fechapedido, String estadopedido) {
+    public Pedido(BigDecimal idpedido, BigInteger valor, Date fecha, String estado) {
         this.idpedido = idpedido;
-        this.valorpedido = valorpedido;
-        this.fechapedido = fechapedido;
-        this.estadopedido = estadopedido;
+        this.valor = valor;
+        this.fecha = fecha;
+        this.estado = estado;
     }
 
     public BigDecimal getIdpedido() {
@@ -92,28 +92,28 @@ public class Pedido implements Serializable {
         this.idpedido = idpedido;
     }
 
-    public BigInteger getValorpedido() {
-        return valorpedido;
+    public BigInteger getValor() {
+        return valor;
     }
 
-    public void setValorpedido(BigInteger valorpedido) {
-        this.valorpedido = valorpedido;
+    public void setValor(BigInteger valor) {
+        this.valor = valor;
     }
 
-    public Date getFechapedido() {
-        return fechapedido;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setFechapedido(Date fechapedido) {
-        this.fechapedido = fechapedido;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
-    public String getEstadopedido() {
-        return estadopedido;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setEstadopedido(String estadopedido) {
-        this.estadopedido = estadopedido;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     @XmlTransient
@@ -125,12 +125,12 @@ public class Pedido implements Serializable {
         this.productoCollection = productoCollection;
     }
 
-    public Cliente getClienteIdcliente() {
-        return clienteIdcliente;
+    public Usuario getUsuarioIdusuario() {
+        return usuarioIdusuario;
     }
 
-    public void setClienteIdcliente(Cliente clienteIdcliente) {
-        this.clienteIdcliente = clienteIdcliente;
+    public void setUsuarioIdusuario(Usuario usuarioIdusuario) {
+        this.usuarioIdusuario = usuarioIdusuario;
     }
 
     @Override

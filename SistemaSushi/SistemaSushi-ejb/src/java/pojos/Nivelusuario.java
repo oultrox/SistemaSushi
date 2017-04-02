@@ -52,7 +52,7 @@ public class Nivelusuario implements Serializable {
     @Column(name = "DESCRIPCIONNIVELUSUARIO")
     private String descripcionnivelusuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nivelusuarioIdnivelusuario")
-    private Collection<Cliente> clienteCollection;
+    private Collection<Usuario> usuarioCollection;
 
     public Nivelusuario() {
     }
@@ -91,12 +91,12 @@ public class Nivelusuario implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Cliente> getClienteCollection() {
-        return clienteCollection;
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
     }
 
-    public void setClienteCollection(Collection<Cliente> clienteCollection) {
-        this.clienteCollection = clienteCollection;
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
     }
 
     @Override

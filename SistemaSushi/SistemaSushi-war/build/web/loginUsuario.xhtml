@@ -19,12 +19,12 @@
                 <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
                 <p:fieldset id="Registrar" legend="Ingresa aquí con tus datos" style="margin-top: 40px; width: 500px;">
                     <h:panelGrid columns="1" cellpadding="5">
-                    <p:inputText id="email" value="#{clientexBean.rut}" placeholder="Ingresa tu Email aquí" required="true" label="email" size="15" />
+                    <p:inputText id="email" value="#{usuarioBean.ingresoEmail}" placeholder="Ingresa tu Email aquí" required="true" label="email" size="15" />
                     
-                    <p:password id="password" value="#{clientxeBean.clave}" required="true" label="password" placeholder="Ingresa tu contraseña" size="15"/>
+                    <p:password id="password" value="#{usuarioBean.ingresoClave}" required="true" label="password" placeholder="Ingresa tu contraseña" size="15"/>
                     
-                    <p:commandButton value="Login" update="msgs" actionListener="#{cliexnteBean.login}"
-                                             oncomplete="handleLoginRequest(xhr, status, args)"/>  
+                    <p:commandButton value="Login" update="msgs" actionListener="#{usuarioBean.login(event)}"
+                                             oncomplete="handleLoginRequest(xhr, status, args)"/>
                     </h:panelGrid>
                 </p:fieldset>
             </h:form> 

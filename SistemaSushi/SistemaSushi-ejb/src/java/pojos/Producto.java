@@ -31,9 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p")
     , @NamedQuery(name = "Producto.findByIdproducto", query = "SELECT p FROM Producto p WHERE p.idproducto = :idproducto")
-    , @NamedQuery(name = "Producto.findByNombreproducto", query = "SELECT p FROM Producto p WHERE p.nombreproducto = :nombreproducto")
-    , @NamedQuery(name = "Producto.findByCantidadproducto", query = "SELECT p FROM Producto p WHERE p.cantidadproducto = :cantidadproducto")
-    , @NamedQuery(name = "Producto.findByValorproducto", query = "SELECT p FROM Producto p WHERE p.valorproducto = :valorproducto")})
+    , @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p WHERE p.nombre = :nombre")
+    , @NamedQuery(name = "Producto.findByCantidad", query = "SELECT p FROM Producto p WHERE p.cantidad = :cantidad")
+    , @NamedQuery(name = "Producto.findByValor", query = "SELECT p FROM Producto p WHERE p.valor = :valor")})
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,16 +46,16 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "NOMBREPRODUCTO")
-    private String nombreproducto;
+    @Column(name = "NOMBRE")
+    private String nombre;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CANTIDADPRODUCTO")
-    private BigInteger cantidadproducto;
+    @Column(name = "CANTIDAD")
+    private BigInteger cantidad;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "VALORPRODUCTO")
-    private BigInteger valorproducto;
+    @Column(name = "VALOR")
+    private BigInteger valor;
     @JoinColumn(name = "PEDIDO_IDPEDIDO", referencedColumnName = "IDPEDIDO")
     @ManyToOne(optional = false)
     private Pedido pedidoIdpedido;
@@ -67,11 +67,11 @@ public class Producto implements Serializable {
         this.idproducto = idproducto;
     }
 
-    public Producto(BigDecimal idproducto, String nombreproducto, BigInteger cantidadproducto, BigInteger valorproducto) {
+    public Producto(BigDecimal idproducto, String nombre, BigInteger cantidad, BigInteger valor) {
         this.idproducto = idproducto;
-        this.nombreproducto = nombreproducto;
-        this.cantidadproducto = cantidadproducto;
-        this.valorproducto = valorproducto;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.valor = valor;
     }
 
     public BigDecimal getIdproducto() {
@@ -82,28 +82,28 @@ public class Producto implements Serializable {
         this.idproducto = idproducto;
     }
 
-    public String getNombreproducto() {
-        return nombreproducto;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreproducto(String nombreproducto) {
-        this.nombreproducto = nombreproducto;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public BigInteger getCantidadproducto() {
-        return cantidadproducto;
+    public BigInteger getCantidad() {
+        return cantidad;
     }
 
-    public void setCantidadproducto(BigInteger cantidadproducto) {
-        this.cantidadproducto = cantidadproducto;
+    public void setCantidad(BigInteger cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public BigInteger getValorproducto() {
-        return valorproducto;
+    public BigInteger getValor() {
+        return valor;
     }
 
-    public void setValorproducto(BigInteger valorproducto) {
-        this.valorproducto = valorproducto;
+    public void setValor(BigInteger valor) {
+        this.valor = valor;
     }
 
     public Pedido getPedidoIdpedido() {

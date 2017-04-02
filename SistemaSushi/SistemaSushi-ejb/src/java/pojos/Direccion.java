@@ -33,9 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Direccion.findByComuna", query = "SELECT d FROM Direccion d WHERE d.comuna = :comuna")
     , @NamedQuery(name = "Direccion.findByProvincia", query = "SELECT d FROM Direccion d WHERE d.provincia = :provincia")
     , @NamedQuery(name = "Direccion.findByRegion", query = "SELECT d FROM Direccion d WHERE d.region = :region")
-    , @NamedQuery(name = "Direccion.findByCalledireccion", query = "SELECT d FROM Direccion d WHERE d.calledireccion = :calledireccion")
-    , @NamedQuery(name = "Direccion.findByNumerodireccion", query = "SELECT d FROM Direccion d WHERE d.numerodireccion = :numerodireccion")
-    , @NamedQuery(name = "Direccion.findByDeptodireccion", query = "SELECT d FROM Direccion d WHERE d.deptodireccion = :deptodireccion")
+    , @NamedQuery(name = "Direccion.findByCalle", query = "SELECT d FROM Direccion d WHERE d.calle = :calle")
+    , @NamedQuery(name = "Direccion.findByNumero", query = "SELECT d FROM Direccion d WHERE d.numero = :numero")
+    , @NamedQuery(name = "Direccion.findByDepto", query = "SELECT d FROM Direccion d WHERE d.depto = :depto")
     , @NamedQuery(name = "Direccion.findByDetalledireccion", query = "SELECT d FROM Direccion d WHERE d.detalledireccion = :detalledireccion")})
 public class Direccion implements Serializable {
 
@@ -64,22 +64,22 @@ public class Direccion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "CALLEDIRECCION")
-    private String calledireccion;
+    @Column(name = "CALLE")
+    private String calle;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 5)
-    @Column(name = "NUMERODIRECCION")
-    private String numerodireccion;
+    @Column(name = "NUMERO")
+    private String numero;
     @Size(max = 5)
-    @Column(name = "DEPTODIRECCION")
-    private String deptodireccion;
+    @Column(name = "DEPTO")
+    private String depto;
     @Size(max = 45)
     @Column(name = "DETALLEDIRECCION")
     private String detalledireccion;
-    @JoinColumn(name = "CLIENTE_IDCLIENTE", referencedColumnName = "IDCLIENTE")
+    @JoinColumn(name = "USUARIO_IDUSUARIO", referencedColumnName = "IDUSUARIO")
     @ManyToOne(optional = false)
-    private Cliente clienteIdcliente;
+    private Usuario usuarioIdusuario;
 
     public Direccion() {
     }
@@ -88,13 +88,13 @@ public class Direccion implements Serializable {
         this.iddireccion = iddireccion;
     }
 
-    public Direccion(BigDecimal iddireccion, String comuna, String provincia, String region, String calledireccion, String numerodireccion) {
+    public Direccion(BigDecimal iddireccion, String comuna, String provincia, String region, String calle, String numero) {
         this.iddireccion = iddireccion;
         this.comuna = comuna;
         this.provincia = provincia;
         this.region = region;
-        this.calledireccion = calledireccion;
-        this.numerodireccion = numerodireccion;
+        this.calle = calle;
+        this.numero = numero;
     }
 
     public BigDecimal getIddireccion() {
@@ -129,28 +129,28 @@ public class Direccion implements Serializable {
         this.region = region;
     }
 
-    public String getCalledireccion() {
-        return calledireccion;
+    public String getCalle() {
+        return calle;
     }
 
-    public void setCalledireccion(String calledireccion) {
-        this.calledireccion = calledireccion;
+    public void setCalle(String calle) {
+        this.calle = calle;
     }
 
-    public String getNumerodireccion() {
-        return numerodireccion;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setNumerodireccion(String numerodireccion) {
-        this.numerodireccion = numerodireccion;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
-    public String getDeptodireccion() {
-        return deptodireccion;
+    public String getDepto() {
+        return depto;
     }
 
-    public void setDeptodireccion(String deptodireccion) {
-        this.deptodireccion = deptodireccion;
+    public void setDepto(String depto) {
+        this.depto = depto;
     }
 
     public String getDetalledireccion() {
@@ -161,12 +161,12 @@ public class Direccion implements Serializable {
         this.detalledireccion = detalledireccion;
     }
 
-    public Cliente getClienteIdcliente() {
-        return clienteIdcliente;
+    public Usuario getUsuarioIdusuario() {
+        return usuarioIdusuario;
     }
 
-    public void setClienteIdcliente(Cliente clienteIdcliente) {
-        this.clienteIdcliente = clienteIdcliente;
+    public void setUsuarioIdusuario(Usuario usuarioIdusuario) {
+        this.usuarioIdusuario = usuarioIdusuario;
     }
 
     @Override

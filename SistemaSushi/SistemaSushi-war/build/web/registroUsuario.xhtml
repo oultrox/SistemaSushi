@@ -12,23 +12,27 @@
     <h:body>
         <center>
             <h1>¡Registra tu usuario!</h1>
+            
             <h:form id="form">
+                <p:growl id="messages"/>
                 <p:fieldset id="Registrar" legend="Formulario de registro" style="margin-top: 20px; width: 500px;">
                     <h:panelGrid columns="1" cellpadding="5">          
-                    <p:inputText value="#{cliexnteBean.email}" required="true" placeholder="Ingresa tu Email" requiredMessage="Debe ingresar un nombre"/>
+                        <p:inputText value="#{usuarioBean.usuario.nombre}" required="true" placeholder="Ingresa tu nombre" requiredMessage="Debe ingresar un nombre"/>
+                        
+                        <p:inputText value="#{usuarioBean.usuario.rut}" required="true" placeholder="Ingresa tu rut" requiredMessage="Debe ingresar un nombre"/>
 
-                    <p:inputText value="#{clixenteBean.email}" required="true" placeholder="Confirma tu Email" requiredMessage="Debe ingresar un nombre"/>
-
-                    <p:password id="clave1" value="#{clientxeBean.clave}" required="true" 
+                        <p:inputText value="#{usuarioBean.usuario.email}" required="true" placeholder="Ingresa tu Email" requiredMessage="Debe ingresar un nombre"/>
+        
+                        <p:password id="clave1" value="#{usuarioBean.usuario.pass}" required="true" 
                                     requiredMessage="Debe ingresar clave" match="clave2" 
                                     placeholder="Ingresa tu contraseña" validatorMessage="La contraseña no coincide"/>
                     
-                    <p:password id="clave2" required="true" requiredMessage="Debe re-ingresar su clave"
+                        <p:password id="clave2" value="#{usuarioBean.usuario.pass}" required="true" requiredMessage="Debe re-ingresar su clave"
                                 placeholder="Confirma tu contraseña"/>
 
                     </h:panelGrid>
                     <br/>
-                    <p:commandButton action="#{cliexnteBean.signIn()}" value="Registrar"/>
+                    <p:commandButton action="#{usuarioBean.signUp()}" value="Registrar"/>
                 </p:fieldset>
             </h:form>
         </center>
