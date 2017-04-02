@@ -14,17 +14,20 @@
             <h1>¡Registra tu usuario!</h1>
 
             <h:form id="form">
-                <p:growl id="messages"/>
+                <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
                 <p:fieldset id="Registrar" legend="Formulario de registro" 
                             style="margin-top: 20px; width: 500px;">
                     <h:panelGrid columns="1" cellpadding="5">          
                         <p:inputText value="#{usuarioBean.usuario.nombre}" 
                                      required="true" placeholder="Ingresa tu nombre" 
                                      requiredMessage="Debe ingresar un nombre"/>
-
+                        
                         <p:inputText value="#{usuarioBean.usuario.rut}" 
                                      required="true" placeholder="Ingresa tu rut" 
-                                     requiredMessage="Debe ingresar un nombre"/>
+                                     id="rut"
+                                     requiredMessage="Debe ingresar un nombre">
+                         <p:ajax event="blur" listener="#{usuarioBean.formatear}" process="@this" />         
+                        </p:inputText>
 
                         <p:inputText value="#{usuarioBean.usuario.email}" 
                                      required="true" placeholder="Ingresa tu Email" 
@@ -41,7 +44,8 @@
 
                     </h:panelGrid>
                     <br/>
-                    <p:commandButton action="#{usuarioBean.signUp()}" value="Registrar"/>
+                    <p:commandButton value="Login" update="msgs" 
+                                     actionListener="#{usuarioBean.signUp()}"/>                                  
                 </p:fieldset>
             </h:form>
         </center>

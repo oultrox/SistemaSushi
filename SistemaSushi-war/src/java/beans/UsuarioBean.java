@@ -10,7 +10,9 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import pojos.Usuario;
 import servicios.UsuarioFacadeLocal;
 import servicios.NivelusuarioFacadeLocal;
@@ -23,7 +25,7 @@ public class UsuarioBean implements Serializable {
     private NivelusuarioFacadeLocal nivelusuarioFacade;
 
     @EJB
-    private UsuarioFacadeLocal clienteFacade;
+    private UsuarioFacadeLocal usuarioFacade;
 
     //En vez de tener una variabla para cada campo, es preferible tener el objeto
     //en sí con sus getters y setters por defecto.
@@ -39,7 +41,7 @@ public class UsuarioBean implements Serializable {
     }
 
     public List<Usuario> getClientes() {
-        return clienteFacade.findAll();
+        return usuarioFacade.findAll();
     }
 
     public Usuario getUsuario() {
@@ -77,21 +79,32 @@ public class UsuarioBean implements Serializable {
     //Progreso de el registro - WIP PROGRESO
     public String signUp() {
         try {
-            if (existeEmail() || existeRut()) {
+            if (validarRut(usuario.getRut()))
+            {
+                if (existeEmail() || existeRut()) 
+                {
+                    limpiarCliente(usuario);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Usuario ya existente en el sistema."));
+                    return "registroUsuario";
+                } else 
+                {
+                    //Nivel por defecto.
+                    this.usuario.setNivelusuarioIdnivelusuario(nivelusuarioFacade.find(BigDecimal.valueOf(2)));
+                    //Encriptación
+                    this.usuario.setPass(DigestUtils.md5Hex(this.usuario.getPass()));
+                    //Creacion
+                    this.usuario.setIdusuario(BigDecimal.valueOf(1));
+                    this.usuarioFacade.create(usuario);
+                    limpiarCliente(usuario);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Usuario creado exitosamente!", "Ingrese con su rut y clave"));
+                    return "registroUsuario";
+                }
+            } else
+            {
                 limpiarCliente(usuario);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Usuario ya existente en el sistema."));
-                return "index";
-            } else {
-                //Nivel por defecto.
-                this.usuario.setNivelusuarioIdnivelusuario(nivelusuarioFacade.find(BigDecimal.valueOf(2)));
-                //Creacion
-                this.usuario.setIdusuario(BigDecimal.valueOf(1));
-                this.clienteFacade.create(usuario);
-                limpiarCliente(usuario);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Usuario creado exitosamente!", "Ingrese con su rut y clave"));
-                return "index";
-            }
-
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Rut invalido"));
+                return "registroUsuario";
+            }                  
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
             return "registroUsuario";
@@ -107,7 +120,7 @@ public class UsuarioBean implements Serializable {
     }
 
     private boolean existeRut() {
-        List<Usuario> usuarios = this.clienteFacade.findAll();
+        List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
             if (usuario1.getRut().equals(usuario.getRut())) {
                 return true;
@@ -117,7 +130,7 @@ public class UsuarioBean implements Serializable {
     }
 
     private boolean existeEmail() {
-        List<Usuario> usuarios = this.clienteFacade.findAll();
+        List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
             if (usuario1.getEmail().equals(usuario.getEmail())) {
                 return true;
@@ -130,6 +143,7 @@ public class UsuarioBean implements Serializable {
     public void login(ActionEvent event) {
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage message = null;
+        this.ingresoClave = DigestUtils.md5Hex(this.ingresoClave);
         Usuario user = verificarUser();
         if (user != null) {
 
@@ -174,7 +188,7 @@ public class UsuarioBean implements Serializable {
 
     private Usuario verificarUser() {
         Usuario user = null;
-        List<Usuario> usuarios = this.clienteFacade.findAll();
+        List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
             if (usuario1.getEmail().equals(ingresoEmail) && usuario1.getPass().equals(ingresoClave)) {
                 user = usuario1;
@@ -220,4 +234,60 @@ public class UsuarioBean implements Serializable {
 
         }
     }
+    
+    public static boolean validarRut(String rut) 
+    {
+        boolean validacion = false;
+        try 
+        {
+            rut =  rut.toUpperCase();
+            rut = rut.replace(".", "");
+            rut = rut.replace("-", "");
+            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
+
+            char dv = rut.charAt(rut.length() - 1);
+
+            int m = 0, s = 1;
+            for (; rutAux != 0; rutAux /= 10) 
+            {
+                s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
+            }
+            if (dv == (char) (s != 0 ? s + 47 : 75)) 
+            {
+                validacion = true;
+            }
+
+        }catch (java.lang.NumberFormatException e) 
+        {
+        } catch (Exception e) 
+        {
+        }
+        return validacion;
+    }
+    
+    public void formatear(){
+        String rut = usuario.getRut();
+        int cont=0;
+        String format;
+        if(rut.length() == 0)
+        {
+ 
+        }else{
+            rut = rut.replace(".", "");
+            rut = rut.replace("-", "");
+            format = "-"+rut.substring(rut.length()-1);
+            for(int i = rut.length()-2;i>=0;i--){
+                format = rut.substring(i, i+1)+format;
+                cont++;
+                if(cont == 3 && i != 0){
+                    format = "."+format;
+                    cont = 0;
+                }
+            }
+            usuario.setRut(format);
+            
+        }
+    }
+
+    
 }
