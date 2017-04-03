@@ -26,7 +26,7 @@
                                      required="true" placeholder="Ingresa tu rut" 
                                      id="rut"
                                      requiredMessage="Debe ingresar un nombre">
-                         <p:ajax event="blur" listener="#{usuarioBean.formatear}" process="@this" />         
+                         <p:ajax event="blur" listener="#{usuarioBean.formatear}" update="rut" />         
                         </p:inputText>
 
                         <p:inputText value="#{usuarioBean.usuario.email}" 
