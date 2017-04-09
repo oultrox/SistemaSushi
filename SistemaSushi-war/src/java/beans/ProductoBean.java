@@ -30,11 +30,17 @@ public class ProductoBean {
     private Producto producto;
     
     public ProductoBean() {
+        producto = new Producto();
     }
     
     public List<Producto> getProductos()
     {
         return productoFacade.findAll();
+    }
+    
+    public int getcantidadProductos()
+    {
+        return productoFacade.findAll().size();
     }
     
 }
