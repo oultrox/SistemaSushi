@@ -1,0 +1,49 @@
+<ui:composition template="templateAdmin.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        Mantenedor Nivel Usuario
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs"/>
+            <h1>Mantenedor Nivel Usuario</h1>
+            <br/>
+            <p:dataTable value="#{NivelUsuario.nivelUsuario}" var="nv">
+                <p:column headerText="ID">
+                    <h:outputText value="#{nv.idNivelUsuario}"/>
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{nv.nombreNivelUsuario}"/>
+                </p:column>
+                <p:column headerText="Descripcion">
+                    <h:outputText value="#{nv.descripcionNivelUsuario}"/>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{nv}" target="#{NivelUsuario.nvl}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <p:dialog header="Información Detalle" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panel" style="text-align:center;">
+                    <p:panelGrid  columns="2">
+                        <h:outputText value="ID"/>
+                        <h:outputText value="#{NivelUsuario.nvl.idNivelUsuario}" />
+                        <h:outputText value="Nombre"/>
+                        <h:inputText value="#{NivelUsuario.nvl.nombreNivelUsuario}" />
+                        <h:outputText value="Descripcion"/>
+                        <h:inputText value="#{NivelUsuario.nvl.descripcionNivelUsuario}" />
+                        <p:commandButton value="Actualizar" update=":msgs"
+                                         actionListener="#{NivelUsuarioBean.modificarProducto()}"/>
+                        <p:commandButton value="Eliminar" update=":msgs"
+                                          actionListener="#{NivelUsuarioBean.eliminarProducto()}"/> 
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
