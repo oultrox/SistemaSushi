@@ -7,7 +7,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import pojos.Pedido;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-04-10T14:56:01")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-04-09T21:31:42")
 @StaticMetamodel(Producto.class)
 public class Producto_ { 
 
