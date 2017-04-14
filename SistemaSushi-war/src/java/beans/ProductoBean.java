@@ -72,9 +72,23 @@ public class ProductoBean {
     public List<Producto> getProductos() {
         return productoFacade.findAll();
     }
+    
+    public List<Producto> getProductosInventarios() 
+    {
+        List<Producto> productos = productoFacade.findAll();
+        List<Producto> productosInventario = productoFacade.findAll();
+        productosInventario.removeAll(productosInventario);
+        for (Producto p : productos) {
+            if (p.getInventarioIdinventario()!=null) 
+            {
+                productosInventario.add(p);
+            }
+        }
+        return productosInventario;   
+    }
 
     public int getcantidadProductos() {
-        return productoFacade.findAll().size();
+        return getProductosInventarios().size();
     }
 
     public String ingresarProducto() {
@@ -154,4 +168,5 @@ public class ProductoBean {
             System.out.println(e.getMessage());
         }
     }
+    
 }

@@ -14,8 +14,12 @@
                 <p:menuitem value="Inicio" outcome="faces/inicioCliente.xhtml" icon="ui-icon-home" />
                 <p:menuitem value="Direcciones" outcome="faces/verDirecciones.xhtml" icon="ui-icon-home" />
                 <p:menuitem value="Comprar" outcome="faces/promos.xhtml" icon="ui-icon-person" />
+                <p:menuitem value="Carrito" onclick="PF('dlg3').show();" /> 
                 <p:menuitem value="Cerrar Sesion" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
-            </p:menubar>
+                </p:menubar>
+            <p:dialog header="Carrito de compras" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100">
+                <h:outputText value="Aquí debe ir la tabla de todos los productos en el carrito" />
+            </p:dialog>
         </h:form>
     </h:body>
 </html>

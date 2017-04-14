@@ -98,8 +98,8 @@ public class UsuarioBean extends HttpServlet implements Serializable {
     //Progreso de el registro - WIP PROGRESO
     public String signUp() {
         try {
-            if (validarRut(usuario.getRut()) && validarEmail(this.usuario.getEmail())) {
-                if (existeEmail() || existeRut()) {
+            if (validarRut(usuario.getRut()) /*&& validarEmail(this.usuario.getEmail())*/) {
+                if (existeEmail()|| existeRut()) {
                     limpiarCliente(usuario);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Usuario ya existente en el sistema."));
                     return "registroUsuario";

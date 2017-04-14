@@ -10,7 +10,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import pojos.Producto;
 import pojos.Usuario;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-04-12T17:23:36")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-04-14T00:58:16")
 @StaticMetamodel(Pedido.class)
 public class Pedido_ { 
 

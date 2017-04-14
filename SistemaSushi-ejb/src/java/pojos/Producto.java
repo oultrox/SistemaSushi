@@ -62,6 +62,9 @@ public class Producto implements Serializable {
     @NotNull
     @Column(name = "VALOR")
     private BigInteger valor;
+    @JoinColumn(name = "INVENTARIO_IDINVENTARIO", referencedColumnName = "IDINVENTARIO")
+    @ManyToOne
+    private Inventario inventarioIdinventario;
     @JoinColumn(name = "PEDIDO_IDPEDIDO", referencedColumnName = "IDPEDIDO")
     @ManyToOne
     private Pedido pedidoIdpedido;
@@ -119,6 +122,14 @@ public class Producto implements Serializable {
 
     public void setValor(BigInteger valor) {
         this.valor = valor;
+    }
+
+    public Inventario getInventarioIdinventario() {
+        return inventarioIdinventario;
+    }
+
+    public void setInventarioIdinventario(Inventario inventarioIdinventario) {
+        this.inventarioIdinventario = inventarioIdinventario;
     }
 
     public Pedido getPedidoIdpedido() {

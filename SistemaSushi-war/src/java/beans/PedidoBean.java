@@ -5,6 +5,8 @@
  */
 package beans;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -12,8 +14,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import pojos.Pedido;
+import pojos.Producto;
 import pojos.Usuario;
 import servicios.PedidoFacadeLocal;
+import servicios.ProductoFacadeLocal;
 import servicios.UsuarioFacadeLocal;
 
 /**
@@ -26,6 +30,8 @@ public class PedidoBean {
 
     @EJB
     private PedidoFacadeLocal pedidoFacade;
+    @EJB
+    private ProductoFacadeLocal productoFacade;
 
     @EJB
     private UsuarioFacadeLocal usuarioFacade;
@@ -35,8 +41,12 @@ public class PedidoBean {
      */
     private Pedido pedido;
     private Usuario usuario;
+    private ArrayList<Pedido> pedidos;
 
-    public PedidoBean() {
+    public PedidoBean() 
+    {
+       pedido = new Pedido();
+       pedidos = new ArrayList<>();
     }
 
     public List<Pedido> getPedidos() {
@@ -76,4 +86,15 @@ public class PedidoBean {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Pedido Eliminado"));
         return "mantenedorPedido";
     }
+    
+        
+    public String anadirCarrito(BigDecimal idProducto)
+    {
+        
+        Producto p = this.productoFacade.find(idProducto);
+        
+        
+        return "promos";
+    }
+    
 }
