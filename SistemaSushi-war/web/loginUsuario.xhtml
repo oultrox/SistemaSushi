@@ -35,11 +35,11 @@
         </h:form> 
 
         <script type="text/javascript">
-            function handleLoginRequest(xhr, status, args) {
-                if (!args.validationFailed || args.loggedIn) {
-                    setTimeout(function () {
-                        window.location = args.view;
-                    }, 800);
+            function handleLoginRequest(xhr, status, args) 
+            {
+                if (!args.validationFailed || args.loggedIn) 
+                {
+                    setTimeout(function() {window.location = args.view;}, 800);
                 }
             }
         </script>

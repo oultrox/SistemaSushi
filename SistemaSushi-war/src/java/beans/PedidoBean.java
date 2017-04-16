@@ -5,6 +5,7 @@
  */
 package beans;
 
+import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 import pojos.Pedido;
 import pojos.Producto;
 import pojos.Usuario;
@@ -41,12 +43,11 @@ public class PedidoBean {
      */
     private Pedido pedido;
     private Usuario usuario;
-    private ArrayList<Producto> productos;
+    private static ArrayList<Producto> productos =new ArrayList<>();;
 
     public PedidoBean() 
     {
        pedido = new Pedido();
-       productos = new ArrayList<>();
     }
 
     public List<Pedido> getPedidos() {
@@ -55,7 +56,7 @@ public class PedidoBean {
     
     public List<Producto> getProductosCarrito()
     {
-        return productos;
+       return productos;
     }
 
     public PedidoFacadeLocal getPedidoFacade() {
@@ -91,23 +92,28 @@ public class PedidoBean {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Pedido Eliminado"));
         return "mantenedorPedido";
     }
-    
+    private boolean loggedIn;
     //---------------------------------------------------------------------------
     //                          Carrito de compras espero yo.
     //-------------------------------------------------------------------------
-    public String anadirCarrito(BigDecimal id)
+    public void anadirCarrito(BigDecimal id)
     {
-       try
-       {
+        RequestContext context = RequestContext.getCurrentInstance();
+        try{
             Producto p = productoFacade.find(id);
+            p.setInventarioIdinventario(null); //vuelvo nulo para que no se agregue a la bd como producto de inventario.
+            System.out.println(p.toString());
+            System.out.println(productos.size());
             productos.add(p);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto Añadido al carrito."));
-            return "promo";    
-       }catch(Exception e)
-       {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a intentar."));
-           return "promo";
-       }      
+            System.out.println(productos.size());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto Añadido al carrito.")); 
+            context.addCallbackParam("view", "promos.xhtml");
+        }catch(Exception e)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error!", "El producto no ha podido ser añadido."));
+            context.addCallbackParam("view", "promos.xhtml");
+        }
+                    
     }
     
     
