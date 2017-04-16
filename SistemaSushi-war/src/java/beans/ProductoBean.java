@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
@@ -44,12 +45,14 @@ public class ProductoBean {
      * Creates a new instance of ProductoBean
      */
     private Producto producto;
-    private Pedido pedido;
     private UploadedFile file;
     private String destination = "images/producto/";
+    private Pedido pedido;
+    private ArrayList<Producto> productosCarrito;
 
     public ProductoBean() {
         producto = new Producto();
+        productosCarrito = new ArrayList<>();
         pedido = new Pedido();
     }
 
@@ -168,5 +171,6 @@ public class ProductoBean {
             System.out.println(e.getMessage());
         }
     }
+    
     
 }

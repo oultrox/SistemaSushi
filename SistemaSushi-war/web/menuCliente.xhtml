@@ -17,8 +17,22 @@
                 <p:menuitem value="Carrito" onclick="PF('dlg3').show();" /> 
                 <p:menuitem value="Cerrar Sesion" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
                 </p:menubar>
-            <p:dialog header="Carrito de compras" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="100">
+            <p:dialog header="Carrito de compras" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="300" width="600">
                 <h:outputText value="Aquí debe ir la tabla de todos los productos en el carrito" />
+                <p:dataTable value="#{pedidoBean.productosCarrito}" var="a">
+                        <p:column headerText="ID Producto">
+                            <h:outputText value="#{a.idproducto}"/>
+                        </p:column>
+                        <p:column headerText="Nombre del Producto">
+                            <h:outputText value="#{a.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Cantidad del Producto">
+                            <h:outputText value="#{a.cantidad}"/>
+                        </p:column>
+                        <p:column headerText="Precio del Producto">
+                            <h:outputText value="#{a.valor}"/>
+                        </p:column>
+                </p:dataTable>
             </p:dialog>
         </h:form>
     </h:body>

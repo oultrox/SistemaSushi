@@ -12,13 +12,15 @@
     <ui:define name="content">
         <h1>SITIO donde ver las promociones</h1>
         <p>Imagenes cor descuentos y promociones</p>
-        <h:form>
+        <h:form id="form">
+            
+            
             <p:carousel value="#{productoBean.productosInventarios}" headerText="Combos disponibles!" var="p" itemStyle="text-align:center" responsive="true">
             <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">         
             <f:facet name="header">
                 <p:graphicImage  url="images/producto/test.png" style="width:100px; height: 50px;"/> 
             </f:facet>
- 
+             <p:growl id="msg" sticky="true" showDetail="true" life="3000" />   
             <h:outputText value="Cantidad en Stock" />
             <h:outputText value="#{p.cantidad eq 0 ? 'No disponible' : '¡disponible!'}"  style="color: #{p.cantidad eq 0 ? 'red' : 'green'}" />
  
@@ -29,10 +31,8 @@
             <h:outputText value="$#{p.valor}" />
             
             <h:outputText value="" />
-            <p:commandButton   value="comprar" 
-                               actionListener="#{pedxidoBean.agregarProducto(p.idproducto)}">
-                   
-            </p:commandButton>
+            <p:commandButton value="Anadir Carrito" update="msg"
+                                     actionListener="#{pedidoBean.anadirCarrito(p.idproducto)}"/>    
         </p:panelGrid>
         
         

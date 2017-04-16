@@ -41,16 +41,21 @@ public class PedidoBean {
      */
     private Pedido pedido;
     private Usuario usuario;
-    private ArrayList<Pedido> pedidos;
+    private ArrayList<Producto> productos;
 
     public PedidoBean() 
     {
        pedido = new Pedido();
-       pedidos = new ArrayList<>();
+       productos = new ArrayList<>();
     }
 
     public List<Pedido> getPedidos() {
         return pedidoFacade.findAll();
+    }
+    
+    public List<Producto> getProductosCarrito()
+    {
+        return productos;
     }
 
     public PedidoFacadeLocal getPedidoFacade() {
@@ -87,14 +92,24 @@ public class PedidoBean {
         return "mantenedorPedido";
     }
     
-        
-    public String anadirCarrito(BigDecimal idProducto)
+    //---------------------------------------------------------------------------
+    //                          Carrito de compras espero yo.
+    //-------------------------------------------------------------------------
+    public String anadirCarrito(BigDecimal id)
     {
-        
-        Producto p = this.productoFacade.find(idProducto);
-        
-        
-        return "promos";
+       try
+       {
+            Producto p = productoFacade.find(id);
+            productos.add(p);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto Añadido al carrito."));
+            return "promo";    
+       }catch(Exception e)
+       {
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a intentar."));
+           return "promo";
+       }      
     }
     
+    
+
 }
