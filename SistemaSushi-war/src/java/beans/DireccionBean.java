@@ -59,19 +59,43 @@ public class DireccionBean {
         this.direccion = direccion;
     }
 
+    private String ingresarDireccion() {
+        try {
+            this.direccion.setComuna(this.direccion.getComuna());
+            this.direccion.setProvincia(this.direccion.getProvincia());
+            this.direccion.setRegion(this.direccion.getRegion());
+            this.direccion.setCalle(this.direccion.getCalle());
+            this.direccion.setNumero(this.direccion.getNumero());
+            this.direccion.setDepto(this.direccion.getDepto());
+            this.direccion.setDetalledireccion(this.direccion.getDetalledireccion());
+            this.direccion.setUsuarioIdusuario(this.direccion.getUsuarioIdusuario());
+            this.direccionFacade.create(direccion);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Ingresado!", "¡Dirección Ingresada!."));
+            return "ingresarDireccion";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
+            return "ingresarDireccion";
+        }
+    }
+
     private String modificarDireccion() {
-        Direccion dir = direccionFacade.find(direccion.getIddireccion());
-        dir.setComuna(direccion.getComuna());
-        dir.setProvincia(direccion.getProvincia());
-        dir.setRegion(direccion.getRegion());
-        dir.setCalle(direccion.getCalle());
-        dir.setNumero(direccion.getNumero());
-        dir.setDepto(direccion.getDepto());
-        dir.setDetalledireccion(direccion.getDetalledireccion());
-        dir.setUsuarioIdusuario(usuarioFacade.find(usuario.getIdusuario()));
-        direccionFacade.edit(dir);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Nivel de Usuario Modificado", "Nivel Usuario modificado correctamente"));
-        return "mantenedorDireccion";
+        try {
+            Direccion dir = direccionFacade.find(direccion.getIddireccion());
+            dir.setComuna(direccion.getComuna());
+            dir.setProvincia(direccion.getProvincia());
+            dir.setRegion(direccion.getRegion());
+            dir.setCalle(direccion.getCalle());
+            dir.setNumero(direccion.getNumero());
+            dir.setDepto(direccion.getDepto());
+            dir.setDetalledireccion(direccion.getDetalledireccion());
+            dir.setUsuarioIdusuario(usuarioFacade.find(usuario.getIdusuario()));
+            direccionFacade.edit(dir);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Nivel de Usuario Modificado", "Nivel Usuario modificado correctamente"));
+            return "mantenedorDireccion";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
+            return "ingresarDireccion";
+        }
     }
 
     private String eliminarDireccion() {

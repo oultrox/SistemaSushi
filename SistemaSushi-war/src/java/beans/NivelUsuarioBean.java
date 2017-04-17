@@ -5,6 +5,7 @@
  */
 package beans;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -53,13 +54,32 @@ public class NivelUsuarioBean {
         this.nivelUsuario = nivelUsuario;
     }
 
+    private String ingresarNivelUsuario() {
+        try {
+            this.nivelUsuario.setIdnivelusuario(BigDecimal.valueOf(1));
+            this.nivelUsuario.setNombrenivelusuario(this.nivelUsuario.getNombrenivelusuario());
+            this.nivelUsuario.setDescripcionnivelusuario(this.nivelUsuario.getDescripcionnivelusuario());
+            this.nivelusuarioFacade.create(nivelUsuario);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Ingresado!", "Nivel Usuario ingresado."));
+            return "ingresarNivelUsuario";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
+            return "ingresarNivelUsuario";
+        }
+    }
+
     private String modificarNivelUsuario() {
-        Nivelusuario nvl = nivelusuarioFacade.find(nivelUsuario.getIdnivelusuario());
-        nvl.setNombrenivelusuario(nivelUsuario.getNombrenivelusuario());
-        nvl.setDescripcionnivelusuario(nivelUsuario.getDescripcionnivelusuario());
-        nivelusuarioFacade.edit(nvl);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Nivel de Usuario Modificado", "Nivel Usuario modificado correctamente"));
-        return "mantenedorNivelUsuario";
+        try {
+            Nivelusuario nvl = nivelusuarioFacade.find(nivelUsuario.getIdnivelusuario());
+            nvl.setNombrenivelusuario(nivelUsuario.getNombrenivelusuario());
+            nvl.setDescripcionnivelusuario(nivelUsuario.getDescripcionnivelusuario());
+            nivelusuarioFacade.edit(nvl);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Nivel de Usuario Modificado", "Nivel Usuario modificado correctamente"));
+            return "mantenedorNivelUsuario";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
+            return "ingresarNivelUsuario";
+        }
     }
 
     private String eliminarNivelUsuario() {

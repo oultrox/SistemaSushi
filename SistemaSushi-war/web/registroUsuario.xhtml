@@ -20,18 +20,18 @@
                     <h:panelGrid columns="1" cellpadding="5">          
                         <p:inputText value="#{usuarioBean.usuario.nombre}" 
                                      required="true" placeholder="Ingresa tu nombre" 
-                                     requiredMessage="Debe ingresar un nombre"/>
+                                     requiredMessage="Debe ingresar su nombre"/>
                         
                         <p:inputText value="#{usuarioBean.usuario.rut}" 
                                      required="true" placeholder="Ingresa tu rut" 
                                      id="rut"
-                                     requiredMessage="Debe ingresar un nombre">
+                                     requiredMessage="Debe ingresar su rut">
                          <p:ajax event="blur" listener="#{usuarioBean.formatear}" update="rut" />         
                         </p:inputText>
 
                         <p:inputText value="#{usuarioBean.usuario.email}" 
                                      required="true" placeholder="Ingresa tu Email" 
-                                     requiredMessage="Debe ingresar un nombre"/>
+                                     requiredMessage="Debe ingresar su email"/>
 
                         <p:password id="clave1" value="#{usuarioBean.usuario.pass}" 
                                     required="true" requiredMessage="Debe ingresar clave" 

@@ -99,7 +99,12 @@ public class ProductoBean {
             if (file != null) {
                 upload();
                 this.producto.setIdproducto(BigDecimal.valueOf(1));
-                this.producto.setImagen("test");
+                //Faltaba esto(?). les consultare hoy de todos modos (Rodrigo).
+                this.producto.setNombre(this.producto.getNombre());
+                this.producto.setCantidad(this.producto.getCantidad());
+                this.producto.setValor(this.producto.getValor());
+                //------------------------------------------------------------
+                this.producto.setImagen(this.producto.getImagen());
                 this.productoFacade.create(producto);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto ingresado."));
                 return "registroProducto";

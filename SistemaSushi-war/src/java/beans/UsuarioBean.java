@@ -110,6 +110,11 @@ public class UsuarioBean extends HttpServlet implements Serializable {
                     this.usuario.setPass(DigestUtils.md5Hex(this.usuario.getPass()));
                     //Creacion
                     this.usuario.setIdusuario(BigDecimal.valueOf(1));
+                    //Faltaba esto(?), de todos modos les consultare hoy. (Rodrigo)
+                    this.usuario.setRut(this.usuario.getRut());
+                    this.usuario.setNombre(this.usuario.getNombre());
+                    this.usuario.setEmail(this.usuario.getEmail());
+                    // -------------------------------------------------
                     this.usuarioFacade.create(usuario);
                     limpiarCliente(usuario);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Usuario creado exitosamente!", "Ingrese con su rut y clave"));
@@ -318,7 +323,6 @@ public class UsuarioBean extends HttpServlet implements Serializable {
                 }
             }
             usuario.setRut(format);
-
         }
     }
 
