@@ -11,7 +11,7 @@ import pojos.Nivelusuario;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Local
 public interface NivelusuarioFacadeLocal {

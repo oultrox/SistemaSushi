@@ -11,7 +11,7 @@ import pojos.Producto;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Local
 public interface ProductoFacadeLocal {

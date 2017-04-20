@@ -12,7 +12,7 @@ import pojos.Direccion;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Stateless
 public class DireccionFacade extends AbstractFacade<Direccion> implements DireccionFacadeLocal {

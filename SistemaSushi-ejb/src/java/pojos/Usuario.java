@@ -7,7 +7,7 @@ package pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Entity
 @Table(name = "USUARIO")
@@ -73,9 +73,9 @@ public class Usuario implements Serializable {
     @Column(name = "EMAIL")
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdusuario")
-    private Collection<Direccion> direccionCollection;
+    private List<Direccion> direccionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdusuario")
-    private Collection<Pedido> pedidoCollection;
+    private List<Pedido> pedidoList;
     @JoinColumn(name = "NIVELUSUARIO_IDNIVELUSUARIO", referencedColumnName = "IDNIVELUSUARIO")
     @ManyToOne(optional = false)
     private Nivelusuario nivelusuarioIdnivelusuario;
@@ -144,21 +144,21 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Direccion> getDireccionCollection() {
-        return direccionCollection;
+    public List<Direccion> getDireccionList() {
+        return direccionList;
     }
 
-    public void setDireccionCollection(Collection<Direccion> direccionCollection) {
-        this.direccionCollection = direccionCollection;
+    public void setDireccionList(List<Direccion> direccionList) {
+        this.direccionList = direccionList;
     }
 
     @XmlTransient
-    public Collection<Pedido> getPedidoCollection() {
-        return pedidoCollection;
+    public List<Pedido> getPedidoList() {
+        return pedidoList;
     }
 
-    public void setPedidoCollection(Collection<Pedido> pedidoCollection) {
-        this.pedidoCollection = pedidoCollection;
+    public void setPedidoList(List<Pedido> pedidoList) {
+        this.pedidoList = pedidoList;
     }
 
     public Nivelusuario getNivelusuarioIdnivelusuario() {

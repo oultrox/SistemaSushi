@@ -8,8 +8,8 @@ package pojos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Entity
 @Table(name = "PEDIDO")
@@ -64,7 +64,7 @@ public class Pedido implements Serializable {
     @Column(name = "ESTADO")
     private String estado;
     @OneToMany(mappedBy = "pedidoIdpedido")
-    private Collection<Producto> productoCollection;
+    private List<Producto> productoList;
     @JoinColumn(name = "USUARIO_IDUSUARIO", referencedColumnName = "IDUSUARIO")
     @ManyToOne(optional = false)
     private Usuario usuarioIdusuario;
@@ -116,12 +116,12 @@ public class Pedido implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Producto> getProductoCollection() {
-        return productoCollection;
+    public List<Producto> getProductoList() {
+        return productoList;
     }
 
-    public void setProductoCollection(Collection<Producto> productoCollection) {
-        this.productoCollection = productoCollection;
+    public void setProductoList(List<Producto> productoList) {
+        this.productoList = productoList;
     }
 
     public Usuario getUsuarioIdusuario() {

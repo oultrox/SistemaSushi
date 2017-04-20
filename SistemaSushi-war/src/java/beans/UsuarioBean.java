@@ -1,31 +1,14 @@
 package beans;
+
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Properties;
-import java.util.Random;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.context.RequestContext;
 import pojos.Nivelusuario;
@@ -33,9 +16,19 @@ import pojos.Usuario;
 import servicios.UsuarioFacadeLocal;
 import servicios.NivelusuarioFacadeLocal;
 
+//MAIL JAVA
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 @Named(value = "usuarioBean")
 @SessionScoped
-public class UsuarioBean extends HttpServlet implements Serializable {
+public class UsuarioBean implements Serializable {
 
     @EJB
     private NivelusuarioFacadeLocal nivelusuarioFacade;
@@ -98,8 +91,8 @@ public class UsuarioBean extends HttpServlet implements Serializable {
     //Progreso de el registro - WIP PROGRESO
     public String signUp() {
         try {
-            if (validarRut(usuario.getRut()) /*&& validarEmail(this.usuario.getEmail())*/) {
-                if (existeEmail()|| existeRut()) {
+            if (validarRut(usuario.getRut()) && validarEmail(this.usuario.getEmail())) {
+                if (existeEmail() || existeRut()) {
                     limpiarCliente(usuario);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Usuario ya existente en el sistema."));
                     return "registroUsuario";
@@ -327,9 +320,9 @@ public class UsuarioBean extends HttpServlet implements Serializable {
     }
 
     //Validador de Email usando la libreria de Javax.Mail
-    public  boolean validarEmail(String email){
-        final String username = "airdangosoporte@gmail.com";
-        final String password = "javaweb1";
+    public boolean validarEmail(String email) {
+        final String username = "portafolioSushi@gmail.com";
+        final String password = "duoc2017";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -337,10 +330,8 @@ public class UsuarioBean extends HttpServlet implements Serializable {
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
-            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
@@ -349,20 +340,21 @@ public class UsuarioBean extends HttpServlet implements Serializable {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("AirDango"));
+            message.setFrom(new InternetAddress("Sushi"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
-            message.setSubject("Bienvenido a AdminSushi!");
-            message.setText("Estimado " + usuario.getNombre() + " "+ "\n"
-                    + "Tu reserva ha sido creada exitosamente, los datos son los siguientes: " + "\n"
-                    + "Correo: " + usuario.getEmail()+ "\n"
-                    + "Contrasena: " + usuario.getPass()+ "\n"
-                    + "Esperamos su dinero para que venga y compre en el sushi system!" + "\n" + "\n"
-                    + "Atte" + "\n"
-                    + "AdminSushi Community Support");
+            message.setSubject("Confirmacion cuenta creada SistemaSushi");
+            message.setText("Estimado " + this.usuario.getNombre() + " " + this.usuario.getApellidopaterno()
+                    + "\nGracias por ingresar al sistema de compras de Sushi a domicilio"
+                    + "\n\n"
+                    + "SUS DATOS SON:"
+                    + "\n Rut :" + this.usuario.getRut()
+                    + "\n Correo: " + this.usuario.getEmail()
+                    + "\n Pass: " + this.usuario.getPass()
+                    + "\n\n"
+            );
 
             Transport.send(message);
-
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje enviado exitosamente!!!"));
             return true;
         } catch (MessagingException e) {

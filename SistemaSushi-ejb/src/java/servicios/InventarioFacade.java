@@ -12,7 +12,7 @@ import pojos.Inventario;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Stateless
 public class InventarioFacade extends AbstractFacade<Inventario> implements InventarioFacadeLocal {

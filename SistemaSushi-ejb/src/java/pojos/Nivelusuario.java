@@ -7,7 +7,7 @@ package pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Entity
 @Table(name = "NIVELUSUARIO")
@@ -52,7 +52,7 @@ public class Nivelusuario implements Serializable {
     @Column(name = "DESCRIPCIONNIVELUSUARIO")
     private String descripcionnivelusuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "nivelusuarioIdnivelusuario")
-    private Collection<Usuario> usuarioCollection;
+    private List<Usuario> usuarioList;
 
     public Nivelusuario() {
     }
@@ -91,12 +91,12 @@ public class Nivelusuario implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
     }
 
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
 
     @Override

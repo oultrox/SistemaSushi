@@ -12,7 +12,7 @@ import pojos.Pedido;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Stateless
 public class PedidoFacade extends AbstractFacade<Pedido> implements PedidoFacadeLocal {
