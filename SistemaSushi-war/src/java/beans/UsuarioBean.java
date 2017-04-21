@@ -271,7 +271,7 @@ public class UsuarioBean implements Serializable {
         Usuario user = null;
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
-            if (usuario1.getEmail().equals(ingresoEmail) && usuario1.getPass().equals(ingresoClave) && usuario1.getActivado().equals("activo")) {
+            if (usuario1.getEmail().equals(ingresoEmail) && usuario1.getPass().equals(ingresoClave) && usuario1.getActivado().equals("activado")) {
                 return true;
             }
         }
@@ -390,7 +390,7 @@ public class UsuarioBean implements Serializable {
                     + "\nGracias por ingresar al sistema de compras de Sushi a domicilio"
                     + "\n\n"
                     + "CODIGO DE ACTIVACION: " + this.usuario.getActivado() 
-                    + "\n <a href='http://localhost:8081/SistemaSushi-war/faces/activacionCuenta.xhtml'>Clickea aquí para activar</a>"
+                    + "\n <a href='http://localhost:8081/SistemaSushi-war/faces/activacionCuenta.xhtml'> Clickea aquí para activar </a>"
                     + "SUS DATOS SON:"
                     + "\n Rut :" + this.usuario.getRut()
                     + "\n Correo: " + this.usuario.getEmail()
