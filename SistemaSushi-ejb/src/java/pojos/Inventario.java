@@ -7,8 +7,8 @@ package pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Centro de Trabajo
+ * @author Yisus
  */
 @Entity
 @Table(name = "INVENTARIO")
@@ -47,7 +47,7 @@ public class Inventario implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @OneToMany(mappedBy = "inventarioIdinventario")
-    private List<Producto> productoList;
+    private Collection<Producto> productoCollection;
 
     public Inventario() {
     }
@@ -73,12 +73,12 @@ public class Inventario implements Serializable {
     }
 
     @XmlTransient
-    public List<Producto> getProductoList() {
-        return productoList;
+    public Collection<Producto> getProductoCollection() {
+        return productoCollection;
     }
 
-    public void setProductoList(List<Producto> productoList) {
-        this.productoList = productoList;
+    public void setProductoCollection(Collection<Producto> productoCollection) {
+        this.productoCollection = productoCollection;
     }
 
     @Override

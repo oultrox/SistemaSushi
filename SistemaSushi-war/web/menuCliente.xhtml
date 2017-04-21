@@ -21,9 +21,6 @@
             <p:dialog header="Carrito de compras" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="300" width="600">
                 <h:outputText value="Aquí debe ir la tabla de todos los productos en el carrito" />
                 <p:dataTable value="#{pedidoBean.productosCarrito}" var="a" id="carritoTable">
-                        <p:column headerText="ID Producto">
-                            <h:outputText value="#{a.idproducto}"/>
-                        </p:column>
                         <p:column headerText="Nombre del Producto">
                             <h:outputText value="#{a.nombre}"/>
                         </p:column>

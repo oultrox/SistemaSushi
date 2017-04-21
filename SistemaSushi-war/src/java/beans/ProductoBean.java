@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -176,6 +177,5 @@ public class ProductoBean {
             System.out.println(e.getMessage());
         }
     }
-    
-    
+   
 }

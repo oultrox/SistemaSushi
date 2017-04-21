@@ -11,7 +11,7 @@ import pojos.Direccion;
 
 /**
  *
- * @author Centro de Trabajo
+ * @author Yisus
  */
 @Local
 public interface DireccionFacadeLocal {

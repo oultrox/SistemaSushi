@@ -7,7 +7,7 @@ package pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Centro de Trabajo
+ * @author Yisus
  */
 @Entity
 @Table(name = "USUARIO")
@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
     , @NamedQuery(name = "Usuario.findByApellidopaterno", query = "SELECT u FROM Usuario u WHERE u.apellidopaterno = :apellidopaterno")
     , @NamedQuery(name = "Usuario.findByPass", query = "SELECT u FROM Usuario u WHERE u.pass = :pass")
-    , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")})
+    , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")
+    , @NamedQuery(name = "Usuario.findByActivado", query = "SELECT u FROM Usuario u WHERE u.activado = :activado")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,10 +73,15 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "EMAIL")
     private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "ACTIVADO")
+    private String activado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdusuario")
-    private List<Direccion> direccionList;
+    private Collection<Direccion> direccionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdusuario")
-    private List<Pedido> pedidoList;
+    private Collection<Pedido> pedidoCollection;
     @JoinColumn(name = "NIVELUSUARIO_IDNIVELUSUARIO", referencedColumnName = "IDNIVELUSUARIO")
     @ManyToOne(optional = false)
     private Nivelusuario nivelusuarioIdnivelusuario;
@@ -87,12 +93,13 @@ public class Usuario implements Serializable {
         this.idusuario = idusuario;
     }
 
-    public Usuario(BigDecimal idusuario, String rut, String nombre, String pass, String email) {
+    public Usuario(BigDecimal idusuario, String rut, String nombre, String pass, String email, String activado) {
         this.idusuario = idusuario;
         this.rut = rut;
         this.nombre = nombre;
         this.pass = pass;
         this.email = email;
+        this.activado = activado;
     }
 
     public BigDecimal getIdusuario() {
@@ -143,22 +150,30 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
+    public String getActivado() {
+        return activado;
+    }
+
+    public void setActivado(String activado) {
+        this.activado = activado;
+    }
+
     @XmlTransient
-    public List<Direccion> getDireccionList() {
-        return direccionList;
+    public Collection<Direccion> getDireccionCollection() {
+        return direccionCollection;
     }
 
-    public void setDireccionList(List<Direccion> direccionList) {
-        this.direccionList = direccionList;
+    public void setDireccionCollection(Collection<Direccion> direccionCollection) {
+        this.direccionCollection = direccionCollection;
     }
 
     @XmlTransient
-    public List<Pedido> getPedidoList() {
-        return pedidoList;
+    public Collection<Pedido> getPedidoCollection() {
+        return pedidoCollection;
     }
 
-    public void setPedidoList(List<Pedido> pedidoList) {
-        this.pedidoList = pedidoList;
+    public void setPedidoCollection(Collection<Pedido> pedidoCollection) {
+        this.pedidoCollection = pedidoCollection;
     }
 
     public Nivelusuario getNivelusuarioIdnivelusuario() {
