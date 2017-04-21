@@ -438,9 +438,12 @@ public class UsuarioBean implements Serializable {
             {
                 usuario1.setActivado("activado");
                 this.usuarioFacade.edit(usuario1);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cuenta activada exitosamente!!!"));
+            
                 return "LoginUsuario";
             }
         }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Código incorrecto"));
         return "activacionCuenta";
     }
 }
