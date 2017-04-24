@@ -92,8 +92,6 @@ public class UsuarioBean implements Serializable {
     //Progreso de el registro - WIP PROGRESO
     public String signUp() {
         try {
-            
-            
             if (validarRut(usuario.getRut())) 
             {
                 if (existeEmail() || existeRut()) {
@@ -116,25 +114,20 @@ public class UsuarioBean implements Serializable {
                         this.usuario.setPass(DigestUtils.md5Hex(this.usuario.getPass()));
                         //Creacion
                         this.usuario.setIdusuario(BigDecimal.valueOf(1));
-                        //Faltaba esto(?), de todos modos les consultare hoy. (Rodrigo)
                         this.usuario.setRut(this.usuario.getRut());
                         this.usuario.setNombre(this.usuario.getNombre());
                         this.usuario.setEmail(this.usuario.getEmail());
-
                         // -------------------------------------------------
                         this.usuarioFacade.create(usuario);
                         limpiarCliente(usuario);
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Usuario creado exitosamente!", "Ingrese con su rut y clave"));
-                        return "loginUsuario";  
-                    }else
-                    {
+                        return "loginUsuario";
+                    } else {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Correo no enviado. "));
                         return "registroUsuario";
                     }
                 }
-            } 
-            else 
-            {
+            } else {
                 limpiarCliente(usuario);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Rut invalido"));
                 return "registroUsuario";
@@ -143,7 +136,7 @@ public class UsuarioBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
             return "registroUsuario";
         }
-  }
+    }
 
     private String modificarUsuario() throws MessagingException {
         Usuario us = usuarioFacade.find(usuario.getIdusuario());
@@ -205,10 +198,8 @@ public class UsuarioBean implements Serializable {
         FacesMessage message = null;
         this.ingresoClave = DigestUtils.md5Hex(this.ingresoClave);
         Usuario user = verificarUser();
-        if (verificarUserActivado()) 
-        {
-            if (user != null) 
-            {
+        if (verificarUserActivado()) {
+            if (user != null) {
                 int nivelUser = user.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 loggedIn = true;
                 this.userLogueado = user;
@@ -216,8 +207,7 @@ public class UsuarioBean implements Serializable {
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido(a) ", user.getNombre() + " ");
                 FacesContext.getCurrentInstance().addMessage(null, message);
                 context.addCallbackParam("loggedIn", loggedIn);
-                switch (nivelUser) 
-                {
+                switch (nivelUser) {
                     case 1:
                         context.addCallbackParam("view", "inicioAdmin.xhtml");
                         break;
@@ -233,16 +223,13 @@ public class UsuarioBean implements Serializable {
                     default:
                         throw new AssertionError();
                 }
-            } 
-            else {
-            loggedIn = false;
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "RUT o Clave no validas");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-            context.addCallbackParam("view", "loginUsuario.xhtml");
+            } else {
+                loggedIn = false;
+                message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "RUT o Clave no validas");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                context.addCallbackParam("view", "loginUsuario.xhtml");
             }
-        }
-        else
-        {
+        } else {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "¡Debes activar tu cuenta a través de tu correo!");
             FacesContext.getCurrentInstance().addMessage(null, message);
             context.addCallbackParam("view", "loginUsuario.xhtml");
@@ -266,8 +253,8 @@ public class UsuarioBean implements Serializable {
         }
         return user;
     }
-    
-        private boolean verificarUserActivado() {
+
+    private boolean verificarUserActivado() {
         Usuario user = null;
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
@@ -389,7 +376,7 @@ public class UsuarioBean implements Serializable {
             message.setText("Estimado " + this.usuario.getNombre() + " " + this.usuario.getApellidopaterno()
                     + "\nGracias por ingresar al sistema de compras de Sushi a domicilio"
                     + "\n\n"
-                    + "CODIGO DE ACTIVACION: " + this.usuario.getActivado() 
+                    + "CODIGO DE ACTIVACION: " + this.usuario.getActivado()
                     + "\n <a href='http://localhost:8081/SistemaSushi-war/faces/activacionCuenta.xhtml'> Clickea aquí para activar </a>"
                     + "SUS DATOS SON:"
                     + "\n Rut :" + this.usuario.getRut()
@@ -405,41 +392,38 @@ public class UsuarioBean implements Serializable {
             return false;
         }
     }
-    
+
     //-----------------------------------------------------------------------
     //                          Activación de Email por Link
     //-----------------------------------------------------------------------
-    
     //Cadena que genera el código que irá en el atributo de 'Activación' 
     //hasta que se active accediendo por el correo en donde se le envía.
     public String getCadenaAlfanumAleatoria(int longitud) {
-		String cadenaAleatoria = "";
-		long milis = new java.util.GregorianCalendar().getTimeInMillis();
-		Random r = new Random(milis);
-		int i = 0;
-		while (i < longitud) {
-			char c = (char) r.nextInt(255);
-			// System.out.println("char:"+c);
-			if ((c >= '0' && c <= 9) || (c >= 'A' && c <= 'Z')) {
-				cadenaAleatoria += c;
-				i++;
-			}
-		}
-		return cadenaAleatoria;
+        String cadenaAleatoria = "";
+        long milis = new java.util.GregorianCalendar().getTimeInMillis();
+        Random r = new Random(milis);
+        int i = 0;
+        while (i < longitud) {
+            char c = (char) r.nextInt(255);
+            // System.out.println("char:"+c);
+            if ((c >= '0' && c <= 9) || (c >= 'A' && c <= 'Z')) {
+                cadenaAleatoria += c;
+                i++;
+            }
+        }
+        return cadenaAleatoria;
     }
-    
+
     //Función simple que activa la cuenta tomando el valor del input text
     //y comparandolo con todos en la base de datos.
-    public String activarCuenta()
-    {
+    public String activarCuenta() {
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
-            if ( usuario1.getActivado().equals(usuario.getActivado()) && !usuario1.getActivado().equals("activo")) 
-            {
+            if (usuario1.getActivado().equals(usuario.getActivado()) && !usuario1.getActivado().equals("activo")) {
                 usuario1.setActivado("activado");
                 this.usuarioFacade.edit(usuario1);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cuenta activada exitosamente!!!"));
-            
+
                 return "LoginUsuario";
             }
         }

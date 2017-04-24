@@ -14,15 +14,15 @@
         <h:form>
          <h:form id="form">
                 <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
-                <p:fieldset id="Registrar" legend="Formulario de registro de un producto!" 
+                <p:fieldset id="Registrar" legend="Formulario de registro de nivel de usuario!" 
                             style="margin-top: 20px; width: 500px;">
                     <h:panelGrid columns="1" cellpadding="5">          
                         
-                        <p:inputText value="#{nivelUsuarioBean.nivelUsuario.nombre}" 
+                        <p:inputText value="#{nivelUsuarioBean.nivelUsuario.nombrenivelusuario}" 
                                      required="true" placeholder="Ingresa el nombre del nivel de usuario" 
                                      requiredMessage="Debe ingresar un nombre de nivel de usuario"/>
                         
-                        <p:inputText value="#{nivelUsuarioBean.nivelUsuario.descripcion}" 
+                        <p:inputText value="#{nivelUsuarioBean.nivelUsuario.descripcionnivelusuario}" 
                                      required="true" placeholder="Descripción del nivel de usuario" 
                                      type="number"
                                      requiredMessage="Debe ingresar una descripción">
@@ -32,7 +32,7 @@
                     <br/>
                   
                     <p:commandButton value="Ingresar Nivel Usuario" update="msgs" 
-                                     actionListener="#{nivelUsuarioBean.ingresarNivelUsuario()}"/>                                  
+                                     actionListener="#{NivelUsuarioBean.ingresarNivelUsuario()}"/>                                  
                 </p:fieldset>
             </h:form>    
     </h:form>

@@ -1,0 +1,65 @@
+<ui:composition template="templateCliente.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        Perfil cliente
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs"/>
+            <h1>Tu perfil</h1>
+            <br/>
+            <p:dataTable value="#{usuarioBean.userLogueado}" var="u">
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{u.nombre}"/>
+                </p:column>
+                <p:column headerText="Rut">
+                    <h:outputText value="#{u.rut}"/>
+                </p:column>
+                <p:column headerText="E-mail">
+                    <h:outputText value="#{u.email}"/>
+                </p:column>
+                <p:column style="width:32px;text-align: center" headerText="Editar Perfil">
+                    <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{u}" target="#{usuarioBean.usuario}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            <p:dialog header="Información Detalle" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panel" style="text-align:center;">
+                    <p:panelGrid  columns="2">
+                        <h:outputText value="ID Usuario"/>
+                        <h:outputText value="#{usuarioBean.usuario.idusuario}" />
+                        <h:outputText value="Nombre"/>
+                        <h:inputText value="#{usuarioBean.usuario.nombre}" />
+                        <h:outputText value="Rut"/>
+                        <h:inputText value="#{usuarioBean.usuario.rut}" />
+                        <h:outputText value="E-mail" />
+                        <h:inputText value="#{usuarioBean.usuario.email}" />
+                        <h:outputText value="Ingrese Contraseña nueva (Solo si desea cambiarla)" />
+                        <p:password id="clave1" value="#{usuarioBean.usuario.pass}"
+                                    match="clave2" placeholder="Ingresa una contraseña nueva" 
+                                    validatorMessage="La contraseña no coincide"/>
+                        <h:outputText value="Confirme Contraseña" />
+                        <p:password id="clave2" value="#{usuarioBean.usuario.pass}"
+                                    requiredMessage="Debe re-ingresar la clave nueva"
+                                    placeholder="Confirma tu contraseña nueva"/>
+                        <h:outputText value="Nivel de Usuario"/>
+                        <p:selectOneMenu value="#{usuarioBean.usuario.nivelusuarioIdnivelusuario}">
+                            <f:selectItems value="#{nivelUsuarioBean.nivelUsuario}" var="nv"
+                                           itemLabel="#{nv.nombreNivelUsuario}" itemValue="#{nv.idNivelUsuario}"/>
+                        </p:selectOneMenu>
+                        <p:commandButton value="Actualizar" update="msgs"
+                                         actionListener="#{UsuarioBean.modificarUsuario()}"/>
+                        <p:commandButton value="Eliminar" update="msgs"
+                                          actionListener="#{UsuarioBean.eliminarUsuario()}"/> 
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -13,7 +13,7 @@
             <p:growl id="msgs"/>
             <h1>Mantenedor Producto</h1>
             <br/>
-            <p:dataTable value="#{ProductoBean.producto}" var="p">
+            <p:dataTable value="#{productoBean.producto}" var="p">
                 <p:column headerText="ID">
                     <h:outputText value="#{p.idProducto}"/>
                 </p:column>
@@ -39,17 +39,17 @@
                 <p:outputPanel id="panel" style="text-align:center;">
                     <p:panelGrid  columns="2">
                         <h:outputText value="ID"/>
-                        <h:outputText value="#{ProductoBean.pro.idProducto}" />
+                        <h:outputText value="#{productoBean.producto.idproducto}" />
                         <h:outputText value="Nombre"/>
-                        <h:inputText value="#{ProductoBean.pro.nombre}" />
+                        <h:inputText value="#{productoBean.producto.nombre}" />
                         <h:outputText value="Cantidad"/>
-                        <h:inputText value="#{ProductoBean.pro.cantidad}" />
+                        <h:inputText value="#{productoBean.producto.cantidad}" />
                         </p:selectOneMenu>
                         <h:outputText value="Valor" />
-                        <h:inputText value="#{ProductoBean.pro.valor}" />
+                        <h:inputText value="#{productoBean.producto.valor}" />
                         </p:selectOneMenu>
                         <h:outputText value="Imagen" />
-                        <p:inputText value="#{ProductoBean.pro.imagen}"/>
+                        <p:inputText value="#{productoBean.producto.imagen}"/>
                         <p:commandButton value="Actualizar" update=":msgs"
                                          actionListener="#{ProductoBean.modificarProducto()}"/>
                         <p:commandButton value="Eliminar" update=":msgs"

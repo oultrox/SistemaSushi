@@ -13,7 +13,7 @@
             <p:growl id="msgs"/>
             <h1>Mantenedor Dirección</h1>
             <br/>
-            <p:dataTable value="#{DireccionBean.direccion}" var="d">
+            <p:dataTable value="#{direccionBean.direccion}" var="d">
                 <p:column headerText="ID">
                     <h:outputText value="#{d.idDireccion}"/>
                 </p:column>
@@ -43,7 +43,7 @@
                 </p:column>
                 <p:column style="width:32px;text-align: center">
                     <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{d}" target="#{DireccionBean.dir}"/>
+                        <f:setPropertyActionListener value="#{d}" target="#{direccionBean.direccion}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -51,23 +51,23 @@
                 <p:outputPanel id="panel" style="text-align:center;">
                     <p:panelGrid  columns="2">
                         <h:outputText value="ID"/>
-                        <h:outputText value="#{DireccionBean.dir.idDireccion}" />
+                        <h:outputText value="#{direccionBean.direccion.iddireccion}" />
                         <h:outputText value="Comuna"/>
-                        <h:inputText value="#{DireccionBean.dir.comuna}" />
+                        <h:inputText value="#{direccionBean.direccion.comuna}" />
                         <h:outputText value="Provincia"/>
-                        <h:inputText value="#{DireccionBean.dir.provincia}" />
+                        <h:inputText value="#{direccionBean.direccion.provincia}" />
                         <h:outputText value="Region" />
-                        <h:inputText value="#{DireccionBean.dir.region}" />
+                        <h:inputText value="#{direccionBean.direccion.region}" />
                         <h:outputText value="Calle" />
-                        <p:inputText value="#{DireccionBean.dir.calle}"/>
+                        <p:inputText value="#{direccionBean.direccion.calle}"/>
                         <h:outputText value="Numero"/>
-                        <h:inputText value="#{DireccionBean.dir.numero}" />
+                        <h:inputText value="#{direccionBean.direccion.numero}" />
                         <h:outputText value="Departamento"/>
-                        <h:inputText value="#{DireccionBean.dir.departamento}" />
+                        <h:inputText value="#{direccionBean.direccion.depto}" />
                         <h:outputText value="Detalle Dirección"/>
-                        <h:inputText value="#{DireccionBean.dir.detalleDireccion}" />
+                        <h:inputText value="#{direccionBean.direccion.detalledireccion}" />
                         <h:outputText value="Usuario Dirección"/>
-                        <h:inputText value="#{DireccionBean.dir.usuarioIdDireccion}" />
+                        <h:inputText value="#{direccionBean.direccion.usuarioIdusuario}" />
                         <p:commandButton value="Actualizar" update=":msgs"
                                          actionListener="#{DetalleBean.modificarProducto()}"/>
                         <p:commandButton value="Eliminar" update=":msgs"

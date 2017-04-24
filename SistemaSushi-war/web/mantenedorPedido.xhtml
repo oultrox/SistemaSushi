@@ -13,7 +13,7 @@
             <p:growl id="msgs"/>
             <h1>Mantenedor Pedido</h1>
             <br/>
-            <p:dataTable value="#{PedidoBean.pedido}" var="p">
+            <p:dataTable value="#{pedidoBean.pedido}" var="p">
                 <p:column headerText="ID">
                     <h:outputText value="#{p.idPedido}"/>
                 </p:column>
@@ -31,7 +31,7 @@
                 </p:column>
                 <p:column style="width:32px;text-align: center">
                     <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{p}" target="#{ProductoBean.pro}"/>
+                        <f:setPropertyActionListener value="#{p}" target="#{pedidoBean.pedido}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -40,19 +40,23 @@
                     <p:panelGrid  columns="2">
 
                         <h:outputText value="Nombre"/>
-                        <h:inputText value="#{ProductoBean.pro.nombre}" />
+                        <h:inputText value="#{pedidoBean.pedido.idpedido}" />
                         <h:outputText value="Cantidad"/>
-                        <h:inputText value="#{ProductoBean.pro.cantidad}" />
+                        <h:inputText value="#{pedidoBean.pedido.valor}" />
+                        <h:outputText value="Fecha" />
+                        <h:inputText value="#{pedidoBean.pedido.fecha}" />
+                        <h:outputText value="Estado" />
+                        <h:inputText value="#{pedidoBean.pedido.estado}" />
+                        <h:outputText value="Solicitante" />
+                        <p:selectOneMenu value="#{pedidoBean.pedido.usuarioIdusuario}">
+                            <f:selectItems value="#{usuarioBean.usuario}" var="u"
+                                           itemLabel="#{u.nombre}" itemValue="#{u.idusuario}"/>
                         </p:selectOneMenu>
-                        <h:outputText value="Valor" />
-                        <h:inputText value="#{ProductoBean.pro.valor}" />
                         </p:selectOneMenu>
-                        <h:outputText value="Imagen" />
-                        <p:inputText value="#{ProductoBean.pro.imagen}"/>
                         <p:commandButton value="Actualizar" update=":msgs"
-                                         actionListener="#{ProductoBean.modificarProducto()}"/>
+                                         actionListener="#{PedidoBean.modificarProducto()}"/>
                         <p:commandButton value="Eliminar" update=":msgs"
-                                          actionListener="#{ProductoBean.eliminarProducto()}"/> 
+                                          actionListener="#{PedidoBean.eliminarProducto()}"/> 
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>

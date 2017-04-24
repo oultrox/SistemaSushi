@@ -5,6 +5,7 @@
  */
 package beans;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -61,6 +62,7 @@ public class DireccionBean {
 
     private String ingresarDireccion() {
         try {
+            this.direccion.setIddireccion(BigDecimal.valueOf(1));
             this.direccion.setComuna(this.direccion.getComuna());
             this.direccion.setProvincia(this.direccion.getProvincia());
             this.direccion.setRegion(this.direccion.getRegion());
@@ -68,7 +70,7 @@ public class DireccionBean {
             this.direccion.setNumero(this.direccion.getNumero());
             this.direccion.setDepto(this.direccion.getDepto());
             this.direccion.setDetalledireccion(this.direccion.getDetalledireccion());
-            this.direccion.setUsuarioIdusuario(this.direccion.getUsuarioIdusuario());
+            this.direccion.setUsuarioIdusuario(usuarioFacade.find(usuario.getIdusuario()));
             this.direccionFacade.create(direccion);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Ingresado!", "¡Dirección Ingresada!."));
             return "ingresarDireccion";

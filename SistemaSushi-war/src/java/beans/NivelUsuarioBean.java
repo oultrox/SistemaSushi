@@ -32,19 +32,14 @@ public class NivelUsuarioBean {
     private Nivelusuario nivelUsuario;
 
     public NivelUsuarioBean() {
+        nivelUsuario = new Nivelusuario();
     }
 
     public List<Nivelusuario> getNivelUsuarios() {
         return nivelusuarioFacade.findAll();
     }
 
-    public NivelusuarioFacadeLocal getNivelusuarioFacade() {
-        return nivelusuarioFacade;
-    }
 
-    public void setNivelusuarioFacade(NivelusuarioFacadeLocal nivelusuarioFacade) {
-        this.nivelusuarioFacade = nivelusuarioFacade;
-    }
 
     public Nivelusuario getNivelUsuario() {
         return nivelUsuario;

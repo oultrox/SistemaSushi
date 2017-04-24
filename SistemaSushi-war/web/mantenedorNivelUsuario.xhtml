@@ -4,6 +4,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
+    
     <ui:define name="title">
         Mantenedor Nivel Usuario
     </ui:define>
@@ -13,18 +14,19 @@
             <p:growl id="msgs"/>
             <h1>Mantenedor Nivel Usuario</h1>
             <br/>
-            <p:dataTable value="#{NivelUsuario.nivelUsuario}" var="nv">
+            <p:dataTable value="#{nivelUsuarioBean.nivelUsuario}" var="nv">
                 <p:column headerText="ID">
-                    <h:outputText value="#{nv.idNivelUsuario}"/>
+                    <h:outputText value="#{nv.idnivelusuario}"/>
                 </p:column>
                 <p:column headerText="Nombre">
-                    <h:outputText value="#{nv.nombreNivelUsuario}"/>
+                    <h:outputText value="#{nv.nombrenivelusuario}"/>
                 </p:column>
                 <p:column headerText="Descripcion">
-                    <h:outputText value="#{nv.descripcionNivelUsuario}"/>
+                    <h:outputText value="#{nv.descripcionnivelusuario}"/>
+                </p:column>
                 <p:column style="width:32px;text-align: center">
                     <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{nv}" target="#{NivelUsuario.nvl}"/>
+                        <f:setPropertyActionListener value="#{nv}" target="#{nivelUsuarioBean.nivelUsuario}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -32,15 +34,15 @@
                 <p:outputPanel id="panel" style="text-align:center;">
                     <p:panelGrid  columns="2">
                         <h:outputText value="ID"/>
-                        <h:outputText value="#{NivelUsuario.nvl.idNivelUsuario}" />
+                        <h:outputText value="#{nivelUsuarioBean.nivelUsuario.idnivelusuario}" />
                         <h:outputText value="Nombre"/>
-                        <h:inputText value="#{NivelUsuario.nvl.nombreNivelUsuario}" />
+                        <h:inputText value="#{nivelUsuarioBean.nivelUsuario.nombrenivelusuario}" />
                         <h:outputText value="Descripcion"/>
-                        <h:inputText value="#{NivelUsuario.nvl.descripcionNivelUsuario}" />
-                        <p:commandButton value="Actualizar" update=":msgs"
+                        <h:inputText value="#{nivelUsuarioBean.nivelUsuario.descripcionnivelusuario}" />
+                        <p:commandButton value="Actualizar" update="msgs"
                                          actionListener="#{NivelUsuarioBean.modificarProducto()}"/>
-                        <p:commandButton value="Eliminar" update=":msgs"
-                                          actionListener="#{NivelUsuarioBean.eliminarProducto()}"/> 
+                        <p:commandButton value="Eliminar" update="msgs"
+                                         actionListener="#{NivelUsuarioBean.eliminarProducto()}"/> 
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>

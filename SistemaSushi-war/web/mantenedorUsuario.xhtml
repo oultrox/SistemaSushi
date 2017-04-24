@@ -1,4 +1,4 @@
-<ui:composition template="templateAdmin.xhtml"
+<ui:composition template="templateCliente.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -13,9 +13,9 @@
             <p:growl id="msgs"/>
             <h1>Mantenedor Usuario</h1>
             <br/>
-            <p:dataTable value="#{UsuarioBean.usuario}" var="u">
+            <p:dataTable value="#{usuarioBean.usuario}" var="u">
                 <p:column headerText="ID">
-                    <h:outputText value="#{u.idUsuario}"/>
+                    <h:outputText value="#{u.idusuario}"/>
                 </p:column>
                 <p:column headerText="Nombre">
                     <h:outputText value="#{u.nombre}"/>
@@ -26,9 +26,12 @@
                 <p:column headerText="E-mail">
                     <h:outputText value="#{u.email}"/>
                 </p:column>
+                <p:column headerText="Activado">
+                    <h:outputText value="#{u.activado}"/>
+                </p:column>
                 <p:column style="width:32px;text-align: center">
                     <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{u}" target="#{UsuarioBean.us}"/>
+                        <f:setPropertyActionListener value="#{u}" target="#{usuarioBean.usuario}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -36,29 +39,30 @@
                 <p:outputPanel id="panel" style="text-align:center;">
                     <p:panelGrid  columns="2">
                         <h:outputText value="ID Usuario"/>
-                        <h:outputText value="#{UsuarioBean.us.idUsuario}" />
+                        <h:outputText value="#{usuarioBean.usuario.idusuario}" />
                         <h:outputText value="Nombre"/>
-                        <h:inputText value="#{UsuarioBean.us.nombre}" />
+                        <h:inputText value="#{usuarioBean.usuario.nombre}" />
                         <h:outputText value="Rut"/>
-                        <h:inputText value="#{UsuarioBean.us.rut}" />
+                        <h:inputText value="#{usuarioBean.usuario.rut}" />
                         <h:outputText value="E-mail" />
-                        <h:inputText value="#{UsuarioBean.us.email}" />
-                        <p:password id="clave1" value="#{UsuarioBean.us.pass}" 
+                        <h:inputText value="#{usuarioBean.usuario.email}" />
+                        <h:outputText value="Ingrese Contraseña" />
+                        <p:password id="clave1" value="#{usuarioBean.usuario.pass}" 
                                     required="true" requiredMessage="Debe ingresar clave" 
                                     match="clave2" placeholder="Ingresa la contraseña" 
                                     validatorMessage="La contraseña no coincide"/>
                         <h:outputText value="Confirme Contraseña" />
-                        <p:password id="clave2" value="#{UsuarioBean.us.pass}" 
+                        <p:password id="clave2" value="#{usuarioBean.usuario.pass}" 
                                     required="true" requiredMessage="Debe re-ingresar la clave"
                                     placeholder="Confirma tu contraseña"/>
                         <h:outputText value="Nivel de Usuario"/>
-                        <p:selectOneMenu value="#{UsuarioBean.us.Idnivelusuario}">
-                            <f:selectItems value="#{NivelUsuarioBean.nivelUsuario}" var="nv"
+                        <p:selectOneMenu value="#{usuarioBean.usuario.nivelusuarioIdnivelusuario}">
+                            <f:selectItems value="#{nivelUsuarioBean.nivelUsuario}" var="nv"
                                            itemLabel="#{nv.nombreNivelUsuario}" itemValue="#{nv.idNivelUsuario}"/>
                         </p:selectOneMenu>
-                        <p:commandButton value="Actualizar" update=":msgs"
+                        <p:commandButton value="Actualizar" update="msgs"
                                          actionListener="#{UsuarioBean.modificarUsuario()}"/>
-                        <p:commandButton value="Eliminar" update=":msgs"
+                        <p:commandButton value="Eliminar" update="msgs"
                                           actionListener="#{UsuarioBean.eliminarUsuario()}"/> 
                     </p:panelGrid>
                 </p:outputPanel>
