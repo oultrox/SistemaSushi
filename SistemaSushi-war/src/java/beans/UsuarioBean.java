@@ -92,22 +92,18 @@ public class UsuarioBean implements Serializable {
     //Progreso de el registro - WIP PROGRESO
     public String signUp() {
         try {
-            if (validarRut(usuario.getRut())) 
-            {
+            if (validarRut(usuario.getRut())) {
                 if (existeEmail() || existeRut()) {
                     limpiarCliente(usuario);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Usuario ya existente en el sistema."));
                     return "registroUsuario";
-                } 
-                else 
-                {
+                } else {
                     //Generacion de key
                     this.usuario.setActivado(this.getCadenaAlfanumAleatoria(15));
                     //Validación de mail en donde también envio la key de activado
                     //además de que separé para poder distinguir de quién es el error.
-                    if (validarEmail(this.usuario.getEmail())) 
-                    {
-                      
+                    if (validarEmail(this.usuario.getEmail())) {
+
                         //Nivel por defecto.
                         this.usuario.setNivelusuarioIdnivelusuario(nivelusuarioFacade.find(BigDecimal.valueOf(2)));
                         //Encriptación
@@ -198,8 +194,8 @@ public class UsuarioBean implements Serializable {
         FacesMessage message = null;
         this.ingresoClave = DigestUtils.md5Hex(this.ingresoClave);
         Usuario user = verificarUser();
-        if (verificarUserActivado()) {
-            if (user != null) {
+        if (user != null) {
+            if (verificarUserActivado()) {
                 int nivelUser = user.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 loggedIn = true;
                 this.userLogueado = user;
@@ -224,15 +220,16 @@ public class UsuarioBean implements Serializable {
                         throw new AssertionError();
                 }
             } else {
-                loggedIn = false;
-                message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "RUT o Clave no validas");
+                message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "¡Debes activar tu cuenta a través de tu correo!");
                 FacesContext.getCurrentInstance().addMessage(null, message);
                 context.addCallbackParam("view", "loginUsuario.xhtml");
             }
         } else {
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "¡Debes activar tu cuenta a través de tu correo!");
+            loggedIn = false;
+            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "RUT o Clave no validas");
             FacesContext.getCurrentInstance().addMessage(null, message);
             context.addCallbackParam("view", "loginUsuario.xhtml");
+
         }
     }
 

@@ -15,7 +15,7 @@
             <br/>
             <p:dataTable value="#{productoBean.producto}" var="p">
                 <p:column headerText="ID">
-                    <h:outputText value="#{p.idProducto}"/>
+                    <h:outputText value="#{p.idproducto}"/>
                 </p:column>
                 <p:column headerText="Nombre">
                     <h:outputText value="#{p.nombre}"/>
@@ -25,9 +25,6 @@
                 </p:column>
                 <p:column headerText="Valor">
                     <h:outputText value="#{p.valor}"/>
-                </p:column>
-                <p:column headerText="Imagen">
-                    <h:outputText value="#{p.imagen}"/>
                 </p:column>
                 <p:column style="width:32px;text-align: center">
                     <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
@@ -44,15 +41,11 @@
                         <h:inputText value="#{productoBean.producto.nombre}" />
                         <h:outputText value="Cantidad"/>
                         <h:inputText value="#{productoBean.producto.cantidad}" />
-                        </p:selectOneMenu>
                         <h:outputText value="Valor" />
                         <h:inputText value="#{productoBean.producto.valor}" />
-                        </p:selectOneMenu>
-                        <h:outputText value="Imagen" />
-                        <p:inputText value="#{productoBean.producto.imagen}"/>
-                        <p:commandButton value="Actualizar" update=":msgs"
+                        <p:commandButton value="Actualizar" update="msgs"
                                          actionListener="#{ProductoBean.modificarProducto()}"/>
-                        <p:commandButton value="Eliminar" update=":msgs"
+                        <p:commandButton value="Eliminar" update="msgs"
                                           actionListener="#{ProductoBean.eliminarProducto()}"/> 
                     </p:panelGrid>
                 </p:outputPanel>

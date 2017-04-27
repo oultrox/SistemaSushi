@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -38,7 +39,7 @@ public class ProductoBean {
 
     @EJB
     private ProductoFacadeLocal productoFacade;
-    
+
     @EJB
     private PedidoFacadeLocal pedidoFacade;
 
@@ -50,11 +51,29 @@ public class ProductoBean {
     private String destination = "images/producto/";
     private Pedido pedido;
     private ArrayList<Producto> productosCarrito;
+    private int cantidadP;
+    private int valorP;
 
     public ProductoBean() {
         producto = new Producto();
         productosCarrito = new ArrayList<>();
         pedido = new Pedido();
+    }
+
+    public int getCantidadP() {
+        return cantidadP;
+    }
+
+    public void setCantidadP(int cantidadP) {
+        this.cantidadP = cantidadP;
+    }
+
+    public int getValorP() {
+        return valorP;
+    }
+
+    public void setValorP(int valorP) {
+        this.valorP = valorP;
     }
 
     public Producto getProducto() {
@@ -76,19 +95,17 @@ public class ProductoBean {
     public List<Producto> getProductos() {
         return productoFacade.findAll();
     }
-    
-    public List<Producto> getProductosInventarios() 
-    {
+
+    public List<Producto> getProductosInventarios() {
         List<Producto> productos = productoFacade.findAll();
         List<Producto> productosInventario = productoFacade.findAll();
         productosInventario.removeAll(productosInventario);
         for (Producto p : productos) {
-            if (p.getInventarioIdinventario()!=null) 
-            {
+            if (p.getInventarioIdinventario() != null) {
                 productosInventario.add(p);
             }
         }
-        return productosInventario;   
+        return productosInventario;
     }
 
     public int getcantidadProductos() {
@@ -97,22 +114,24 @@ public class ProductoBean {
 
     public String ingresarProducto() {
         try {
-            if (file != null) {
-                upload();
-                this.producto.setIdproducto(BigDecimal.valueOf(1));
-                //Faltaba esto(?). les consultare hoy de todos modos (Rodrigo).
-                this.producto.setNombre(this.producto.getNombre());
-                this.producto.setCantidad(this.producto.getCantidad());
-                this.producto.setValor(this.producto.getValor());
-                //------------------------------------------------------------
-                this.producto.setImagen(this.producto.getImagen());
-                this.productoFacade.create(producto);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto ingresado."));
-                return "registroProducto";
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Archivo debe ser subido"));
-                return "registroProducto";
-            }
+            BigInteger cantidad = BigInteger.valueOf(this.cantidadP);
+            BigInteger valor = BigInteger.valueOf(this.valorP);
+            //if (file != null) {
+            //    upload();
+            this.producto.setIdproducto(BigDecimal.valueOf(1));
+            //Faltaba esto(?). les consultare hoy de todos modos (Rodrigo).
+            this.producto.setNombre(this.producto.getNombre());
+            this.producto.setCantidad(cantidad);
+            this.producto.setValor(valor);
+            //------------------------------------------------------------
+            this.producto.setImagen("imagentest");
+            this.productoFacade.create(producto);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto ingresado."));
+            return "registroProducto";
+            //} else {
+            //    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Archivo debe ser subido"));
+            //    return "registroProducto";
+
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
             return "registroProducto";
@@ -177,5 +196,5 @@ public class ProductoBean {
             System.out.println(e.getMessage());
         }
     }
-   
+
 }

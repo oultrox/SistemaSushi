@@ -1,9 +1,9 @@
 <ui:composition template="templateAdmin.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:f="http://xmlns.jcp.org/jsf/core"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui">
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">
         Sistema SUSHI
@@ -12,37 +12,40 @@
     <ui:define name="content">
         <h1>SITIO donde ver las promociones</h1>
         <p>Imagenes cor descuentos y promociones</p>
-        <h:form>
-         <h:form id="form">
-                <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
-                <p:fieldset id="Registrar" legend="Formulario de registro de un producto!" 
-                            style="margin-top: 20px; width: 500px;">
-                    <h:panelGrid columns="1" cellpadding="5">          
-                        
-                        <p:inputText value="#{productoBean.producto.nombre}" 
-                                     required="true" placeholder="Ingresa el nombre del producto" 
-                                     requiredMessage="Debe ingresar un nombre del producto"/>
-                        
-                        <p:inputText value="#{productoBean.producto.cantidad}" 
-                                     required="true" placeholder="la cantidad del producto" 
-                                     type="number"
-                                     requiredMessage="Debe ingresar la cantidad de productos">
-                              
-                        </p:inputText>
+        <h:form id="form">
+            <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
+            <p:fieldset id="Registrar" legend="Formulario de registro de un producto!" 
+                        style="margin-top: 20px; width: 500px;">
+                <h:panelGrid columns="2" cellpadding="5">  
 
-                        <p:inputText value="#{productoBean.producto.valor}" 
-                                     required="true" placeholder="Ingresa el precio del producto" 
-                                     requiredMessage="Debe ingresar un precio" type="number"/>
-                        <h:outputText value="Imagen de perfil" />
-                        <p:fileUpload value="#{productoBean.file}" mode="simple" skinSimple="true"/>
-                        
-                    </h:panelGrid>
-                    <br/>
-                  
-                    <p:commandButton value="Ingresar Producto" update="msgs" 
-                                     actionListener="#{productoBean.ingresarProducto()}"/>                                  
-                </p:fieldset>
-            </h:form>    
-    </h:form>
+                    <h:outputText value="NOMBRE" /> 
+                    <p:inputText value="#{productoBean.producto.nombre}" size="26"
+                                 required="true" placeholder="Ingrese el nombre del producto" 
+                                 requiredMessage="Debe ingresar un nombre del producto"/>
+
+                    <h:outputText value="CANTIDAD" /> 
+                    <p:column  colspan="2">
+                        <p:spinner id="cantidadProducto" 
+                                   value="#{productoBean.cantidadP}" 
+                                   min="0" />
+                    </p:column>
+
+                    <h:outputText value="VALOR" /> 
+                    <p:column  colspan="2">
+                        <p:spinner id="valorProducto" 
+                                   value="##{productoBean.valorP}" 
+                                   prefix="$" min="0" stepFactor="1000" />
+                    </p:column>
+
+                </h:panelGrid>
+
+                <br/>
+
+                <p:commandButton value="Ingresar Producto"
+                                 action="#{productoBean.ingresarProducto()}"/>                                  
+            </p:fieldset>
+        </h:form>
+
     </ui:define>
+
 </ui:composition>
