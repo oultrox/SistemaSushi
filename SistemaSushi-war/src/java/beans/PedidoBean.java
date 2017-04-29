@@ -115,7 +115,14 @@ public class PedidoBean {
         }
                     
     }
-    
-    
+       public void eliminarProductoCarrito(BigDecimal id)
+        {
+            for (Producto p : productos) {
+                if (p.getIdproducto() == id) 
+                {
+                    productos.remove(p);
+                }
+            }
+        }
 
 }

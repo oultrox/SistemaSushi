@@ -31,6 +31,11 @@
                         <p:column headerText="Precio del Producto">
                             <h:outputText value="#{a.valor}"/>
                         </p:column>
+                        <p:column headerText="">
+                            <p:commandButton value="Eliminar" update="messages" 
+                                             actionListener="#{pedidoBean.eliminarProductoCarrito(a.idproducto)}"
+                                     oncomplete="handleLoginRequest(xhr, status, args)"/>
+                        </p:column>
                 </p:dataTable>
                
                </p:dialog>
