@@ -13,7 +13,7 @@
             <p:growl id="msgs"/>
             <h1>Mantenedor Producto</h1>
             <br/>
-            <p:dataTable value="#{productoBean.producto}" var="p">
+            <p:dataTable value="#{productoBean.productos}" var="p">
                 <p:column headerText="ID">
                     <h:outputText value="#{p.idproducto}"/>
                 </p:column>
@@ -28,7 +28,7 @@
                 </p:column>
                 <p:column style="width:32px;text-align: center">
                     <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{p}" target="#{ProductoBean.pro}"/>
+                        <f:setPropertyActionListener value="#{p}" target="#{productoBean.producto}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -44,9 +44,9 @@
                         <h:outputText value="Valor" />
                         <h:inputText value="#{productoBean.producto.valor}" />
                         <p:commandButton value="Actualizar" update="msgs"
-                                         actionListener="#{ProductoBean.modificarProducto()}"/>
+                                         actionListener="#{productoBean.modificarProducto(productoBean.producto.idproducto)}"/>
                         <p:commandButton value="Eliminar" update="msgs"
-                                          actionListener="#{ProductoBean.eliminarProducto()}"/> 
+                                         actionListener="#{productoBean.eliminarProducto(productoBean.producto.idproducto)}"/> 
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>

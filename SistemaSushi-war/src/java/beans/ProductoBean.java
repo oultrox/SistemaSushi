@@ -10,19 +10,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.UploadedFile;
-import org.primefaces.event.FileUploadEvent;
 import pojos.Pedido;
 import pojos.Producto;
 import servicios.PedidoFacadeLocal;
@@ -33,9 +31,8 @@ import servicios.ProductoFacadeLocal;
  * @author Yisus
  */
 @Named(value = "productoBean")
-@RequestScoped
-@ManagedBean
-public class ProductoBean {
+@SessionScoped
+public class ProductoBean implements Serializable {
 
     @EJB
     private ProductoFacadeLocal productoFacade;
@@ -123,10 +120,10 @@ public class ProductoBean {
             this.producto.setNombre(this.producto.getNombre());
             this.producto.setCantidad(cantidad);
             this.producto.setValor(valor);
-            //------------------------------------------------------------
+
             this.producto.setImagen("imagentest");
             this.productoFacade.create(producto);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto ingresado."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto " + this.producto.getNombre() + " ingresado."));
             return "registroProducto";
             //} else {
             //    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Archivo debe ser subido"));
@@ -138,8 +135,8 @@ public class ProductoBean {
         }
     }
 
-    private String modificarProducto() {
-        Producto pro = productoFacade.find(producto.getIdproducto());
+    public String modificarProducto(int idProducto) {
+        Producto pro = productoFacade.find(idProducto);
         pro.setNombre(producto.getNombre());
         pro.setCantidad(producto.getCantidad());
         pro.setValor(producto.getValor());
@@ -150,8 +147,8 @@ public class ProductoBean {
         return "mantenedorProducto";
     }
 
-    private String eliminarProducto() {
-        Producto pro = productoFacade.find(producto.getIdproducto());
+    public String eliminarProducto(int idProducto) {
+        Producto pro = productoFacade.find(idProducto);
         this.productoFacade.remove(pro);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto Eliminado"));
         return "mantenedorProducto";

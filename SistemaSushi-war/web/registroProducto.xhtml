@@ -10,8 +10,9 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>SITIO donde ver las promociones</h1>
-        <p>Imagenes cor descuentos y promociones</p>
+                <center>
+            <h1>Ingresa Nuevo Producto</h1>
+        </center>
         <h:form id="form">
             <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
             <p:fieldset id="Registrar" legend="Formulario de registro de un producto!" 
@@ -20,12 +21,14 @@
 
                     <h:outputText value="NOMBRE" /> 
                     <p:inputText value="#{productoBean.producto.nombre}" size="26"
+                                 id="nombreProducto"
                                  required="true" placeholder="Ingrese el nombre del producto" 
                                  requiredMessage="Debe ingresar un nombre del producto"/>
 
                     <h:outputText value="CANTIDAD" /> 
                     <p:column  colspan="2">
                         <p:spinner id="cantidadProducto" 
+                                   required="true"
                                    value="#{productoBean.cantidadP}" 
                                    min="0" />
                     </p:column>
@@ -33,16 +36,18 @@
                     <h:outputText value="VALOR" /> 
                     <p:column  colspan="2">
                         <p:spinner id="valorProducto" 
-                                   value="##{productoBean.valorP}" 
+                                   required="true"
+                                   value="#{productoBean.valorP}" 
                                    prefix="$" min="0" stepFactor="1000" />
                     </p:column>
+                    <br/>
 
+                    <p:commandButton value="Ingresar Producto"  id="botonIngresar"
+                                     update="msgs"
+                                     action="#{productoBean.ingresarProducto()}"/>       
                 </h:panelGrid>
 
-                <br/>
 
-                <p:commandButton value="Ingresar Producto"
-                                 action="#{productoBean.ingresarProducto()}"/>                                  
             </p:fieldset>
         </h:form>
 

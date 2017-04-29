@@ -9,7 +9,7 @@ import pojos.Direccion;
 import pojos.Nivelusuario;
 import pojos.Pedido;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-04-27T15:01:36")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-04-27T16:29:11")
 @StaticMetamodel(Usuario.class)
 public class Usuario_ { 
 
