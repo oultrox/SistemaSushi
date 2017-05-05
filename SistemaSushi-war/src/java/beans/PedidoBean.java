@@ -117,12 +117,21 @@ public class PedidoBean {
     }
        public void eliminarProductoCarrito(BigDecimal id)
         {
+            ArrayList<Producto> pLista = new ArrayList<>();
             for (Producto p : productos) {
                 if (p.getIdproducto() == id) 
                 {
-                    productos.remove(p);
+                    pLista.add(p);
                 }
             }
+            
+            productos.removeAll(pLista);
         }
+       
+       public void eliminarProductoCarritos()
+        {
+            productos.removeAll(productos);
+        }
+       
 
 }

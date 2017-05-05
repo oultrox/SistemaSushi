@@ -21,8 +21,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.UploadedFile;
+import pojos.Inventario;
 import pojos.Pedido;
 import pojos.Producto;
+import servicios.InventarioFacadeLocal;
 import servicios.PedidoFacadeLocal;
 import servicios.ProductoFacadeLocal;
 
@@ -35,11 +37,15 @@ import servicios.ProductoFacadeLocal;
 public class ProductoBean implements Serializable {
 
     @EJB
+    private InventarioFacadeLocal inventarioFacade;
+
+    @EJB
     private ProductoFacadeLocal productoFacade;
 
     @EJB
     private PedidoFacadeLocal pedidoFacade;
 
+    
     /**
      * Creates a new instance of ProductoBean
      */
@@ -92,7 +98,23 @@ public class ProductoBean implements Serializable {
     public List<Producto> getProductos() {
         return productoFacade.findAll();
     }
+    
+    //consigo los procutos que no tienen ningun inventario asociado!
+    public List<Producto> getProductosInventariables() 
+    {
+        List<Producto> productos = productoFacade.findAll();
+        List<Producto> productosInventario = productoFacade.findAll();
+        productosInventario.removeAll(productosInventario);
+        for (Producto p : productos) {
+            if (p.getInventarioIdinventario() == null) {
+                productosInventario.add(p);
+            }
+        }
+        return productosInventario;
+    }
 
+    //consigo los productos que se suponen deben salir online al estar anidados
+    // a un inventario online.
     public List<Producto> getProductosInventarios() {
         List<Producto> productos = productoFacade.findAll();
         List<Producto> productosInventario = productoFacade.findAll();
@@ -109,6 +131,7 @@ public class ProductoBean implements Serializable {
         return getProductosInventarios().size();
     }
 
+    //ingresamos un producto al sistema en general. sin inventario asignado.
     public String ingresarProducto() {
         try {
             BigInteger cantidad = BigInteger.valueOf(this.cantidadP);
@@ -135,6 +158,7 @@ public class ProductoBean implements Serializable {
         }
     }
 
+    //Modificamos productos aquí
     public String modificarProducto(int idProducto) {
         Producto pro = productoFacade.find(idProducto);
         pro.setNombre(producto.getNombre());
@@ -147,6 +171,7 @@ public class ProductoBean implements Serializable {
         return "mantenedorProducto";
     }
 
+    //y aquí los eliminamos en base al id seleccionado por el front-end.
     public String eliminarProducto(int idProducto) {
         Producto pro = productoFacade.find(idProducto);
         this.productoFacade.remove(pro);
@@ -193,5 +218,47 @@ public class ProductoBean implements Serializable {
             System.out.println(e.getMessage());
         }
     }
+    
+   public void anadirInventarioProducto(BigDecimal id)
+   {
+       try
+       {
+            //llamamos al producto seleccionado
+            Producto ped = productoFacade.find(id);
+
+            //buscamos el primer item de nuestra bd de inventarios, ya que usaremos
+            //solo una tabla de inventario para el sistema. o por lo menos así
+            //es lo actual, dispuesto a cambios.
+            List<Inventario> inv = inventarioFacade.findAll();
+            //se asigna el producto al inventario para que al fin salga en la tienda online!
+            ped.setInventarioIdinventario(inv.get(0));
+            productoFacade.edit(ped);
+            FacesMessage msg = new FacesMessage("Exitoso! producto agregado al inventario online.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+       }catch(Exception e)
+       {
+            FacesMessage msg = new FacesMessage("Error! producto no pudo ser"
+                    + " agregado. ¿No hay un inventario disponible?");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+       }
+   }
+   
+   //funcion para sacar los productos del stock online del inventario.
+   public void sacarInventarioProducto(BigDecimal id)
+   {
+       try
+       {
+        Producto ped = productoFacade.find(id);
+        ped.setInventarioIdinventario(null);
+        productoFacade.edit(ped);
+        FacesMessage msg = new FacesMessage("Exitoso! producto sacado del inventario online.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+       }catch(Exception e)
+       {
+            FacesMessage msg = new FacesMessage("Error! producto no pudo ser"
+                    + " agregado. ¿No hay un inventario disponible?");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+       }
+   }
 
 }
