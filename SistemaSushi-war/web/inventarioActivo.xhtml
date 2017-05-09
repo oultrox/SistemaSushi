@@ -11,6 +11,8 @@
     <ui:define name="content">
         <h:form id="form">
             <p:growl id="msgs"/>
+            <br/>
+            <h2>FECHA Y HORA</h2> <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server"/>
             <h1>Lista de productos no asignados a un inventario</h1>
             <br/>
             <p:dataTable value="#{productoBean.productosInventariables}" var="p" id="tabla1">

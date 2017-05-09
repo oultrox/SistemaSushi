@@ -159,21 +159,19 @@ public class ProductoBean implements Serializable {
     }
 
     //Modificamos productos aquí
-    public String modificarProducto(int idProducto) {
-        Producto pro = productoFacade.find(idProducto);
+    public String modificarProducto() {
+        Producto pro = productoFacade.find(this.producto.getIdproducto());
         pro.setNombre(producto.getNombre());
         pro.setCantidad(producto.getCantidad());
         pro.setValor(producto.getValor());
-        pro.setImagen(producto.getImagen());
-        pro.setPedidoIdpedido(pedidoFacade.find(pedido.getIdpedido()));
         productoFacade.edit(pro);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto Modificado", "Producto modificado correctamente"));
         return "mantenedorProducto";
     }
 
     //y aquí los eliminamos en base al id seleccionado por el front-end.
-    public String eliminarProducto(int idProducto) {
-        Producto pro = productoFacade.find(idProducto);
+    public String eliminarProducto(Producto producto) {
+        Producto pro = productoFacade.find(producto.getIdproducto());
         this.productoFacade.remove(pro);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto Eliminado"));
         return "mantenedorProducto";

@@ -9,17 +9,26 @@
     </h:head>
     <h:body>
         <h:form>  
-    <p:growl id="messages"/>
- 
-    <p:menubar>
-        <p:menuitem value="Inicio" outcome="faces/inicioAdmin.xhtml" icon="ui-icon-home" />
-        <p:menuitem value="Ingresar nuevos productos" outcome="faces/registroProducto.xhtml" icon="ui-icon-person" />
-        <p:menuitem value="Mantenedor de productos" outcome="faces/mantenedorProducto.xhtml" icon="ui-icon-person" />
-        <p:menuitem value="Inventario activo" outcome="faces/inventarioActivo.xhtml" icon="ui-icon-person" />
-        <p:menuitem value="Cerrar Sesion" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
-            
-    </p:menubar>
-</h:form>
+            <p:growl id="messages"/>
+
+            <p:menubar>
+                <p:menuitem value="Inicio" outcome="faces/inicioAdmin.xhtml" icon="ui-icon-home" />
+
+                <p:submenu label="Productos" icon="ui-icon-help">
+                    <p:menuitem value="Agregar Producto" outcome="faces/registroProducto.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Editar Producto" outcome="faces/mantenedorProducto.xhtml" icon="ui-icon-person" />
+                </p:submenu>
+
+                <p:submenu label="Inventario" icon="ui-icon-help">
+                     <p:menuitem value="Crear Inventario" outcome="faces/inventarioActivo.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Editar Inventario" icon="ui-icon-person" />
+                </p:submenu>
+
+               
+                <p:menuitem value="Cerrar Sesion" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
+
+            </p:menubar>
+        </h:form>
     </h:body>
 </html>
 

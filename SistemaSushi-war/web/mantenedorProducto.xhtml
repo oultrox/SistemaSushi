@@ -9,10 +9,12 @@
     </ui:define>
 
     <ui:define name="content">
-        <h:form id="form">
-            <p:growl id="msgs"/>
-            <h1>Mantenedor Producto</h1>
-            <br/>
+        <p:messages id="mensaje" showDetail="true" autoUpdate="false"/>
+        <center>
+            <h1>PRODUCTOS</h1>
+        </center>
+
+        <h:form id="productos">
             <p:dataTable value="#{productoBean.productos}" var="p">
                 <p:column headerText="ID">
                     <h:outputText value="#{p.idproducto}"/>
@@ -26,30 +28,43 @@
                 <p:column headerText="Valor">
                     <h:outputText value="#{p.valor}"/>
                 </p:column>
-                <p:column style="width:32px;text-align: center">
-                    <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{p}" target="#{productoBean.producto}"/>
+                <p:column headerText="ELIMINAR" style="text-align: center">
+                    <p:commandButton icon="ui-icon-close" title="Eliminar" action="#{productoBean.eliminarProducto(p)}" update="productos"/>
+                </p:column>
+                <p:column headerText="EDITAR" style="text-align: center">
+                    <p:commandButton update=":productos:panelEditar" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="Editar">
+                        <f:setPropertyActionListener value="#{p}" target="#{productoBean.producto}" />
                     </p:commandButton>
                 </p:column>
+
             </p:dataTable>
-            <p:dialog header="Información Detalle" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="panel" style="text-align:center;">
+
+
+            <p:dialog header="Editar Producto" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panelEditar" style="text-align:center;">
                     <p:panelGrid  columns="2">
-                        <h:outputText value="ID"/>
-                        <h:outputText value="#{productoBean.producto.idproducto}" />
-                        <h:outputText value="Nombre"/>
-                        <h:inputText value="#{productoBean.producto.nombre}" />
-                        <h:outputText value="Cantidad"/>
-                        <h:inputText value="#{productoBean.producto.cantidad}" />
-                        <h:outputText value="Valor" />
-                        <h:inputText value="#{productoBean.producto.valor}" />
-                        <p:commandButton value="Actualizar" update="msgs"
-                                         actionListener="#{productoBean.modificarProducto(productoBean.producto.idproducto)}"/>
-                        <p:commandButton value="Eliminar" update="msgs"
-                                         actionListener="#{productoBean.eliminarProducto(productoBean.producto.idproducto)}"/> 
+                        <p:outputLabel for="nombre" value="Nombre: " />
+                        <h:inputText id="nombre" value="#{productoBean.producto.nombre}"/>
+                        
+                        <p:outputLabel for="cantidadProducto" value="Cantidad: " />
+                        <p:spinner id="cantidadProducto" 
+                                   required="true"
+                                   value="#{productoBean.producto.cantidad}" 
+                                   min="0" />
+                        <p:outputLabel for="valorProducto" value="Valor: " />
+                        <p:spinner id="valorProducto" 
+                                   required="true"
+                                   value="#{productoBean.producto.valor}" 
+                                   prefix="$" min="0" stepFactor="1000" />
+
+                        <p:commandButton value="Actualizar" 
+                                         actionListener="#{productoBean.modificarProducto()}"
+                                         update=":productos,mensaje"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>
+
         </h:form>
+
     </ui:define>
 </ui:composition>
