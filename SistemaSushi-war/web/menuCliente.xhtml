@@ -32,15 +32,17 @@
                             <h:outputText value="#{a.valor}"/>
                         </p:column>
                         <p:column headerText="Eliminar">
-                            <p:commandButton value="Eliminar" update="carritoTable" 
+                            <p:commandButton value="Limpiar" update="carritoTable" 
                                              actionListener="#{pedidoBean.eliminarProductoCarrito(a.idproducto)}"/>
                         </p:column>
                 </p:dataTable>
                 
                 <center>
-                    <p:commandButton value="Eliminar" update="carritoTable" 
-                                             actionListener="#{pedidoBean.eliminarProductoCarritos}"
+                    <p:commandButton value="Limpiar carrito" update="carritoTable" 
+                                             actionListener="#{pedidoBean.limpiarCarrito}"
                                      oncomplete="handleLoginRequest(xhr, status, args)"/>
+                    <p:commandButton value="¡Confirmar compra!" update="carritoTable" 
+                                             action="confirmarCompra?faces-redirect=true"/>
                 </center>
                
                </p:dialog>
