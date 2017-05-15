@@ -11,10 +11,10 @@
     <ui:define name="content">
         <!-- Listar productos del carro aqui -->
         <center>
-            <h3>Total a Pagar: <h:outputText value="$2000"/></h3> <!-- a modo de ejemplo -->
+            <h3>Total a Pagar: <h:outputText value="#{pedidoBean.totalCarrito}"/></h3> <!-- a modo de ejemplo -->
             <form action="https://www.pagomaster.com/cl/cuenta/?cmd=checkout2" method="post">
                 <input type="hidden" name="merchantAccount" value="rodrigonicolascp@gmail.com"/>
-                <input type="hidden" name="amount" value="2000"/> <!-- Aqui va el total a pagar -->
+                <input type="hidden" name="amount" value="#{pedidoBean.totalCarrito}"/> <!-- Aqui va el total a pagar -->
                 <input type="hidden" name="currency" value="CLP"/>
                 <input type="hidden" name="item_id" value="Compra en Fukusuke Sushi"/>
                 <input type="hidden" name="setupFee" value=""/>

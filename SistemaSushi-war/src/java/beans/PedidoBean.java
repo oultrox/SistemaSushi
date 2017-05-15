@@ -156,4 +156,13 @@ public class PedidoBean {
             
         }
        
+       public double getTotalCarrito()
+       {
+           double total = 0;
+           for (Producto px : productos) {
+               total += px.getValor().doubleValue() * px.getCantidad().doubleValue();
+           }
+           return total;
+       }
+       
 }
