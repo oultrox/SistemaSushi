@@ -6,14 +6,18 @@
 package beans;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 import pojos.Pedido;
 import pojos.Producto;
@@ -101,10 +105,26 @@ public class PedidoBean {
         RequestContext context = RequestContext.getCurrentInstance();
         try{
             Producto p = productoFacade.find(id);
+            p.setCantidad(BigInteger.ONE); // seteo la cantidad en 1 siempre para el objeto nuevo a añadir al carrito.
             p.setInventarioIdinventario(null); //vuelvo nulo para que no se agregue a la bd como producto de inventario.
-            System.out.println(p.toString());
-            System.out.println(productos.size());
-            productos.add(p);
+            
+            boolean encontrado = false;
+            for (Producto px: productos) 
+            {
+                if (px.getIdproducto() == p.getIdproducto())
+                {
+                    encontrado = true;
+                    int suma = px.getCantidad().intValue();
+                    suma++;
+                    px.setCantidad(BigInteger.valueOf(suma));  
+                }  
+            }
+            if (!encontrado) 
+            {
+                productos.add(p);
+            }
+            
+            
             System.out.println(productos.size());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto Añadido al carrito.")); 
             context.addCallbackParam("view", "promos.xhtml");
@@ -128,10 +148,21 @@ public class PedidoBean {
             productos.removeAll(pLista);
         }
        
-       public void eliminarProductoCarritos()
-        {
-            productos.removeAll(productos);
+       public void limpiarCarrito()throws IOException 
+       {
+            productos.removeAll(productos);       
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+            
         }
        
-
+       public double getTotalCarrito()
+       {
+           double total = 0;
+           for (Producto px : productos) {
+               total += px.getValor().doubleValue() * px.getCantidad().doubleValue();
+           }
+           return total;
+       }
+       
 }
