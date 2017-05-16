@@ -7,7 +7,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import pojos.Usuario;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-08T17:23:28")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-16T19:48:32")
 @StaticMetamodel(Nivelusuario.class)
 public class Nivelusuario_ { 
 

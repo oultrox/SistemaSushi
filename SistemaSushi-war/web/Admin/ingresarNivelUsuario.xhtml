@@ -1,0 +1,40 @@
+<ui:composition template="templateAdmin.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Ingresar Nivel Usuario
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>Ingresar Nivel de Usuario</h1>
+        <h:form>
+         <h:form id="form">
+                <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
+                <p:fieldset id="Registrar" legend="Formulario de registro de nivel de usuario!" 
+                            style="margin-top: 20px; width: 500px;">
+                    <h:panelGrid columns="1" cellpadding="5">          
+                        
+                        <p:inputText value="#{nivelUsuarioBean.nivelUsuario.nombrenivelusuario}" 
+                                     required="true" placeholder="Ingresa el nombre del nivel de usuario" 
+                                     requiredMessage="Debe ingresar un nombre de nivel de usuario"/>
+                        
+                        <p:inputText value="#{nivelUsuarioBean.nivelUsuario.descripcionnivelusuario}" 
+                                     required="true" placeholder="Descripción del nivel de usuario" 
+                                     type="number"
+                                     requiredMessage="Debe ingresar una descripción">
+                              
+                        </p:inputText>
+                    </h:panelGrid>
+                    <br/>
+                  
+                    <p:commandButton value="Ingresar Nivel Usuario" update="msgs" 
+                                     actionListener="#{NivelUsuarioBean.ingresarNivelUsuario()}"/>                                  
+                </p:fieldset>
+            </h:form>    
+    </h:form>
+    </ui:define>
+</ui:composition>

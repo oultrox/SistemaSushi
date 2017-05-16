@@ -205,10 +205,10 @@ public class UsuarioBean implements Serializable {
                 context.addCallbackParam("loggedIn", loggedIn);
                 switch (nivelUser) {
                     case 1:
-                        context.addCallbackParam("view", "inicioAdmin.xhtml");
+                        context.addCallbackParam("view", "../Admin/inicioAdmin.xhtml");
                         break;
                     case 2:
-                        context.addCallbackParam("view", "inicioCliente.xhtml");
+                        context.addCallbackParam("view", "../Cliente/inicioCliente.xhtml");
                         break;
                     case 3:
                         break;
@@ -239,6 +239,25 @@ public class UsuarioBean implements Serializable {
         return "index";
     }
 
+    public void ingresarVisita() {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
+            if (u == null) {
+                context.getExternalContext().redirect("faces/Visita/inicioVisitas.xhtml");
+
+            } else {
+                int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
+                if (nivelUser != 1) {
+                    context.getExternalContext().redirect("faces/Visita/inicioVisitas.xhtml");
+                }
+            }
+
+        } catch (Exception e) {
+            //log
+        }
+    }
+
     private Usuario verificarUser() {
         Usuario user = null;
         List<Usuario> usuarios = this.usuarioFacade.findAll();
@@ -267,12 +286,12 @@ public class UsuarioBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
             if (u == null) {
-                context.getExternalContext().redirect("index.xhtml");
+                context.getExternalContext().redirect("../index.xhtml");
 
             } else {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 1) {
-                    context.getExternalContext().redirect("index.xhtml");
+                    context.getExternalContext().redirect("../index.xhtml");
                 }
             }
 
@@ -286,12 +305,12 @@ public class UsuarioBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
             if (u == null) {
-                context.getExternalContext().redirect("index.xhtml");
+                context.getExternalContext().redirect("../index.xhtml");
 
             } else {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 2) {
-                    context.getExternalContext().redirect("index.xhtml");
+                    context.getExternalContext().redirect("../index.xhtml");
                 }
             }
         } catch (Exception e) {
