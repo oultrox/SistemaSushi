@@ -57,6 +57,8 @@ CREATE
     valor       INTEGER NOT NULL ,
     fecha      DATE NOT NULL ,
     estado      VARCHAR2 (45) NOT NULL ,
+    detalle VARCHAR2(255) NOT NULL,
+    Direccion_idDireccion INTEGER NOT NULL,
     Usuario_idUsuario INTEGER NOT NULL
   ) ;
 ALTER TABLE Pedido ADD CONSTRAINT Pedido_PK PRIMARY KEY ( idPedido ) ;
@@ -67,7 +69,6 @@ CREATE
   (
     idProducto       INTEGER NOT NULL,
     nombre   VARCHAR2 (45) NOT NULL ,
-    imagen   VARCHAR2 (45) NOT NULL,
     cantidad INTEGER NOT NULL ,
     valor    INTEGER NOT NULL ,
     Pedido_idPedido  INTEGER,
@@ -97,9 +98,16 @@ ALTER TABLE Pedido ADD CONSTRAINT Pedido_Usuario_FK FOREIGN KEY (
 Usuario_idUsuario ) REFERENCES Usuario ( idUsuario ) ON
 DELETE CASCADE ;
 
+--Nueva FK de Direccion-Pedido
+ALTER TABLE Pedido ADD CONSTRAINT Pedido_Direccion_FK FOREIGN KEY (
+Direccion_idDireccion ) REFERENCES Direccion ( idDireccion ) ON
+DELETE CASCADE ;
+
+
 ALTER TABLE Producto ADD CONSTRAINT Producto_Pedido_FK FOREIGN KEY (
 Pedido_idPedido ) REFERENCES Pedido ( idPedido ) ON
 DELETE CASCADE ;
+
 
 ALTER TABLE Producto ADD CONSTRAINT Producto_Inventario_FK FOREIGN KEY (
 Inventario_idInventario ) REFERENCES Inventario ( idInventario ) ON
