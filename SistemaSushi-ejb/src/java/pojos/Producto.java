@@ -32,7 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p")
     , @NamedQuery(name = "Producto.findByIdproducto", query = "SELECT p FROM Producto p WHERE p.idproducto = :idproducto")
     , @NamedQuery(name = "Producto.findByNombre", query = "SELECT p FROM Producto p WHERE p.nombre = :nombre")
-    , @NamedQuery(name = "Producto.findByImagen", query = "SELECT p FROM Producto p WHERE p.imagen = :imagen")
     , @NamedQuery(name = "Producto.findByCantidad", query = "SELECT p FROM Producto p WHERE p.cantidad = :cantidad")
     , @NamedQuery(name = "Producto.findByValor", query = "SELECT p FROM Producto p WHERE p.valor = :valor")})
 public class Producto implements Serializable {
@@ -49,11 +48,6 @@ public class Producto implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "NOMBRE")
     private String nombre;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "IMAGEN")
-    private String imagen;
     @Basic(optional = false)
     @NotNull
     @Column(name = "CANTIDAD")
@@ -76,10 +70,9 @@ public class Producto implements Serializable {
         this.idproducto = idproducto;
     }
 
-    public Producto(BigDecimal idproducto, String nombre, String imagen, BigInteger cantidad, BigInteger valor) {
+    public Producto(BigDecimal idproducto, String nombre, BigInteger cantidad, BigInteger valor) {
         this.idproducto = idproducto;
         this.nombre = nombre;
-        this.imagen = imagen;
         this.cantidad = cantidad;
         this.valor = valor;
     }
@@ -98,14 +91,6 @@ public class Producto implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
     }
 
     public BigInteger getCantidad() {

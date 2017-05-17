@@ -39,7 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Pedido.findByIdpedido", query = "SELECT p FROM Pedido p WHERE p.idpedido = :idpedido")
     , @NamedQuery(name = "Pedido.findByValor", query = "SELECT p FROM Pedido p WHERE p.valor = :valor")
     , @NamedQuery(name = "Pedido.findByFecha", query = "SELECT p FROM Pedido p WHERE p.fecha = :fecha")
-    , @NamedQuery(name = "Pedido.findByEstado", query = "SELECT p FROM Pedido p WHERE p.estado = :estado")})
+    , @NamedQuery(name = "Pedido.findByEstado", query = "SELECT p FROM Pedido p WHERE p.estado = :estado")
+    , @NamedQuery(name = "Pedido.findByDetalle", query = "SELECT p FROM Pedido p WHERE p.detalle = :detalle")})
 public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,8 +64,16 @@ public class Pedido implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "ESTADO")
     private String estado;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "DETALLE")
+    private String detalle;
     @OneToMany(mappedBy = "pedidoIdpedido")
     private Collection<Producto> productoCollection;
+    @JoinColumn(name = "DIRECCION_IDDIRECCION", referencedColumnName = "IDDIRECCION")
+    @ManyToOne(optional = false)
+    private Direccion direccionIddireccion;
     @JoinColumn(name = "USUARIO_IDUSUARIO", referencedColumnName = "IDUSUARIO")
     @ManyToOne(optional = false)
     private Usuario usuarioIdusuario;
@@ -76,11 +85,12 @@ public class Pedido implements Serializable {
         this.idpedido = idpedido;
     }
 
-    public Pedido(BigDecimal idpedido, BigInteger valor, Date fecha, String estado) {
+    public Pedido(BigDecimal idpedido, BigInteger valor, Date fecha, String estado, String detalle) {
         this.idpedido = idpedido;
         this.valor = valor;
         this.fecha = fecha;
         this.estado = estado;
+        this.detalle = detalle;
     }
 
     public BigDecimal getIdpedido() {
@@ -115,6 +125,14 @@ public class Pedido implements Serializable {
         this.estado = estado;
     }
 
+    public String getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+
     @XmlTransient
     public Collection<Producto> getProductoCollection() {
         return productoCollection;
@@ -122,6 +140,14 @@ public class Pedido implements Serializable {
 
     public void setProductoCollection(Collection<Producto> productoCollection) {
         this.productoCollection = productoCollection;
+    }
+
+    public Direccion getDireccionIddireccion() {
+        return direccionIddireccion;
+    }
+
+    public void setDireccionIddireccion(Direccion direccionIddireccion) {
+        this.direccionIddireccion = direccionIddireccion;
     }
 
     public Usuario getUsuarioIdusuario() {

@@ -144,7 +144,6 @@ public class ProductoBean implements Serializable {
             this.producto.setCantidad(cantidad);
             this.producto.setValor(valor);
 
-            this.producto.setImagen("imagentest");
             this.productoFacade.create(producto);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto " + this.producto.getNombre() + " ingresado."));
             return "registroProducto";
