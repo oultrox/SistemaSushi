@@ -9,7 +9,11 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -47,20 +51,18 @@ public class PedidoBean {
      */
     private Pedido pedido;
     private Usuario usuario;
-    private static ArrayList<Producto> productos =new ArrayList<>();;
+    private static ArrayList<Producto> productos = new ArrayList<>();
 
-    public PedidoBean() 
-    {
-       pedido = new Pedido();
+    public PedidoBean() {
+        pedido = new Pedido();
     }
 
     public List<Pedido> getPedidos() {
         return pedidoFacade.findAll();
     }
-    
-    public List<Producto> getProductosCarrito()
-    {
-       return productos;
+
+    public List<Producto> getProductosCarrito() {
+        return productos;
     }
 
     public PedidoFacadeLocal getPedidoFacade() {
@@ -79,7 +81,33 @@ public class PedidoBean {
         this.pedido = pedido;
     }
 
-    private String modificarPedido() {
+    public List<Pedido> pedidosHoy() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
+        LocalDate localDate = LocalDate.now();
+        List<Pedido> pd = this.pedidoFacade.findAll();
+        pd.clear();
+        for (Pedido pdido : this.pedidoFacade.findAll()) {
+            if (pdido.getFecha().after(Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                    || pdido.getFecha().equals(Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
+                pd.add(pdido);
+            }
+        }
+        return pd;
+    }
+
+    public String aprobarPago(int idPedido) {
+        Pedido pd = this.pedidoFacade.find(idPedido);
+        pd.setEstado("Pagado");
+        this.pedidoFacade.edit(pd);
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                FacesMessage.SEVERITY_INFO, "Pedido enviado a despacho exitosamente!!!",
+                "Pedido N" + pd.getIdpedido() + " Pagado"));
+
+        return "aprobarVentas";
+    }
+
+    public String modificarPedido() {
         Pedido ped = pedidoFacade.find(pedido.getIdpedido());
         ped.setValor(pedido.getValor());
         ped.setFecha(pedido.getFecha());
@@ -90,79 +118,71 @@ public class PedidoBean {
         return "mantenedorPedido";
     }
 
-    private String eliminarPedido() {
+    public String eliminarPedido() {
         Pedido ped = pedidoFacade.find(pedido.getIdpedido());
         this.pedidoFacade.remove(ped);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Pedido Eliminado"));
         return "mantenedorPedido";
     }
     private boolean loggedIn;
+
     //---------------------------------------------------------------------------
     //                          Carrito de compras espero yo.
     //-------------------------------------------------------------------------
-    public void anadirCarrito(BigDecimal id)
-    {
+    public void anadirCarrito(BigDecimal id) {
         RequestContext context = RequestContext.getCurrentInstance();
-        try{
+        try {
             Producto p = productoFacade.find(id);
             p.setCantidad(BigInteger.ONE); // seteo la cantidad en 1 siempre para el objeto nuevo a añadir al carrito.
             p.setInventarioIdinventario(null); //vuelvo nulo para que no se agregue a la bd como producto de inventario.
-            
+
             boolean encontrado = false;
-            for (Producto px: productos) 
-            {
-                if (px.getIdproducto() == p.getIdproducto())
-                {
+            for (Producto px : productos) {
+                if (px.getIdproducto() == p.getIdproducto()) {
                     encontrado = true;
                     int suma = px.getCantidad().intValue();
                     suma++;
-                    px.setCantidad(BigInteger.valueOf(suma));  
-                }  
+                    px.setCantidad(BigInteger.valueOf(suma));
+                }
             }
-            if (!encontrado) 
-            {
+            if (!encontrado) {
                 productos.add(p);
             }
-            
-            
+
             System.out.println(productos.size());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto Añadido al carrito.")); 
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto Añadido al carrito."));
             context.addCallbackParam("view", "promos.xhtml");
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error!", "El producto no ha podido ser añadido."));
             context.addCallbackParam("view", "promos.xhtml");
         }
-                    
+
     }
-       public void eliminarProductoCarrito(BigDecimal id)
-        {
-            ArrayList<Producto> pLista = new ArrayList<>();
-            for (Producto p : productos) {
-                if (p.getIdproducto() == id) 
-                {
-                    pLista.add(p);
-                }
+
+    public void eliminarProductoCarrito(BigDecimal id) {
+        ArrayList<Producto> pLista = new ArrayList<>();
+        for (Producto p : productos) {
+            if (p.getIdproducto() == id) {
+                pLista.add(p);
             }
-            
-            productos.removeAll(pLista);
         }
-       
-       public void limpiarCarrito()throws IOException 
-       {
-            productos.removeAll(productos);       
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
-            
+
+        productos.removeAll(pLista);
+    }
+
+    public void limpiarCarrito() throws IOException {
+        productos.removeAll(productos);
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+
+    }
+
+    public double getTotalCarrito() {
+        double total = 0;
+        for (Producto px : productos) {
+            total += px.getValor().doubleValue() * px.getCantidad().doubleValue();
         }
-       
-       public double getTotalCarrito()
-       {
-           double total = 0;
-           for (Producto px : productos) {
-               total += px.getValor().doubleValue() * px.getCantidad().doubleValue();
-           }
-           return total;
-       }
-       
+        return total;
+    }
+
 }

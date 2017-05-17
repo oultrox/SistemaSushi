@@ -317,6 +317,24 @@ public class UsuarioBean implements Serializable {
 
         }
     }
+    
+        public void verificarNivelUsuarioCajero() {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
+            if (u == null) {
+                context.getExternalContext().redirect("../index.xhtml");
+
+            } else {
+                int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
+                if (nivelUser != 5) {
+                    context.getExternalContext().redirect("../index.xhtml");
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
 
     public static boolean validarRut(String rut) {
         boolean validacion = false;
