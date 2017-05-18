@@ -42,7 +42,7 @@
                                              actionListener="#{pedidoBean.limpiarCarrito}"
                                      oncomplete="handleLoginRequest(xhr, status, args)"/>
                     <p:commandButton value="¡Confirmar compra!" update="carritoTable" 
-                                             action="confirmarCompra?faces-redirect=true"/>
+                                             action="#{pedidoBean.generarPedido}"/>
                 </center>
                
                </p:dialog>

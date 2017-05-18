@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -29,6 +28,8 @@ import pojos.Usuario;
 import servicios.PedidoFacadeLocal;
 import servicios.ProductoFacadeLocal;
 import servicios.UsuarioFacadeLocal;
+import java.util.Date;
+import pojos.Direccion;
 
 /**
  *
@@ -177,12 +178,31 @@ public class PedidoBean {
 
     }
 
-    public double getTotalCarrito() {
-        double total = 0;
+    public long getTotalCarrito() {
+        long total = 0;
         for (Producto px : productos) {
             total += px.getValor().doubleValue() * px.getCantidad().doubleValue();
         }
         return total;
     }
 
+    public String generarPedido(Direccion direccion)
+    {
+        pedido.setDetalle("Compras");
+        pedido.setIdpedido(BigDecimal.ZERO);
+        //qué fastidio lo de big integer, me hizo convertir el total en long...
+        pedido.setValor(BigInteger.valueOf(getTotalCarrito()));
+        
+        Date date = new Date();
+        pedido.setFecha(date);
+        pedido.setEstado("EN PROCESO");
+        
+        //aun no implementado
+        pedido.setDireccionIddireccion(direccion);
+        //No estoy seguro de esto asdasksdlak
+        pedido.setUsuarioIdusuario(usuario);
+        
+        return "confirmarCompra";
+        
+    }
 }
