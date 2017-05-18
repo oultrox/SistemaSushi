@@ -1,0 +1,66 @@
+<ui:composition template="templateCliente.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Sistema SUSHI
+    </ui:define>
+
+    <ui:define name="content">
+        <center>
+            <h1>Ingresa Nueva Dirección</h1>
+        </center>
+        <h:form id="form">
+            <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
+            <p:fieldset id="Registrar" legend="Formulario de registro de direcciones" 
+                        style="margin-top: 20px; width: 500px;">
+                <h:panelGrid columns="2" cellpadding="5">  
+
+                    <h:outputText value="COMUNA" /> 
+                    <p:inputText value="#{direccionBean.direccion.comuna}" size="26"
+                                 id="comunaDireccion"
+                                 required="true" placeholder="Ingrese la comuna" 
+                                 requiredMessage="Debe seleccionar una comuna"/>
+
+                    <h:outputText value="CALLE" /> 
+                    <p:inputText value="#{direccionBean.direccion.calle}" size="26"
+                                 id="calleDireccion"
+                                 required="true" placeholder="Ingrese la calle" 
+                                 requiredMessage="Debe ingresar una calle"/>
+
+                    <h:outputText value="NUMERO" /> 
+                    <p:column  colspan="2">
+                        <p:spinner id="numeroDireccion" 
+                                   required="true"
+                                   value="numero" 
+                                   min="0" stepFactor="100" />
+                    </p:column>
+
+                    <h:outputText value="DEPTO" /> 
+                    <p:inputText value="#{direccionBean.direccion.depto}" size="26"
+                                 id="calleDireccion"
+                                 placeholder="Ingrese el numero del depto"/>
+
+                    <br/>
+                    
+                    <h:outputText value="OBSERVACIONES DE DIRECCIÓN" /> 
+                    <p:inputText value="#{direccionBean.direccion.detalledireccion}" size="26"
+                                 id="observacionDireccion"
+                                 placeholder="Ingrese una observación"/>
+
+
+                    <p:commandButton value="Agregar Dirección"  id="btnAddDireccion"
+                                     update="msgs"
+                                     action=""/>       
+                </h:panelGrid>
+
+
+            </p:fieldset>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
