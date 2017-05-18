@@ -45,7 +45,6 @@ public class ProductoBean implements Serializable {
     @EJB
     private PedidoFacadeLocal pedidoFacade;
 
-    
     /**
      * Creates a new instance of ProductoBean
      */
@@ -98,10 +97,9 @@ public class ProductoBean implements Serializable {
     public List<Producto> getProductos() {
         return productoFacade.findAll();
     }
-    
+
     //consigo los procutos que no tienen ningun inventario asociado!
-    public List<Producto> getProductosInventariables() 
-    {
+    public List<Producto> getProductosInventariables() {
         List<Producto> productos = productoFacade.findAll();
         List<Producto> productosInventario = productoFacade.findAll();
         productosInventario.removeAll(productosInventario);
@@ -215,47 +213,46 @@ public class ProductoBean implements Serializable {
             System.out.println(e.getMessage());
         }
     }
-    
-   public void anadirInventarioProducto(BigDecimal id)
-   {
-       try
-       {
+
+    public void anadirInventarioProducto(BigDecimal id) {
+        try {
             //llamamos al producto seleccionado
             Producto ped = productoFacade.find(id);
+            Producto pro = new Producto();
+            pro.setIdproducto(BigDecimal.valueOf(1));
+            pro.setNombre(ped.getNombre());
+            pro.setCantidad(ped.getCantidad());
+            pro.setValor(ped.getValor());
 
             //buscamos el primer item de nuestra bd de inventarios, ya que usaremos
             //solo una tabla de inventario para el sistema. o por lo menos así
             //es lo actual, dispuesto a cambios.
             List<Inventario> inv = inventarioFacade.findAll();
             //se asigna el producto al inventario para que al fin salga en la tienda online!
-            ped.setInventarioIdinventario(inv.get(0));
-            productoFacade.edit(ped);
+            pro.setInventarioIdinventario(inv.get(0));
+            this.productoFacade.create(pro);
             FacesMessage msg = new FacesMessage("Exitoso! producto agregado al inventario online.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-       }catch(Exception e)
-       {
+        } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Error! producto no pudo ser"
                     + " agregado. ¿No hay un inventario disponible?");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-       }
-   }
-   
-   //funcion para sacar los productos del stock online del inventario.
-   public void sacarInventarioProducto(BigDecimal id)
-   {
-       try
-       {
-        Producto ped = productoFacade.find(id);
-        ped.setInventarioIdinventario(null);
-        productoFacade.edit(ped);
-        FacesMessage msg = new FacesMessage("Exitoso! producto sacado del inventario online.");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-       }catch(Exception e)
-       {
+        }
+    }
+
+    //funcion para sacar los productos del stock online del inventario.
+    public void sacarInventarioProducto(BigDecimal id) {
+        try {
+            Producto ped = productoFacade.find(id);
+            ped.setInventarioIdinventario(null);
+            productoFacade.edit(ped);
+            FacesMessage msg = new FacesMessage("Exitoso! producto sacado del inventario online.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Error! producto no pudo ser"
                     + " agregado. ¿No hay un inventario disponible?");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-       }
-   }
+        }
+    }
 
 }

@@ -215,6 +215,7 @@ public class UsuarioBean implements Serializable {
                     case 4:
                         break;
                     case 5:
+                        context.addCallbackParam("view", "../Cajero/inicioCajero.xhtml");
                         break;
                     default:
                         throw new AssertionError();
@@ -411,7 +412,7 @@ public class UsuarioBean implements Serializable {
                     + "\nGracias por ingresar al sistema de compras de Sushi a domicilio"
                     + "\n\n"
                     + "CODIGO DE ACTIVACION: " + this.usuario.getActivado()
-                    + "\n <a href='http://localhost:8081/SistemaSushi-war/faces/activacionCuenta.xhtml'> Clickea aquí para activar </a>"
+                    + "\n <a href='http://localhost:8081/SistemaSushi-war/faces/Visita/activacionCuenta.xhtml'> Clickea aquí para activar </a>"
                     + "SUS DATOS SON:"
                     + "\n Rut :" + this.usuario.getRut()
                     + "\n Correo: " + this.usuario.getEmail()

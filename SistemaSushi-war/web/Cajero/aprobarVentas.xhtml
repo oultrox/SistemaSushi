@@ -16,7 +16,7 @@
         </center>
 
         <h:form id="ventas">
-            <p:dataTable id="checkVentas" var="ven" value="#{pedidoBean.pedidosHoy}" >
+            <p:dataTable id="checkVentas" var="ven" value="#{pedidoBean.pedidosHoy()}" >
                 <p:column headerText="Numero">
                     <h:outputText value="#{ven.idpedido}" />
                 </p:column>
