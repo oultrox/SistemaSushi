@@ -16,7 +16,7 @@
         <h:form id="form">
             <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
 
-            <p:dataTable value="#{direccionBean.direcciones}" var="d" id="verDirecciones">
+            <p:dataTable value="#{direccionBean.obtenerComunas()}" var="d" id="verDirecciones">
                 <p:column headerText="ID">
                     <h:outputText value="#{d.iddireccion}"/>
                 </p:column>

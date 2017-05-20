@@ -6,9 +6,17 @@
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/DireccionBean.java</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/addDireccionAdmin.xhtml</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/mantenedorProducto.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/mantenedorDireccionAdmin.xhtml</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Cliente/addDireccionCliente.xhtml</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/index.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/menuAdmin.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Cliente/verDirecciones.xhtml</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/PedidoBean.java</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/registroProducto.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/inventarioActivo.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/ProductoBean.java</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/index.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/UsuarioBean.java</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Cliente/menuCliente.xhtml</file>
         </group>
     </open-files>
 </project-private>
