@@ -14,38 +14,42 @@
             <p:menubar>
                 <p:menuitem value="Inicio" outcome="inicioCliente.xhtml" icon="ui-icon-home" />
                 <p:menuitem value="Perfil" outcome="mantenedorCliente.xhtml" icon="ui-icon-home" />
-                <p:menuitem value="Direcciones" outcome="verDirecciones.xhtml" icon="ui-icon-home" />
+                <p:submenu label="Direcciones" icon="ui-icon-help">
+                     <p:menuitem value="Direcciones" outcome="addDireccionCliente.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Ver mis direcciones" outcome="verDirecciones.xhtml" icon="ui-icon-person" />
+                </p:submenu>
+               
                 <p:menuitem value="Comprar" outcome="promos.xhtml" icon="ui-icon-person" />
                 <p:menuitem value="Carrito" onclick="PF('dlg3').show();" /> 
                 <p:menuitem value="Cerrar Sesion" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
-                </p:menubar>
+            </p:menubar>
             <p:dialog header="Carrito de compras" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="300" width="600">
                 <h:outputText value="Aquí debe ir la tabla de todos los productos en el carrito" />
                 <p:dataTable value="#{pedidoBean.productosCarrito}" var="a" id="carritoTable">
-                        <p:column headerText="Nombre del Producto">
-                            <h:outputText value="#{a.nombre}"/>
-                        </p:column>
-                        <p:column headerText="Cantidad del Producto">
-                            <h:outputText value="#{a.cantidad}"/>
-                        </p:column>
-                        <p:column headerText="Precio del Producto">
-                            <h:outputText value="#{a.valor}"/>
-                        </p:column>
-                        <p:column headerText="Eliminar">
-                            <p:commandButton value="Limpiar" update="carritoTable" 
-                                             actionListener="#{pedidoBean.eliminarProductoCarrito(a.idproducto)}"/>
-                        </p:column>
+                    <p:column headerText="Nombre del Producto">
+                        <h:outputText value="#{a.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Cantidad del Producto">
+                        <h:outputText value="#{a.cantidad}"/>
+                    </p:column>
+                    <p:column headerText="Precio del Producto">
+                        <h:outputText value="#{a.valor}"/>
+                    </p:column>
+                    <p:column headerText="Eliminar">
+                        <p:commandButton value="Limpiar" update="carritoTable" 
+                                         actionListener="#{pedidoBean.eliminarProductoCarrito(a.idproducto)}"/>
+                    </p:column>
                 </p:dataTable>
-                
+
                 <center>
                     <p:commandButton value="Limpiar carrito" update="carritoTable" 
-                                             actionListener="#{pedidoBean.limpiarCarrito}"
+                                     actionListener="#{pedidoBean.limpiarCarrito}"
                                      oncomplete="handleLoginRequest(xhr, status, args)"/>
                     <p:commandButton value="¡Confirmar compra!" update="carritoTable" 
-                                             action="#{pedidoBean.generarPedido}"/>
+                                     action="#{pedidoBean.generarPedido}"/>
                 </center>
-               
-               </p:dialog>
+
+            </p:dialog>
         </h:form>
     </h:body>
 </html>

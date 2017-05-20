@@ -37,7 +37,7 @@ public class DireccionBean {
     private Usuario usuario;
 
     public DireccionBean() {
-
+        direccion = new Direccion();
     }
 
     public List<Direccion> getDirecciones() {
@@ -60,23 +60,73 @@ public class DireccionBean {
         this.direccion = direccion;
     }
 
-    private String ingresarDireccion() {
+    private Direccion buscarDireccionxComuna() {
+        Direccion d = new Direccion();
+        List<Direccion> direcciones = this.obtenerComunas();
+        for (Direccion direccione : direcciones) {
+            if (direccione.getComuna().equals(this.direccion.getComuna())) {
+                d = direccione;
+            }
+        }
+        return d;
+    }
+
+    public String crearDireccionCliente() {
+        try {
+
+            Direccion dTemplate = this.direccionFacade.find(buscarDireccionxComuna().getIddireccion());
+
+            this.direccion.setIddireccion(BigDecimal.valueOf(1));
+            this.direccion.setComuna(dTemplate.getComuna());
+            this.direccion.setProvincia(dTemplate.getProvincia());
+            this.direccion.setRegion(dTemplate.getRegion());
+            this.direccion.setCalle(this.direccion.getCalle());
+            this.direccion.setNumero(this.direccion.getNumero());
+            this.direccion.setDepto(this.direccion.getDepto());
+            this.direccion.setDetalledireccion(this.direccion.getDetalledireccion());
+            this.direccion.setUsuarioIdusuario(usuarioFacade.find(obtenerEsteCliente().getIdusuario()));
+            this.direccionFacade.create(direccion);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Ingresado!", "¡Dirección Ingresada!."));
+            return "addDireccionCliente";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
+            return "addDireccionCliente";
+        }
+    }
+
+    private Usuario obtenerEsteCliente() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
+        return u;
+    }
+
+    public List<Direccion> obtenerDireccionesClientes() {
+        List<Direccion> direcciones = this.direccionFacade.findAll();
+        List<Direccion> dires = this.direccionFacade.findAll();
+        direcciones.clear();
+        for (Direccion direccion1 : dires) {
+            if (direccion1.getUsuarioIdusuario() != null) {
+                if (direccion1.getUsuarioIdusuario().getIdusuario().equals(this.obtenerEsteCliente().getIdusuario())) {
+                    direcciones.add(direccion1);
+                }
+            }
+
+        }
+        return direcciones;
+    }
+
+    public String crearDireccionAdmin() {
         try {
             this.direccion.setIddireccion(BigDecimal.valueOf(1));
             this.direccion.setComuna(this.direccion.getComuna());
             this.direccion.setProvincia(this.direccion.getProvincia());
             this.direccion.setRegion(this.direccion.getRegion());
-            this.direccion.setCalle(this.direccion.getCalle());
-            this.direccion.setNumero(this.direccion.getNumero());
-            this.direccion.setDepto(this.direccion.getDepto());
-            this.direccion.setDetalledireccion(this.direccion.getDetalledireccion());
-            this.direccion.setUsuarioIdusuario(usuarioFacade.find(usuario.getIdusuario()));
             this.direccionFacade.create(direccion);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Ingresado!", "¡Dirección Ingresada!."));
-            return "ingresarDireccion";
+            return "mantenedorDireccionAdmin";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
-            return "ingresarDireccion";
+            return "addDireccionAdmin";
         }
     }
 
@@ -100,10 +150,21 @@ public class DireccionBean {
         }
     }
 
-    private String eliminarDireccion() {
-        Direccion dir = direccionFacade.find(direccion.getIddireccion());
+    public String eliminarDireccion(Direccion d) {
+        Direccion dir = direccionFacade.find(d.getIddireccion());
         this.direccionFacade.remove(dir);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Nivel Usuario Eliminado"));
-        return "mantenedorDireccion";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Direccion eliminada"));
+        return "mantenedorDireccionAdmin";
+    }
+
+    public List<Direccion> obtenerComunas() {
+        List<Direccion> direcciones = this.direccionFacade.findAll();
+        direcciones.clear();
+        for (Direccion direccione : this.direccionFacade.findAll()) {
+            if (direccione.getUsuarioIdusuario() == null) {
+                direcciones.add(direccione);
+            }
+        }
+        return direcciones;
     }
 }

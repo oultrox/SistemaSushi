@@ -12,7 +12,7 @@ import pojos.Nivelusuario;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Stateless
 public class NivelusuarioFacade extends AbstractFacade<Nivelusuario> implements NivelusuarioFacadeLocal {

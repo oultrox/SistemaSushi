@@ -21,30 +21,31 @@
 
                     <h:outputText value="REGIÓN" /> 
                     <p:inputText value="#{direccionBean.direccion.region}" size="26"
-                                 id="calleDireccion"
-                                 required="true" placeholder="Ingrese la calle" 
-                                 requiredMessage="Debe ingresar una calle"/>
-                    
+                                 id="regionDireccion"
+                                 required="true" placeholder="Selecciones la región" 
+                                 requiredMessage="Debe ingresar la región"/>
+
                     <h:outputText value="PROVINCIA" /> 
                     <p:inputText value="#{direccionBean.direccion.provincia}" size="26"
-                                 id="calleDireccion"
-                                 required="true" placeholder="Ingrese la calle" 
-                                 requiredMessage="Debe ingresar una calle"/>
-                    
+                                 id="provinciaDireccion"
+                                 required="true" placeholder="Seleccione una provincia" 
+                                 requiredMessage="Debe ingresar una provincia"/>
+
                     <h:outputText value="COMUNA" /> 
                     <p:inputText value="#{direccionBean.direccion.comuna}" size="26"
                                  id="comunaDireccion"
-                                 required="true" placeholder="Ingrese la comuna" 
+                                 required="true" placeholder="Selecciones la comuna" 
                                  requiredMessage="Debe seleccionar una comuna"/>
 
 
                     <p:commandButton value="Agregar Dirección"  id="btnAddDireccion"
                                      update="msgs"
-                                     action=""/>       
+                                     action="#{direccionBean.crearDireccionAdmin()}"/>       
                 </h:panelGrid>
 
 
             </p:fieldset>
+
         </h:form>
 
     </ui:define>

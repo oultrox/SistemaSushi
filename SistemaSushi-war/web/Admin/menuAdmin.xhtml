@@ -23,6 +23,13 @@
                      <p:menuitem value="Crear Inventario" outcome="inventarioActivo.xhtml" icon="ui-icon-person" />
                     <p:menuitem value="Editar Inventario" icon="ui-icon-person" />
                 </p:submenu>
+                
+                <p:submenu label="Direcciones" icon="ui-icon-help">
+                     <p:menuitem value="Agregar Direcciones" outcome="addDireccionAdmin.xhtml" icon="ui-icon-person" />
+                     <p:menuitem value="Ver direcciones" outcome="mantenedorDireccionAdmin.xhtml" icon="ui-icon-person" />
+                </p:submenu>
+                
+                
 
                
                 <p:menuitem value="Cerrar Sesion" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />

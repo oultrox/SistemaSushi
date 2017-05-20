@@ -2,13 +2,13 @@ package pojos;
 
 import java.math.BigDecimal;
 import javax.annotation.Generated;
-import javax.persistence.metamodel.CollectionAttribute;
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import pojos.Pedido;
 import pojos.Usuario;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-18T17:11:39")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-05-19T22:43:52")
 @StaticMetamodel(Direccion.class)
 public class Direccion_ { 
 
@@ -18,8 +18,8 @@ public class Direccion_ {
     public static volatile SingularAttribute<Direccion, String> calle;
     public static volatile SingularAttribute<Direccion, String> comuna;
     public static volatile SingularAttribute<Direccion, Usuario> usuarioIdusuario;
+    public static volatile ListAttribute<Direccion, Pedido> pedidoList;
     public static volatile SingularAttribute<Direccion, String> depto;
-    public static volatile CollectionAttribute<Direccion, Pedido> pedidoCollection;
     public static volatile SingularAttribute<Direccion, String> provincia;
     public static volatile SingularAttribute<Direccion, String> region;
 

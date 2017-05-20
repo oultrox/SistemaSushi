@@ -7,9 +7,8 @@ package pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Entity
 @Table(name = "DIRECCION")
@@ -65,14 +64,10 @@ public class Direccion implements Serializable {
     @Size(min = 1, max = 15)
     @Column(name = "REGION")
     private String region;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "CALLE")
     private String calle;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 5)
+    @Size(max = 5)
     @Column(name = "NUMERO")
     private String numero;
     @Size(max = 5)
@@ -82,10 +77,10 @@ public class Direccion implements Serializable {
     @Column(name = "DETALLEDIRECCION")
     private String detalledireccion;
     @JoinColumn(name = "USUARIO_IDUSUARIO", referencedColumnName = "IDUSUARIO")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Usuario usuarioIdusuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "direccionIddireccion")
-    private Collection<Pedido> pedidoCollection;
+    @OneToMany(mappedBy = "direccionIddireccion")
+    private List<Pedido> pedidoList;
 
     public Direccion() {
     }
@@ -94,13 +89,11 @@ public class Direccion implements Serializable {
         this.iddireccion = iddireccion;
     }
 
-    public Direccion(BigDecimal iddireccion, String comuna, String provincia, String region, String calle, String numero) {
+    public Direccion(BigDecimal iddireccion, String comuna, String provincia, String region) {
         this.iddireccion = iddireccion;
         this.comuna = comuna;
         this.provincia = provincia;
         this.region = region;
-        this.calle = calle;
-        this.numero = numero;
     }
 
     public BigDecimal getIddireccion() {
@@ -176,12 +169,12 @@ public class Direccion implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Pedido> getPedidoCollection() {
-        return pedidoCollection;
+    public List<Pedido> getPedidoList() {
+        return pedidoList;
     }
 
-    public void setPedidoCollection(Collection<Pedido> pedidoCollection) {
-        this.pedidoCollection = pedidoCollection;
+    public void setPedidoList(List<Pedido> pedidoList) {
+        this.pedidoList = pedidoList;
     }
 
     @Override

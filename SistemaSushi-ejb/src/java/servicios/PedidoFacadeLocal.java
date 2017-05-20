@@ -11,7 +11,7 @@ import pojos.Pedido;
 
 /**
  *
- * @author Yisus
+ * @author Centro de Trabajo
  */
 @Local
 public interface PedidoFacadeLocal {

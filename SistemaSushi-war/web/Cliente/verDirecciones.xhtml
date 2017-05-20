@@ -14,7 +14,7 @@
             <p:growl id="msgs"/>
             <h1>Tus direcciones guardadas</h1>
             <br/>
-            <p:dataTable value="#{direccionBean.direccion}" var="d">
+            <p:dataTable value="#{direccionBean.obtenerDireccionesClientes()}" var="d">
                 <p:column headerText="Comuna">
                     <h:outputText value="#{d.comuna}"/>
                 </p:column>
@@ -34,7 +34,7 @@
                     <h:outputText value="#{d.depto}"/>
                 </p:column>
                 <p:column headerText="Detalle Dirección">
-                    <h:outputText value="#{d.detalleDireccion}"/>
+                    <h:outputText value="#{d.detalledireccion}"/>
                 </p:column>
                 <p:column style="width:32px;text-align: center" headerText="Editar">
                     <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
