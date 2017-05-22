@@ -36,37 +36,7 @@
                 <p:column headerText="Detalle Dirección">
                     <h:outputText value="#{d.detalledireccion}"/>
                 </p:column>
-                <p:column style="width:32px;text-align: center" headerText="Editar">
-                    <p:commandButton update=":form:panel" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{d}" target="#{direccionBean.direccion}"/>
-                    </p:commandButton>
-                </p:column>
             </p:dataTable>
-            <p:dialog header="Información Detalle" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="panel" style="text-align:center;">
-                    <p:panelGrid  columns="2">
-                        <h:outputText value="Comuna"/>
-                        <h:inputText value="#{direccionBean.direccion.comuna}" />
-                        <h:outputText value="Provincia"/>
-                        <h:inputText value="#{direccionBean.direccion.provincia}" />
-                        <h:outputText value="Region" />
-                        <h:inputText value="#{direccionBean.direccion.region}" />
-                        <h:outputText value="Calle" />
-                        <p:inputText value="#{direccionBean.direccion.calle}"/>
-                        <h:outputText value="Numero"/>
-                        <h:inputText value="#{direccionBean.direccion.numero}" />
-                        <h:outputText value="Departamento"/>
-                        <h:inputText value="#{direccionBean.direccion.depto}" />
-                        <h:outputText value="Detalle Dirección"/>
-                        <h:inputText value="#{direccionBean.direccion.detalledireccion}" />
-                        <p:commandButton value="Actualizar" update="msgs"
-                                         actionListener="#{DetalleBean.modificarProducto()}"/>
-                        <p:commandButton value="Eliminar" update="msgs"
-                                         actionListener="#{DetalleBean.eliminarProducto()}"/> 
-                    </p:panelGrid>
-                </p:outputPanel>
-            </p:dialog>
-            <p:commandButton value="Agregar Dirección" action="registroDireccion.xhtml"/>
         </h:form>
     </ui:define>
 </ui:composition>
