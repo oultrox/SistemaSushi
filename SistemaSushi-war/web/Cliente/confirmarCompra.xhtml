@@ -12,35 +12,29 @@
         <!-- Listar productos del carro aqui -->
         <center>
             <h3>Total a Pagar: <h:outputText value="#{pedidoBean.totalCarrito}"/></h3> <!-- a modo de ejemplo -->
-            <form action="https://www.pagomaster.com/cl/cuenta/?cmd=checkout2" method="post">
-                <input type="hidden" name="merchantAccount" value="rodrigonicolascp@gmail.com"/>
-                <input type="hidden" name="amount" value="#{pedidoBean.totalCarrito}"/> <!-- Aqui va el total a pagar -->
-                <input type="hidden" name="currency" value="CLP"/>
-                <input type="hidden" name="item_id" value="Compra en Fukusuke Sushi"/>
-                <input type="hidden" name="setupFee" value=""/>
-                <input type="hidden" name="return_url" value=""/> <!-- Link de compra exitosa -->
-                <input type="hidden" name="cancel_url" value=""/> <!-- Link de fail -->
-                <input type="hidden" name="stopNumber" value=""/>
-                <input type="hidden" name="stopRecurring" value=""/>
-                <input type="hidden" name="durationType" value=""/>
-                <input type="hidden" name="duration" value=""/>
-                <input type="hidden" name="merchant_logo" value=""/> <!-- Logo de la empresa -->
-                <input type="hidden" name="addresscheckoutstep" value="1"/>
-                <input type="hidden" name="additionalinfocheckoutstep" value="1"/>
-
-                <!-- Comprador !-->
-                <input type="hidden" name="namesbuyer" value="Nombres Comprador"/>
-                <input type="hidden" name="lastnamesbuyer" value="Apellidos Comprador"/>
-                <input type="hidden" name="emailbuyer" value="EmailComprador@email.com"/>
-                    
-                <input type="hidden" name="reselleraccount" value=""/>
-                <input type="hidden" name="ccSubscription" value=""/>
-                <input type="hidden" name="pst" value="1"/>
-                <input type="hidden" name="ipk" value="1"/>
-
-                <input type="image" name="cartImage" src="https://www.pagomaster.com/cl/cuenta/buttons/singleitems/boton_7_comprar.png"/> <!-- imagen del boton, se puede cambiar -->
-                <input type="button" name="volver" value="Volver"/>
-            </form>
+	<form action="https://www.pagomaster.com/cl/cuenta/?cmd=checkout2" method="post">
+	<input type=hidden name="merchantAccount" value="rotx.xxx@gmail.com">
+	<input type=hidden name="amount" value="4200">
+	<input type=hidden name="currency" value="CLP">
+	<input type=hidden name="item_id" value="FALAFEL">
+	<input type=hidden name="setupFee" value="">
+	<input type=hidden name="return_url" value="http://localhost:8081/SistemaSushi-war/faces/Cliente/transaccionExitosa.xhtml">
+	<input type=hidden name="cancel_url" value="http://localhost:8081/SistemaSushi-war/faces/Cliente/transaccionFallida.xhtml">
+	<input type=hidden name="stopNumber" value="">
+	<input type=hidden name="stopRecurring" value="">
+	<input type=hidden name="durationType" value="">
+	<input type=hidden name="duration" value="">
+	<input type=hidden name="merchant_logo" value="http://">
+	<input type=hidden name="addresscheckoutstep" value="1">
+	
+	
+	<input type=hidden name="reselleraccount" value="cine.dcl@gmail.com">
+	<input type=hidden name="ccSubscription" value="">
+	<input type=hidden name="pst" value="1">
+	<input type=hidden name="ipk" value="1">
+  	
+	<input type=image name="cartImage" src="https://www.pagomaster.com/cl/cuenta/buttons/singleitems/boton_1_comprar.png">
+	</form>
         </center>
     </ui:define>
 </ui:composition>             
