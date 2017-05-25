@@ -13,9 +13,12 @@
             <p:growl id="msgs"/>
             <h1>Tu perfil</h1>
             <br/>
-            <p:dataTable value="#{usuarioBean.userLogueado}" var="u">
+            <p:dataTable value="#{usuarioBean.userLogueado}" var="u" id="tablaCliente">
                 <p:column headerText="Nombre">
                     <h:outputText value="#{u.nombre}"/>
+                </p:column>
+                <p:column headerText="Apellido">
+                    <h:outputText value="#{u.apellidopaterno}"/>
                 </p:column>
                 <p:column headerText="Rut">
                     <h:outputText value="#{u.rut}"/>
@@ -32,31 +35,21 @@
             <p:dialog header="Información Detalle" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="panel" style="text-align:center;">
                     <p:panelGrid  columns="2">
-                        <h:outputText value="ID Usuario"/>
-                        <h:outputText value="#{usuarioBean.usuario.idusuario}" />
                         <h:outputText value="Nombre"/>
-                        <h:inputText value="#{usuarioBean.usuario.nombre}" />
-                        <h:outputText value="Rut"/>
-                        <h:inputText value="#{usuarioBean.usuario.rut}" />
-                        <h:outputText value="E-mail" />
-                        <h:inputText value="#{usuarioBean.usuario.email}" />
+                        <h:inputText value="#{usuarioBean.userLogueado.nombre}" />
+                        <h:outputText value="Apellido Paterno"/>
+                        <h:inputText value="#{usuarioBean.userLogueado.apellidopaterno}" />
                         <h:outputText value="Ingrese Contraseña nueva (Solo si desea cambiarla)" />
-                        <p:password id="clave1" value="#{usuarioBean.usuario.pass}"
+                        <p:password id="clave1" value="#{usuarioBean.userLogueado.pass}"
                                     match="clave2" placeholder="Ingresa una contraseña nueva" 
                                     validatorMessage="La contraseña no coincide"/>
                         <h:outputText value="Confirme Contraseña" />
-                        <p:password id="clave2" value="#{usuarioBean.usuario.pass}"
+                        <p:password id="clave2" value="#{usuarioBean.userLogueado.pass}"
                                     requiredMessage="Debe re-ingresar la clave nueva"
                                     placeholder="Confirma tu contraseña nueva"/>
-                        <h:outputText value="Nivel de Usuario"/>
-                        <p:selectOneMenu value="#{usuarioBean.usuario.nivelusuarioIdnivelusuario}">
-                            <f:selectItems value="#{nivelUsuarioBean.nivelUsuario}" var="nv"
-                                           itemLabel="#{nv.nombreNivelUsuario}" itemValue="#{nv.idNivelUsuario}"/>
-                        </p:selectOneMenu>
-                        <p:commandButton value="Actualizar" update="msgs"
-                                         actionListener="#{UsuarioBean.modificarUsuario()}"/>
-                        <p:commandButton value="Eliminar" update="msgs"
-                                          actionListener="#{UsuarioBean.eliminarUsuario()}"/> 
+                        <p:commandButton value="Actualizar" 
+                                         actionListener="#{usuarioBean.modificarUsuario()}"
+                                         update=":form, msgs"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>
