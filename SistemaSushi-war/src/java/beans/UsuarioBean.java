@@ -90,13 +90,14 @@ public class UsuarioBean implements Serializable {
     }
 
     //Progreso de el registro - WIP PROGRESO
-    public String signUp() {
+    public void signUp() {
+         RequestContext context = RequestContext.getCurrentInstance();
         try {
             if (validarRut(usuario.getRut())) {
                 if (existeEmail() || existeRut()) {
                     limpiarCliente(usuario);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Usuario ya existente en el sistema."));
-                    return "registroUsuario";
+                    context.addCallbackParam("view", "registroUsuario.xhtml");
                 } else {
                     //Generacion de key
                     this.usuario.setActivado(this.getCadenaAlfanumAleatoria(15));
@@ -116,21 +117,20 @@ public class UsuarioBean implements Serializable {
                         // -------------------------------------------------
                         this.usuarioFacade.create(usuario);
                         limpiarCliente(usuario);
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Usuario creado exitosamente!", "Ingrese con su rut y clave"));
-                        return "loginUsuario";
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Usuario creado exitosamente!", "Active su cuenta a través de su correo."));
+                        FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "loginUsuario.xhtml");
                     } else {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Correo no enviado. "));
-                        return "registroUsuario";
-                    }
+                        }
                 }
             } else {
                 limpiarCliente(usuario);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Rut invalido"));
-                return "registroUsuario";
+                
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
-            return "registroUsuario";
+            
         }
     }
 
@@ -421,7 +421,6 @@ public class UsuarioBean implements Serializable {
             );
 
             Transport.send(message);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Mensaje enviado exitosamente!!!"));
             return true;
         } catch (MessagingException e) {
             return false;
@@ -451,18 +450,19 @@ public class UsuarioBean implements Serializable {
 
     //Función simple que activa la cuenta tomando el valor del input text
     //y comparandolo con todos en la base de datos.
-    public String activarCuenta() {
+    public void activarCuenta() {
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
             if (usuario1.getActivado().equals(usuario.getActivado()) && !usuario1.getActivado().equals("activo")) {
                 usuario1.setActivado("activado");
                 this.usuarioFacade.edit(usuario1);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Cuenta activada exitosamente!!!"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("¡Cuenta activada exitosamente!"));
 
-                return "LoginUsuario";
+                FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "loginUsuario.xhtml");
+                    
             }
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Código incorrecto"));
-        return "activacionCuenta";
+        
     }
 }
