@@ -15,10 +15,10 @@
                 <p:menuitem value="Inicio" outcome="inicioCliente.xhtml" icon="ui-icon-home" />
                 <p:menuitem value="Perfil" outcome="mantenedorCliente.xhtml" icon="ui-icon-home" />
                 <p:submenu label="Direcciones" icon="ui-icon-help">
-                     <p:menuitem value="Agregar Dirección" outcome="addDireccionCliente.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Agregar Dirección" outcome="addDireccionCliente.xhtml" icon="ui-icon-person" />
                     <p:menuitem value="Ver mis direcciones" outcome="verDirecciones.xhtml" icon="ui-icon-person" />
                 </p:submenu>
-               
+
                 <p:menuitem value="Comprar" outcome="promos.xhtml" icon="ui-icon-person" />
                 <p:menuitem value="Carrito" onclick="PF('dlg3').show();" /> 
                 <p:menuitem value="Cerrar Sesión" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
@@ -40,13 +40,19 @@
                                          actionListener="#{pedidoBean.eliminarProductoCarrito(a.idproducto)}"/>
                     </p:column>
                 </p:dataTable>
-
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:outputLabel for="delivery" value="Console:" />
+                    <p:selectOneRadio id="delivery" value="#{pedidoBean.delivery}">
+                        <f:selectItem itemLabel="Retiro en local" itemValue="false" />
+                        <f:selectItem itemLabel="Delivery" itemValue="true" />
+                    </p:selectOneRadio>
+                </h:panelGrid>
                 <center>
                     <p:commandButton value="Limpiar carrito" update="carritoTable" 
                                      actionListener="#{pedidoBean.limpiarCarrito}"
                                      oncomplete="handleLoginRequest(xhr, status, args)"/>
                     <p:commandButton value="¡Confirmar compra!" update="carritoTable" 
-                                     action="#{pedidoBean.generarPedido}"/>
+                                     action="#{pedidoBean.verificarDireccion()}"/>
                 </center>
 
             </p:dialog>

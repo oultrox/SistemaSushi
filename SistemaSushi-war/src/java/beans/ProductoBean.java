@@ -35,13 +35,13 @@ import servicios.ProductoFacadeLocal;
 @Named(value = "productoBean")
 @SessionScoped
 public class ProductoBean implements Serializable {
-
+    
     @EJB
     private InventarioFacadeLocal inventarioFacade;
-
+    
     @EJB
     private ProductoFacadeLocal productoFacade;
-
+    
     @EJB
     private PedidoFacadeLocal pedidoFacade;
 
@@ -55,45 +55,45 @@ public class ProductoBean implements Serializable {
     private ArrayList<Producto> productosCarrito;
     private int cantidadP;
     private int valorP;
-
+    
     public ProductoBean() {
         producto = new Producto();
         productosCarrito = new ArrayList<>();
         pedido = new Pedido();
     }
-
+    
     public int getCantidadP() {
         return cantidadP;
     }
-
+    
     public void setCantidadP(int cantidadP) {
         this.cantidadP = cantidadP;
     }
-
+    
     public int getValorP() {
         return valorP;
     }
-
+    
     public void setValorP(int valorP) {
         this.valorP = valorP;
     }
-
+    
     public Producto getProducto() {
         return producto;
     }
-
+    
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
-
+    
     public UploadedFile getFile() {
         return file;
     }
-
+    
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-
+    
     public List<Producto> getProductos() {
         return productoFacade.findAll();
     }
@@ -124,7 +124,7 @@ public class ProductoBean implements Serializable {
         }
         return productosInventario;
     }
-
+    
     public int getcantidadProductos() {
         return getProductosInventarios().size();
     }
@@ -141,7 +141,7 @@ public class ProductoBean implements Serializable {
             this.producto.setNombre(this.producto.getNombre());
             this.producto.setCantidad(cantidad);
             this.producto.setValor(valor);
-
+            
             this.productoFacade.create(producto);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto " + this.producto.getNombre() + " ingresado."));
             return "registroProducto";
@@ -192,7 +192,7 @@ public class ProductoBean implements Serializable {
         }
         System.out.println("upload finished");
     }
-
+    
     public void copyFile(String fileName, InputStream in) {
         try {
 
@@ -200,20 +200,20 @@ public class ProductoBean implements Serializable {
             OutputStream out = new FileOutputStream(new File(destination + fileName));
             int read = 0;
             byte[] bytes = new byte[1024];
-
+            
             while ((read = in.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
             in.close();
             out.flush();
             out.close();
-
+            
             System.out.println("New file created!");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
-
+    
     public void anadirInventarioProducto(BigDecimal id) {
         try {
             //llamamos al producto seleccionado
@@ -244,15 +244,14 @@ public class ProductoBean implements Serializable {
     public void sacarInventarioProducto(BigDecimal id) {
         try {
             Producto ped = productoFacade.find(id);
-            ped.setInventarioIdinventario(null);
-            productoFacade.edit(ped);
+            this.productoFacade.remove(ped);
             FacesMessage msg = new FacesMessage("Exitoso! producto sacado del inventario online.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Error! producto no pudo ser"
-                    + " agregado. ¿No hay un inventario disponible?");
+                    + " elimiado. Vuelva a intentarlo");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-
+    
 }

@@ -1,0 +1,46 @@
+<ui:composition template="templateCliente.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Direcciones Guardadas
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="msgs"/>
+            <h1>Tus direcciones guardadas</h1>
+            <br/>
+            <p:dataTable value="#{direccionBean.obtenerDireccionesClientes()}" var="d">
+                <p:column headerText="Comuna">
+                    <h:outputText value="#{d.comuna}"/>
+                </p:column>
+                <p:column headerText="Provincia">
+                    <h:outputText value="#{d.provincia}"/>
+                </p:column>
+                <p:column headerText="Region">
+                    <h:outputText value="#{d.region}"/>
+                </p:column>
+                <p:column headerText="Calle">
+                    <h:outputText value="#{d.calle}"/>
+                </p:column>
+                <p:column headerText="Numero">
+                    <h:outputText value="#{d.numero}"/>
+                </p:column>
+                <p:column headerText="Departamento">
+                    <h:outputText value="#{d.depto}"/>
+                </p:column>
+                <p:column headerText="Detalle Dirección">
+                    <h:outputText value="#{d.detalledireccion}"/>
+                </p:column>
+                <p:column headerText="Detalle Dirección">
+                    <p:commandButton value="Seleccionar"
+                                     action="#{pedidoBean.generarPedido(d)}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

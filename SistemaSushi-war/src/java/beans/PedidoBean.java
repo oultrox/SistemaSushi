@@ -52,10 +52,22 @@ public class PedidoBean {
      */
     private Pedido pedido;
     private Usuario usuario;
+    private Direccion direccion;
     private static ArrayList<Producto> productos = new ArrayList<>();
+
+    private boolean delivery;
 
     public PedidoBean() {
         pedido = new Pedido();
+        delivery = false;
+    }
+
+    public boolean isDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(boolean delivery) {
+        this.delivery = delivery;
     }
 
     public List<Pedido> getPedidos() {
@@ -186,23 +198,48 @@ public class PedidoBean {
         return total;
     }
 
-    public String generarPedido(Direccion direccion)
-    {
-        pedido.setDetalle("Compras");
-        pedido.setIdpedido(BigDecimal.ZERO);
-        //qué fastidio lo de big integer, me hizo convertir el total en long...
-        pedido.setValor(BigInteger.valueOf(getTotalCarrito()));
-        
-        Date date = new Date();
-        pedido.setFecha(date);
-        pedido.setEstado("EN PROCESO");
-        
-        //aun no implementado
-        pedido.setDireccionIddireccion(direccion);
-        //No estoy seguro de esto asdasksdlak
-        pedido.setUsuarioIdusuario(usuario);
-        
-        return "confirmarCompra";
-        
+    public String verificarDireccion() {
+        if (delivery) {
+            return "seleccionarDireccion";
+        } else {
+            return "confirmarPedido";
+        }
+
+    }
+
+    public String generarPedido(Direccion d) {
+        try {
+            pedido.setDetalle("Compras");
+            pedido.setIdpedido(BigDecimal.ZERO);
+            //qué fastidio lo de big integer, me hizo convertir el total en long...
+            pedido.setValor(BigInteger.valueOf(getTotalCarrito()));
+
+            Date date = new Date();
+            pedido.setFecha(date);
+            pedido.setEstado("EN PROCESO DE PAGO");
+
+            //aun no implementado
+            if (d != null) {
+                pedido.setDireccionIddireccion(d);
+            }
+
+            pedido.setUsuarioIdusuario(asignarUsuario());
+
+            this.pedidoFacade.create(pedido);
+            return "confirmarCompra";
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    private Usuario asignarUsuario() {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
+            return u;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
