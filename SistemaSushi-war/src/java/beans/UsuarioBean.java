@@ -134,15 +134,12 @@ public class UsuarioBean implements Serializable {
         }
     }
 
-    private String modificarUsuario() throws MessagingException {
-        Usuario us = usuarioFacade.find(usuario.getIdusuario());
-        if (validarRut(this.usuario.getRut()) && validarEmail(this.usuario.getEmail())) {
-            us.setRut(usuario.getRut());
-            us.setNombre(usuario.getNombre());
-            us.setApellidopaterno(usuario.getApellidopaterno());
-            us.setEmail(usuario.getEmail());
-            us.setPass(DigestUtils.md5Hex(usuario.getPass()));
-            us.setNivelusuarioIdnivelusuario(nivelusuarioFacade.find(nivelUsuario.getIdnivelusuario()));
+    public String modificarUsuario() {
+        Usuario us = usuarioFacade.find(userLogueado.getIdusuario());
+        if (validarRut(this.userLogueado.getRut())) {
+            us.setNombre(userLogueado.getNombre());
+            us.setApellidopaterno(userLogueado.getApellidopaterno());
+            us.setPass(DigestUtils.md5Hex(userLogueado.getPass()));
             usuarioFacade.edit(us);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario Modificado", "Usuario modificado correctamente"));
             return "mantenedorUsuario";
@@ -318,8 +315,8 @@ public class UsuarioBean implements Serializable {
 
         }
     }
-    
-        public void verificarNivelUsuarioCajero() {
+
+    public void verificarNivelUsuarioCajero() {
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
