@@ -108,16 +108,23 @@ public class PedidoBean {
         return pd;
     }
 
-    public String aprobarPago(int idPedido) {
-        Pedido pd = this.pedidoFacade.find(idPedido);
-        pd.setEstado("Pagado");
-        this.pedidoFacade.edit(pd);
+    public String aprobarPago(Pedido pedido) {
+        try {
+            pedido.setEstado("PAGADO");
+            this.pedidoFacade.edit(pedido);
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                FacesMessage.SEVERITY_INFO, "Pedido enviado a despacho exitosamente!!!",
-                "Pedido N" + pd.getIdpedido() + " Pagado"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "Pedido enviado a despacho exitosamente!!!",
+                    "Pedido N" + pedido.getIdpedido() + " Pagado"));
 
-        return "aprobarVentas";
+            return "aprobarVentas";
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "ERROR",
+                    "Error"));
+            return "aprobarVentas";
+        }
+
     }
 
     public String modificarPedido() {

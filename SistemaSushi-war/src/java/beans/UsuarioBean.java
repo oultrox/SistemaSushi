@@ -91,7 +91,7 @@ public class UsuarioBean implements Serializable {
 
     //Progreso de el registro - WIP PROGRESO
     public void signUp() {
-         RequestContext context = RequestContext.getCurrentInstance();
+        RequestContext context = RequestContext.getCurrentInstance();
         try {
             if (validarRut(usuario.getRut())) {
                 if (existeEmail() || existeRut()) {
@@ -121,16 +121,16 @@ public class UsuarioBean implements Serializable {
                         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "loginUsuario.xhtml");
                     } else {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Correo no enviado. "));
-                        }
+                    }
                 }
             } else {
                 limpiarCliente(usuario);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Rut invalido"));
-                
+
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
-            
+
         }
     }
 
@@ -447,7 +447,7 @@ public class UsuarioBean implements Serializable {
 
     //Función simple que activa la cuenta tomando el valor del input text
     //y comparandolo con todos en la base de datos.
-    public void activarCuenta() {
+    public String activarCuenta() {
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
             if (usuario1.getActivado().equals(usuario.getActivado()) && !usuario1.getActivado().equals("activo")) {
@@ -456,10 +456,10 @@ public class UsuarioBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("¡Cuenta activada exitosamente!"));
 
                 FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "loginUsuario.xhtml");
-                    
+                return "index";
             }
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Código incorrecto"));
-        
+        return "index";
     }
 }
