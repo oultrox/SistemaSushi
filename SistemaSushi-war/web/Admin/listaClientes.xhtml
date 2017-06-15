@@ -1,0 +1,33 @@
+<ui:composition template="templateAdmin.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        Mantenedor Producto
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="myform">
+            <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
+            <center>
+                <h1>CLIENTES</h1>
+            </center>
+            <p:dataTable value="#{usuarioBean.clientes}" var="vc" id="verClientes">
+                <p:column headerText="ID">
+                    <h:outputText value="#{vc.idusuario}"/>
+                </p:column>
+                <p:column headerText="RUT">
+                    <h:outputText value="#{vc.rut}"/>
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{vc.nombre} #{vc.apellidopaterno}"/>
+                </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{vc.email}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

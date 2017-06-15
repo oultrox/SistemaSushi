@@ -9,9 +9,8 @@
     </h:head>
     <h:body>
         <h:form>  
-            <p:growl id="messages"/>
-
             <p:menubar>
+                
                 <p:menuitem value="Inicio" outcome="inicioAdmin.xhtml" icon="ui-icon-home" />
 
                 <p:submenu label="Productos" icon="ui-icon-help">
@@ -24,16 +23,17 @@
                     <p:menuitem value="Editar Inventario" icon="ui-icon-person" />
                 </p:submenu>
                 
-                <p:submenu label="Direcciones" icon="ui-icon-help">
-                     <p:menuitem value="Agregar Direcciones" outcome="addDireccionAdmin.xhtml" icon="ui-icon-person" />
-                     <p:menuitem value="Ver direcciones" outcome="mantenedorDireccionAdmin.xhtml" icon="ui-icon-person" />
+                <p:submenu label="Clientes" icon="ui-icon-person">
+                     <p:menuitem value="Ver Cliente" outcome="listaClientes.xhtml" icon="ui-icon-person" />
                 </p:submenu>
                 
+                <p:submenu label="Direcciones" icon="ui-icon-help">
+                     <p:menuitem value="Agregar Direcciones" outcome="addDireccion.xhtml" icon="ui-icon-person" />
+                     <p:menuitem value="Ver direcciones" outcome="mantenedorDireccion.xhtml" icon="ui-icon-person" />
+                </p:submenu>
                 
-
-               
                 <p:menuitem value="Cerrar Sesión" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
-
+                
             </p:menubar>
         </h:form>
     </h:body>

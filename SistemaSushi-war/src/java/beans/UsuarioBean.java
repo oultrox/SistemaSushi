@@ -30,10 +30,10 @@ import javax.mail.internet.MimeMessage;
 @Named(value = "usuarioBean")
 @SessionScoped
 public class UsuarioBean implements Serializable {
-
+    
     @EJB
     private NivelusuarioFacadeLocal nivelusuarioFacade;
-
+    
     @EJB
     private UsuarioFacadeLocal usuarioFacade;
 
@@ -46,45 +46,57 @@ public class UsuarioBean implements Serializable {
     private String ingresoEmail;
     private String ingresoClave;
     private Usuario userLogueado;
-
+    
     public UsuarioBean() {
         super();
         usuario = new Usuario();
         nivelUsuario = new Nivelusuario();
     }
-
+    
     public List<Usuario> getUsuarios() {
         return usuarioFacade.findAll();
     }
-
+    
+    public List<Usuario> getClientes() {
+        List<Usuario> clientes = this.usuarioFacade.findAll();
+        clientes.clear();
+        for (Usuario esteUser : this.usuarioFacade.findAll()) {
+            if (esteUser.getNivelusuarioIdnivelusuario().getNombrenivelusuario().equalsIgnoreCase("usuario")) {
+                clientes.add(esteUser);
+            }
+        }
+        
+        return clientes;
+    }
+    
     public Usuario getUsuario() {
         return usuario;
     }
-
+    
     public void setUsuario(Usuario Usuario) {
         this.usuario = Usuario;
     }
-
+    
     public String getIngresoEmail() {
         return ingresoEmail;
     }
-
+    
     public void setIngresoEmail(String ingresoEmail) {
         this.ingresoEmail = ingresoEmail;
     }
-
+    
     public String getIngresoClave() {
         return ingresoClave;
     }
-
+    
     public void setIngresoClave(String ingresoClave) {
         this.ingresoClave = ingresoClave;
     }
-
+    
     public Usuario getUserLogueado() {
         return userLogueado;
     }
-
+    
     public void setUserLogueado(Usuario userLogueado) {
         this.userLogueado = userLogueado;
     }
@@ -126,14 +138,14 @@ public class UsuarioBean implements Serializable {
             } else {
                 limpiarCliente(usuario);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Rut invalido"));
-
+                
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
-
+            
         }
     }
-
+    
     public String modificarUsuario() {
         Usuario us = usuarioFacade.find(userLogueado.getIdusuario());
         if (validarRut(this.userLogueado.getRut())) {
@@ -149,14 +161,14 @@ public class UsuarioBean implements Serializable {
             return "mantenedorUsuario";
         }
     }
-
+    
     private String eliminarUsuario() {
         Usuario us = usuarioFacade.find(usuario.getIdusuario());
         this.usuarioFacade.remove(us);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario Eliminado"));
         return "mantenedorUsuario";
     }
-
+    
     private void limpiarCliente(Usuario usuario) {
         usuario.setNombre("");
         usuario.setRut("");
@@ -164,7 +176,7 @@ public class UsuarioBean implements Serializable {
         usuario.setPass("");
         usuario.setActivado("");
     }
-
+    
     private boolean existeRut() {
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
@@ -174,7 +186,7 @@ public class UsuarioBean implements Serializable {
         }
         return false;
     }
-
+    
     private boolean existeEmail() {
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
@@ -227,35 +239,35 @@ public class UsuarioBean implements Serializable {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "RUT o Clave no validas");
             FacesContext.getCurrentInstance().addMessage(null, message);
             context.addCallbackParam("view", "loginUsuario.xhtml");
-
+            
         }
     }
-
+    
     public String logOut() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         loggedIn = false;
         return "index";
     }
-
+    
     public void ingresarVisita() {
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
             if (u == null) {
                 context.getExternalContext().redirect("faces/Visita/inicioVisitas.xhtml");
-
+                
             } else {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 1) {
                     context.getExternalContext().redirect("faces/Visita/inicioVisitas.xhtml");
                 }
             }
-
+            
         } catch (Exception e) {
             //log
         }
     }
-
+    
     private Usuario verificarUser() {
         Usuario user = null;
         List<Usuario> usuarios = this.usuarioFacade.findAll();
@@ -267,7 +279,7 @@ public class UsuarioBean implements Serializable {
         }
         return user;
     }
-
+    
     private boolean verificarUserActivado() {
         Usuario user = null;
         List<Usuario> usuarios = this.usuarioFacade.findAll();
@@ -278,33 +290,33 @@ public class UsuarioBean implements Serializable {
         }
         return false;
     }
-
+    
     public void verificarNivelUsuarioAdmin() {
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
             if (u == null) {
                 context.getExternalContext().redirect("../index.xhtml");
-
+                
             } else {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 1) {
                     context.getExternalContext().redirect("../index.xhtml");
                 }
             }
-
+            
         } catch (Exception e) {
             //log
         }
     }
-
+    
     public void verificarNivelUsuarioCliente() {
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
             if (u == null) {
                 context.getExternalContext().redirect("../index.xhtml");
-
+                
             } else {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 2) {
@@ -312,17 +324,17 @@ public class UsuarioBean implements Serializable {
                 }
             }
         } catch (Exception e) {
-
+            
         }
     }
-
+    
     public void verificarNivelUsuarioCajero() {
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
             if (u == null) {
                 context.getExternalContext().redirect("../index.xhtml");
-
+                
             } else {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 5) {
@@ -330,10 +342,10 @@ public class UsuarioBean implements Serializable {
                 }
             }
         } catch (Exception e) {
-
+            
         }
     }
-
+    
     public static boolean validarRut(String rut) {
         boolean validacion = false;
         try {
@@ -341,9 +353,9 @@ public class UsuarioBean implements Serializable {
             rut = rut.replace(".", "");
             rut = rut.replace("-", "");
             int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
-
+            
             char dv = rut.charAt(rut.length() - 1);
-
+            
             int m = 0, s = 1;
             for (; rutAux != 0; rutAux /= 10) {
                 s = (s + rutAux % 10 * (9 - m++ % 6)) % 11;
@@ -351,19 +363,19 @@ public class UsuarioBean implements Serializable {
             if (dv == (char) (s != 0 ? s + 47 : 75)) {
                 validacion = true;
             }
-
+            
         } catch (java.lang.NumberFormatException e) {
         } catch (Exception e) {
         }
         return validacion;
     }
-
+    
     public void formatear() {
         String rut = usuario.getRut();
         int cont = 0;
         String format;
         if (rut.length() == 0) {
-
+            
         } else {
             rut = rut.replace(".", "");
             rut = rut.replace("-", "");
@@ -384,22 +396,22 @@ public class UsuarioBean implements Serializable {
     public boolean validarEmail(String email) {
         final String username = "portafolioSushi@gmail.com";
         final String password = "duoc2017";
-
+        
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
-
+        
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
         });
-
+        
         try {
-
+            
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("Sushi"));
             message.setRecipients(Message.RecipientType.TO,
@@ -416,7 +428,7 @@ public class UsuarioBean implements Serializable {
                     + "\n Pass: " + this.usuario.getPass()
                     + "\n\n"
             );
-
+            
             Transport.send(message);
             return true;
         } catch (MessagingException e) {
@@ -454,7 +466,7 @@ public class UsuarioBean implements Serializable {
                 usuario1.setActivado("activado");
                 this.usuarioFacade.edit(usuario1);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("¡Cuenta activada exitosamente!"));
-
+                
                 FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "loginUsuario.xhtml");
                 return "index";
             }

@@ -5,11 +5,12 @@
  */
 package beans;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import pojos.Direccion;
@@ -19,11 +20,11 @@ import servicios.UsuarioFacadeLocal;
 
 /**
  *
- * @author Yisus
+ * @author FUKUSUKE MEDIA GROUP
  */
 @Named(value = "direccionBean")
-@RequestScoped
-public class DireccionBean {
+@SessionScoped
+public class DireccionBean implements Serializable {
 
     @EJB
     private DireccionFacadeLocal direccionFacade;
@@ -123,10 +124,11 @@ public class DireccionBean {
             this.direccion.setRegion(this.direccion.getRegion());
             this.direccionFacade.create(direccion);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Ingresado!", "¡Dirección Ingresada!."));
-            return "mantenedorDireccionAdmin";
+            this.direccion = new Direccion();
+            return "mantenedorDireccion";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
-            return "addDireccionAdmin";
+            return "addDireccion";
         }
     }
 
@@ -150,21 +152,32 @@ public class DireccionBean {
         }
     }
 
+    //Modificamos productos aquí
+    public String modificarDireccionAdmin() {
+        Direccion dir = direccionFacade.find(this.direccion.getIddireccion());
+        dir.setComuna(direccion.getComuna());
+        dir.setProvincia(direccion.getProvincia());
+        dir.setRegion(direccion.getRegion());
+        direccionFacade.edit(dir);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Dirección Modificada", "Dirección modificada correctamente"));
+        return "mantenedorProducto";
+    }
+
     public String eliminarDireccion(Direccion d) {
         Direccion dir = direccionFacade.find(d.getIddireccion());
         this.direccionFacade.remove(dir);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Direccion eliminada"));
-        return "mantenedorDireccionAdmin";
+        return "mantenedorDireccion";
     }
 
     public List<Direccion> obtenerComunas() {
-        List<Direccion> direcciones = this.direccionFacade.findAll();
-        direcciones.clear();
-        for (Direccion direccione : this.direccionFacade.findAll()) {
-            if (direccione.getUsuarioIdusuario() == null) {
-                direcciones.add(direccione);
+        List<Direccion> dires = this.direccionFacade.findAll();
+        dires.clear();
+        for (Direccion val : this.direccionFacade.findAll()) {
+            if (val.getUsuarioIdusuario() == null) {
+                dires.add(val);
             }
         }
-        return direcciones;
+        return dires;
     }
 }

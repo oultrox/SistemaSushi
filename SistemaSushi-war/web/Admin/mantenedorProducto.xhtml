@@ -9,13 +9,12 @@
     </ui:define>
 
     <ui:define name="content">
-        <p:messages id="mensaje" showDetail="true" autoUpdate="false"/>
-        <center>
-            <h1>PRODUCTOS</h1>
-        </center>
-
-        <h:form id="productos">
-            <p:dataTable value="#{productoBean.productos}" var="p">
+        <h:form id="myform">
+            <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
+            <center>
+                <h1>PRODUCTOS</h1>
+            </center>
+            <p:dataTable value="#{productoBean.productos}" var="p" id="verProductos">
                 <p:column headerText="ID">
                     <h:outputText value="#{p.idproducto}"/>
                 </p:column>
@@ -29,23 +28,28 @@
                     <h:outputText value="#{p.valor}"/>
                 </p:column>
                 <p:column headerText="ELIMINAR" style="text-align: center">
-                    <p:commandButton icon="ui-icon-close" title="Eliminar" action="#{productoBean.eliminarProducto(p)}" update="productos"/>
+                    <p:commandButton icon="ui-icon-close" title="Eliminar"
+                                     update=":myform:msgs :myform:verProductos"
+                                     action="#{productoBean.eliminarProducto(p)}"/>
                 </p:column>
                 <p:column headerText="EDITAR" style="text-align: center">
-                    <p:commandButton update=":productos:panelEditar" oncomplete="PF('dialogo').show()" icon="ui-icon-search" title="Editar">
+                    <p:commandButton update=":formEditarP:panelEditar" 
+                                     oncomplete="PF('dialogo').show()" 
+                                     icon="ui-icon-search" title="Editar">
                         <f:setPropertyActionListener value="#{p}" target="#{productoBean.producto}" />
                     </p:commandButton>
                 </p:column>
 
             </p:dataTable>
+        </h:form>
 
-
+        <h:form id="formEditarP">
             <p:dialog header="Editar Producto" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="panelEditar" style="text-align:center;">
                     <p:panelGrid  columns="2">
                         <p:outputLabel for="nombre" value="Nombre: " />
                         <h:inputText id="nombre" value="#{productoBean.producto.nombre}"/>
-                        
+
                         <p:outputLabel for="cantidadProducto" value="Cantidad: " />
                         <p:spinner id="cantidadProducto" 
                                    required="true"
@@ -59,11 +63,11 @@
 
                         <p:commandButton value="Actualizar" 
                                          actionListener="#{productoBean.modificarProducto()}"
-                                         update=":productos,mensaje"/>
+                                         update=":myform:msgs :myform:verProductos"
+                                         oncomplete="PF('dialogo').hide();"/>
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>
-
         </h:form>
 
     </ui:define>
