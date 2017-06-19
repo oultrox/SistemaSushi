@@ -143,11 +143,20 @@ public class PedidoBean {
         }
 
     }
-    
-    public String generarReporte(){
+
+    public int calcularTotalPeriodo() {
+        int totalPeriodo = 0;
+        for (Pedido reporteVenta : this.getReporteVentas()) {
+            totalPeriodo += reporteVenta.getValor().intValue();
+        }
+        return totalPeriodo;
+
+    }
+
+    public String generarReporte() {
 
         return "reporteVentas";
-        
+
     }
 
     public List<Pedido> getReporteVentas() {

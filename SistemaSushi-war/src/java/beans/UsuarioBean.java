@@ -100,7 +100,7 @@ public class UsuarioBean implements Serializable {
     public void setUserLogueado(Usuario userLogueado) {
         this.userLogueado = userLogueado;
     }
-
+    
     private int obtenerTipoUsuario() {
 
         if (this.usuarioFacade.findAll() == null) {

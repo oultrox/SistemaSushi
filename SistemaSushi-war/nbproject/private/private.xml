@@ -5,11 +5,15 @@
         <group>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/NivelUsuarioBean.java</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/addUser.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/seleccionarPeriodo.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Cajero/aprobarVentas.xhtml</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/tipoUsuarioConverter.java</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/menuAdmin.xhtml</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/UsuarioBean.java</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Visita/registroUsuario.xhtml</file>
             <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/addDireccion.xhtml</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/PedidoBean.java</file>
+            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/reporteVentas.xhtml</file>
         </group>
     </open-files>
 </project-private>
