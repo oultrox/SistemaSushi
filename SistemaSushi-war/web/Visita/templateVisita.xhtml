@@ -11,8 +11,20 @@
                 NOMBRE SECCION
             </ui:insert>
         </title>
+    <link href="../CSS/assets/css/main.css" rel="stylesheet" type="text/css"/>         
     </h:head>
     <h:body>
+    <section id="banner" data-video="../CSS/images/banner">
+
+            <div class="inner">
+                    <header>
+                            <h1>Fukusuke Sushi</h1>
+                            <p>Tu restaurante, a un solo click.<br />
+                            </p>
+                    </header>
+                    <a href="loginUsuario.xhtml" class="more">Learn More</a>
+            </div>
+    </section>
         <div id="menu">
             <ui:include src="menuVisita.xhtml" />
         </div>
@@ -21,9 +33,29 @@
                 MATERIAL DINAMICO
             </ui:insert>
         </div>
-        <div id="footer">Footer</div>
+        <!-- Footer -->
+        <footer id="footer">
+                <div class="inner">
+                        <h2>¡Encuentranos!</h2>
+                        <p>Avenida calle ecuador bla bla bla 129832139.</p>
 
-
+                        <ul class="icons">
+                                <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                                <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                                <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                                <li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+                        </ul>
+                        <p class="copyright">&copy; Fukusuke Sushi - 2017</p>
+                </div>
+        </footer>
+        <!-- Scripts -->
+        <script src="../CSS/assets/js/jquery.min.js"></script>
+        <script src="../CSS/assets/js/jquery.scrolly.min.js"></script>
+        <script src="../CSS/assets/js/jquery.poptrox.min.js"></script>
+        <script src="../CSS/assets/js/skel.min.js"></script>
+        <script src="../CSS/assets/js/util.js"></script>
+        <script src="../CSS/assets/js/main.js"></script>
     </h:body>
 </html>
+
 

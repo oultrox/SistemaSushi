@@ -27,4 +27,8 @@
         <local>servicios.NivelusuarioFacadeLocal</local>
         <ejb-link>SistemaSushi-ejb.jar#NivelusuarioFacade</ejb-link>
     </ejb-local-ref>
+    <context-param>
+	<param-name>primefaces.THEME</param-name>
+	<param-value>bootstrap</param-value>
+    </context-param>
 </web-app>
