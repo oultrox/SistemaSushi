@@ -39,7 +39,14 @@ public class NivelUsuarioBean {
         return nivelusuarioFacade.findAll();
     }
 
-
+    public List<Nivelusuario> getNivelTrabajadores() {
+        List<Nivelusuario> listaTrabajadores = this.nivelusuarioFacade.findAll();
+        listaTrabajadores.clear();
+        listaTrabajadores.add(this.nivelusuarioFacade.find(BigDecimal.valueOf(1))); // ADMINISTRADOR
+        listaTrabajadores.add(this.nivelusuarioFacade.find(BigDecimal.valueOf(3))); // ENCARGADO
+        listaTrabajadores.add(this.nivelusuarioFacade.find(BigDecimal.valueOf(5))); // CAJERO
+        return listaTrabajadores;
+    }
 
     public Nivelusuario getNivelUsuario() {
         return nivelUsuario;

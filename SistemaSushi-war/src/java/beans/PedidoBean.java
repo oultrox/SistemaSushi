@@ -5,7 +5,6 @@
  */
 package beans;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -57,9 +56,27 @@ public class PedidoBean {
 
     private boolean delivery;
 
+    Date fechaPeriodoInicio, fechaPeriodoFinal;
+
     public PedidoBean() {
         pedido = new Pedido();
         delivery = false;
+    }
+
+    public Date getFechaPeriodoInicio() {
+        return fechaPeriodoInicio;
+    }
+
+    public void setFechaPeriodoInicio(Date fechaPeriodoInicio) {
+        this.fechaPeriodoInicio = fechaPeriodoInicio;
+    }
+
+    public Date getFechaPeriodoFinal() {
+        return fechaPeriodoFinal;
+    }
+
+    public void setFechaPeriodoFinal(Date fechaPeriodoFinal) {
+        this.fechaPeriodoFinal = fechaPeriodoFinal;
     }
 
     public boolean isDelivery() {
@@ -125,6 +142,42 @@ public class PedidoBean {
             return "aprobarVentas";
         }
 
+    }
+    
+    public String generarReporte(){
+
+        return "reporteVentas";
+        
+    }
+
+    public List<Pedido> getReporteVentas() {
+        List<Pedido> reporteVentas = this.pedidoFacade.findAll();
+        reporteVentas.clear();
+        for (Pedido estePedido : this.getPedidosDespachados()) {
+            if ((estePedido.getFecha().after(fechaPeriodoInicio))
+                    || (estePedido.getFecha().equals(fechaPeriodoInicio))) {
+                if ((estePedido.getFecha().before(fechaPeriodoFinal))
+                        || (estePedido.getFecha().equals(fechaPeriodoFinal))) {
+                    reporteVentas.add(estePedido);
+                }
+
+            }
+        }
+        return reporteVentas;
+    }
+
+    public List<Pedido> getPedidosDespachados() {
+        List<Pedido> pedidosDespachado = this.pedidoFacade.findAll();
+        pedidosDespachado.clear();
+
+        for (Pedido val : this.pedidoFacade.findAll()) {
+            if (val.getEstado().equalsIgnoreCase("DESPACHADO")) {
+                pedidosDespachado.add(val);
+            }
+
+        }
+
+        return pedidosDespachado;
     }
 
     public String modificarPedido() {

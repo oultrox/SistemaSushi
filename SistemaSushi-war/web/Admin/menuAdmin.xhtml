@@ -27,10 +27,16 @@
                      <p:menuitem value="Ver Cliente" outcome="listaClientes.xhtml" icon="ui-icon-person" />
                 </p:submenu>
                 
+                <p:submenu label="Usuarios" icon="ui-icon-person">
+                     <p:menuitem value="Nuevo Usuario" outcome="addUser.xhtml" icon="ui-icon-person" />
+                </p:submenu>
+                
                 <p:submenu label="Direcciones" icon="ui-icon-help">
                      <p:menuitem value="Agregar Direcciones" outcome="addDireccion.xhtml" icon="ui-icon-person" />
                      <p:menuitem value="Ver direcciones" outcome="mantenedorDireccion.xhtml" icon="ui-icon-person" />
                 </p:submenu>
+                
+                <p:menuitem value="Reporte de Ventas" outcome="seleccionarPeriodo.xhtml" icon="ui-icon-calculator" />
                 
                 <p:menuitem value="Cerrar Sesión" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
                 

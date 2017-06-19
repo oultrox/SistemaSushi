@@ -1,0 +1,29 @@
+<ui:composition template="templateAdmin.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Sistema Full Motor
+    </ui:define>
+
+    <ui:define name="content">
+        <p:messages id="mensaje" showDetail="true" autoUpdate="true"/>
+        <h1>
+            INFORMES DE TALLER POR PERIODOS
+        </h1>
+        <h:form id="myform">
+            <h:panelGrid columns="2" cellpadding="5">
+                <p:outputLabel for="fecha1" value="Inicio periodo" />
+                <p:calendar id="fecha1" value="#{pedidoBean.fechaPeriodoInicio}" showOn="button" pattern="dd-MMM-yyyy"/>
+                <p:outputLabel for="fecha2" value="Fin periodo" />
+                <p:calendar id="fecha2" value="#{pedidoBean.fechaPeriodoFinal}" showOn="button" pattern="dd-MMM-yyyy"/>
+            </h:panelGrid>
+
+            <p:commandButton value="Obtener Reporte" action="#{pedidoBean.generarReporte()}" icon="ui-icon-check" />
+        </h:form>
+    </ui:define>
+</ui:composition>
+
