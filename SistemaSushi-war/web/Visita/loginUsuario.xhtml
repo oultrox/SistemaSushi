@@ -12,34 +12,39 @@
     <ui:define name="content">
         <center>
             <h1>Ingresa Usuario registrado</h1>
-        </center>
-        <h:form id="form">
 
-            <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
-            <p:fieldset id="Registrar" legend="Ingresa aquí con tus datos" 
-                        style="margin-top: 40px; width: 500px;">
-                <h:panelGrid columns="1" cellpadding="5">
-                    <p:inputText id="email" value="#{usuarioBean.ingresoEmail}" 
-                                 placeholder="Ingresa tu Email aquí" 
-                                 required="true" label="email" size="15" />
+            <h:form id="form">
 
-                    <p:password id="password" value="#{usuarioBean.ingresoClave}" 
-                                required="true" label="password" 
-                                placeholder="Ingresa tu contraseña" size="15"/>
+                <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
+                <p:fieldset id="Registrar" legend="Ingresa aquí con tus datos" 
+                            style="margin-top: 40px; width: 500px;">
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputText value="E-Mail" /> 
+                        <p:inputText id="email" value="#{usuarioBean.ingresoEmail}" 
+                                     placeholder="Ingresa tu Email aquí" 
+                                     required="true" label="email" size="35" />
 
+                        <h:outputText value="Clave" /> 
+                        <p:password id="password" value="#{usuarioBean.ingresoClave}" 
+                                    required="true" label="password" 
+                                    placeholder="Ingresa tu contraseña" size="35"/>
+
+
+                    </h:panelGrid>
                     <p:commandButton value="Login" update="msgs" 
                                      actionListener="#{usuarioBean.login(event)}"
                                      oncomplete="handleLoginRequest(xhr, status, args)"/>
-                </h:panelGrid>
-            </p:fieldset>
-        </h:form> 
-
+                </p:fieldset>
+            </h:form> 
+        </center>
         <script type="text/javascript">
-            function handleLoginRequest(xhr, status, args) 
+            function handleLoginRequest(xhr, status, args)
             {
-                if (!args.validationFailed || args.loggedIn) 
+                if (!args.validationFailed || args.loggedIn)
                 {
-                    setTimeout(function() {window.location = args.view;},1500);
+                    setTimeout(function () {
+                        window.location = args.view;
+                    }, 1500);
                 }
             }
         </script>

@@ -100,11 +100,11 @@ public class UsuarioBean implements Serializable {
     public void setUserLogueado(Usuario userLogueado) {
         this.userLogueado = userLogueado;
     }
-    
+
     private int obtenerTipoUsuario() {
 
         if (this.usuarioFacade.findAll() == null) {
-            return 1;
+            return 4;
         }
         int idTipoCliente = 0;
         if (this.usuario.getNivelusuarioIdnivelusuario().getNombrenivelusuario() == null) {
@@ -113,8 +113,8 @@ public class UsuarioBean implements Serializable {
             String nombreTipoUser = this.usuario.getNivelusuarioIdnivelusuario().getNombrenivelusuario();
             if (nombreTipoUser.equalsIgnoreCase("Encargado")) {
                 idTipoCliente = 3;
-            } else if (nombreTipoUser.equalsIgnoreCase("Dueño")) {
-                idTipoCliente = 4;
+            } else if (nombreTipoUser.equalsIgnoreCase("Administrador")) {
+                idTipoCliente = 1;
             } else if (nombreTipoUser.equalsIgnoreCase("Cajero")) {
                 idTipoCliente = 5;
             }
@@ -255,8 +255,12 @@ public class UsuarioBean implements Serializable {
                         context.addCallbackParam("view", "../Cliente/inicioCliente.xhtml");
                         break;
                     case 3:
+                        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error", "¡Debes ingresar a la app de escritorio!");
+                        FacesContext.getCurrentInstance().addMessage(null, message);
+                        context.addCallbackParam("view", "inicioVisitas.xhtml");
                         break;
                     case 4:
+                        context.addCallbackParam("view", "../Boss/inicioBoss.xhtml");
                         break;
                     case 5:
                         context.addCallbackParam("view", "../Cajero/inicioCajero.xhtml");
@@ -336,6 +340,25 @@ public class UsuarioBean implements Serializable {
             } else {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 1) {
+                    context.getExternalContext().redirect("../index.xhtml");
+                }
+            }
+
+        } catch (Exception e) {
+            //log
+        }
+    }
+
+    public void verificarNivelUsuarioBoss() {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
+            if (u == null) {
+                context.getExternalContext().redirect("../index.xhtml");
+
+            } else {
+                int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
+                if (nivelUser != 4) {
                     context.getExternalContext().redirect("../index.xhtml");
                 }
             }

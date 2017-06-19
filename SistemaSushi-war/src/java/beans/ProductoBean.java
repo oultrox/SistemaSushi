@@ -101,6 +101,17 @@ public class ProductoBean implements Serializable {
         return productoFacade.findAll();
     }
 
+    public List<Producto> getProductosTipo() {
+        List<Producto> productosTipo = productoFacade.findAll();
+        productosTipo.clear();
+        for (Producto val : getProductos()) {
+            if (val.getInventarioIdinventario() == null) {
+                productosTipo.add(val);
+            }
+        }
+        return productosTipo;
+    }
+
     //consigo los procutos que no tienen ningun inventario asociado!
     public List<Producto> getProductosInventariables() {
         List<Producto> productos = productoFacade.findAll();

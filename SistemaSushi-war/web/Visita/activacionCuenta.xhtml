@@ -17,8 +17,7 @@
                                  required="true" label="email" size="15" style="width: 300px;" />
             <br/><br/>
             <p:commandButton value="Activar" update="msgs" 
-                                     actionListener="#{usuarioBean.activarCuenta}"
-                                     oncomplete="handleLoginRequest(xhr, status, args)"/>
+                                     action="#{usuarioBean.activarCuenta}"/>
             
         </center>
             </h:form>

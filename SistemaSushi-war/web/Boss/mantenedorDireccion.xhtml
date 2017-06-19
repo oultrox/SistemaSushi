@@ -1,0 +1,78 @@
+<ui:composition template="templateBoss.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Sistema SUSHI
+    </ui:define>
+
+    <ui:define name="content">
+        <center>
+            <h1>Tus direcciones guardadas</h1>
+        </center>
+        <h:form id="form">
+            <p:dataTable value="#{direccionBean.obtenerComunas()}" var="d" id="verDirecciones">
+                <p:column headerText="ID">
+                    <h:outputText value="#{d.iddireccion}"/>
+                </p:column>
+                <p:column headerText="Comuna">
+                    <h:outputText value="#{d.comuna}"/>
+                </p:column>
+                <p:column headerText="Provincia">
+                    <h:outputText value="#{d.provincia}"/>
+                </p:column>
+                <p:column headerText="Región">
+                    <h:outputText value="#{d.region}"/>
+                </p:column>
+                <p:column headerText="ELIMINAR" style="text-align: center">
+                    <p:commandButton icon="ui-icon-close" title="Eliminar" 
+                                     update=":msgs, :form:verDirecciones"
+                                     action="#{direccionBean.eliminarDireccion(d)}"/>
+                </p:column>
+                <p:column headerText="EDITAR" style="text-align: center">
+                    <p:commandButton update=":formEditarD:panelEditar" 
+                                     oncomplete="PF('dialogo').show()" 
+                                     icon="ui-icon-search" title="Editar">
+                        <f:setPropertyActionListener value="#{d}" target="#{direccionBean.direccion}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <h:form id="formEditarD">
+            <p:dialog header="Editar Direccion" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panelEditar" style="text-align:center;">
+                    <p:panelGrid  columns="2">
+                        <h:outputText value="REGIÓN" /> 
+                        <p:inputText value="#{direccionBean.direccion.region}" size="26"
+                                     id="regionDireccion"
+                                     required="true" placeholder="Selecciones la región" 
+                                     requiredMessage="Debe ingresar la región"/>
+
+                        <h:outputText value="PROVINCIA" /> 
+                        <p:inputText value="#{direccionBean.direccion.provincia}" size="26"
+                                     id="provinciaDireccion"
+                                     required="true" placeholder="Seleccione una provincia" 
+                                     requiredMessage="Debe ingresar una provincia"/>
+
+                        <h:outputText value="COMUNA" /> 
+                        <p:inputText value="#{direccionBean.direccion.comuna}" size="26"
+                                     id="comunaDireccion"
+                                     required="true" placeholder="Selecciones la comuna" 
+                                     requiredMessage="Debe seleccionar una comuna"/>
+
+                        <p:commandButton value="Actualizar" 
+                                         actionListener="#{direccionBean.modificarDireccionAdmin()}"
+                                         update=":msgs, :form:verDirecciones"
+                                         oncomplete="PF('dialogo').hide();"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

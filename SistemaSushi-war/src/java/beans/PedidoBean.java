@@ -5,7 +5,16 @@
  */
 package beans;
 
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.sun.xml.ws.policy.privateutil.PolicyUtils;
+import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -15,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -28,15 +36,16 @@ import servicios.PedidoFacadeLocal;
 import servicios.ProductoFacadeLocal;
 import servicios.UsuarioFacadeLocal;
 import java.util.Date;
+import javax.enterprise.context.SessionScoped;
 import pojos.Direccion;
 
 /**
  *
- * @author Yisus
+ * @author Fukusuke media group
  */
 @Named(value = "pedidoBean")
-@RequestScoped
-public class PedidoBean {
+@SessionScoped
+public class PedidoBean implements Serializable {
 
     @EJB
     private PedidoFacadeLocal pedidoFacade;
@@ -111,6 +120,19 @@ public class PedidoBean {
         this.pedido = pedido;
     }
 
+    public List<Pedido> pedidosPorPagar() {
+        List<Pedido> pedidosPorPagar = this.pedidoFacade.findAll();
+        pedidosPorPagar.clear();
+
+        for (Pedido val : pedidosHoy()) {
+            if (val.getEstado().equalsIgnoreCase("EN PROCESO DE PAGO")) {
+                pedidosPorPagar.add(val);
+            }
+        }
+
+        return pedidosPorPagar;
+    }
+
     public List<Pedido> pedidosHoy() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
         LocalDate localDate = LocalDate.now();
@@ -127,7 +149,7 @@ public class PedidoBean {
 
     public String aprobarPago(Pedido pedido) {
         try {
-            pedido.setEstado("PAGADO");
+            pedido.setEstado("EN DESPACHO");
             this.pedidoFacade.edit(pedido);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
@@ -295,6 +317,12 @@ public class PedidoBean {
             pedido.setUsuarioIdusuario(asignarUsuario());
 
             this.pedidoFacade.create(pedido);
+
+            if (d == null) {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.getExternalContext().redirect("transaccionExitosa.xhtml");
+            }
+
             return "confirmarCompra";
         } catch (Exception e) {
             return null;
@@ -311,4 +339,43 @@ public class PedidoBean {
             return null;
         }
     }
+
+    public void preProcessPDFReporteVentas(Object document) throws IOException, BadElementException, DocumentException {
+        Document pdf = (Document) document;
+        pdf.open();
+        pdf.setPageSize(PageSize.A4);
+
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        //String logo = externalContext.getRealPath("") + File.separator + "resources" + File.separator + "demo" + File.separator + "images" + File.separator + "prime_logo.png";
+        //pdf.add(Image.getInstance(logo));
+
+        String totales = "TOTAL VENTAS PERIODO: $ " + this.calcularTotalPeriodo() + " pesos";
+        pdf.add(new Paragraph(totales));
+
+        String inicio = "INICIO PERIODO: " + this.getFechaPeriodoInicio();
+        pdf.add(new Paragraph(inicio));
+
+        String fin = "FIN PERIODO: " + this.getFechaPeriodoFinal();
+        pdf.add(new Paragraph(fin));
+
+        String salto = " ";
+        pdf.add(new Paragraph(salto));
+
+    }
+
+    public void preProcessPDFBoleta(Object document) throws IOException, BadElementException, DocumentException {
+        Document pdf = (Document) document;
+        pdf.open();
+        pdf.setPageSize(PageSize.A4);
+
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+
+        String totales = "TOTAL : $ " + this.getTotalCarrito() + " pesos";
+        pdf.add(new Paragraph(totales));
+
+        String salto = " ";
+        pdf.add(new Paragraph(salto));
+
+    }
+
 }

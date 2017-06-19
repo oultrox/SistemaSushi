@@ -1,0 +1,56 @@
+<ui:composition template="templateCliente.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Sistema SUSHI
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>
+            BOLETA
+        </h1>
+        <h:form id="myform">
+            <h3>Total: 
+                <h:outputText value="#{pedidoBean.totalCarrito}">
+                    <f:convertNumber pattern="$ ###,###,###,##0 pesos" 
+                                     locale="es-CL" 
+                                     type="currency"/>
+                </h:outputText>
+            </h3>
+
+            <p:dataTable value="#{pedidoBean.productosCarrito}" var="a" id="productos">
+                <p:column headerText="Nombre del Producto">
+                    <h:outputText value="#{a.nombre}"/>
+                </p:column>
+                <p:column headerText="Cantidad del Producto">
+                    <h:outputText value="#{a.cantidad}"/>
+                </p:column>
+                <p:column headerText="Precio unitario del Producto">
+                    <h:outputText value="#{a.valor}">
+                        <f:convertNumber pattern="$ ###,###,###,##0 pesos" 
+                                         locale="es-CL" 
+                                         type="currency"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Subtotal">
+                    <h:outputText value="#{a.valor * a.cantidad}">
+                        <f:convertNumber pattern="$ ###,###,###,##0 pesos" 
+                                         locale="es-CL" 
+                                         type="currency"/>
+                    </h:outputText>
+                </p:column>
+
+            </p:dataTable>
+
+            <h:commandLink>
+                <p:button value="GUARDAR BOLETA" icon="ui-icon-star"/>
+                <p:dataExporter type="pdf" target="productos" fileName="boletaPedido"
+                                pageOnly="true"  preProcessor="#{pedidoBean.preProcessPDFBoleta}"/>
+            </h:commandLink>
+        </h:form>
+    </ui:define>
+</ui:composition>
