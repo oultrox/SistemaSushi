@@ -11,9 +11,21 @@
                 NOMBRE SECCION
             </ui:insert>
         </title>
+        <link href="../resources/css/estilo.css" rel="stylesheet" type="text/css"/>
         <f:event type="preRenderView" listener="#{usuarioBean.verificarNivelUsuarioCliente()}"/>
     </h:head>
     <h:body>
+        <section id="banner" data-video="../resources/images/banner">
+
+            <div class="inner">
+                    <header>
+                            <h1>Fukusuke Sushi</h1>
+                            <p>Tu restaurante, a un solo click.<br />
+                            </p>
+                    </header>
+                    <a href="loginUsuario.xhtml" class="more">Learn More</a>
+            </div>
+    </section>
         <div id="menu">
             <ui:include src="menuCliente.xhtml" />
         </div>
