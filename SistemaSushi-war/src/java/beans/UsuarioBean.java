@@ -323,7 +323,9 @@ public class UsuarioBean implements Serializable {
         Usuario user = null;
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
-            if (usuario1.getEmail().equals(ingresoEmail) && usuario1.getPass().equals(ingresoClave) && usuario1.getActivado().equals("activado")) {
+            if (usuario1.getEmail().equals(ingresoEmail) && usuario1.getPass().equals(ingresoClave)
+                    && (usuario1.getActivado().equalsIgnoreCase("activado")
+                    || usuario1.getActivado().equalsIgnoreCase("nuevo"))) {
                 return true;
             }
         }
@@ -341,6 +343,9 @@ public class UsuarioBean implements Serializable {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 1) {
                     context.getExternalContext().redirect("../index.xhtml");
+                }
+                if (u.getActivado().equalsIgnoreCase("nuevo")) {
+                    context.getExternalContext().redirect("cambiarPassUser.xhtml");
                 }
             }
 
@@ -397,6 +402,9 @@ public class UsuarioBean implements Serializable {
                 int nivelUser = u.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
                 if (nivelUser != 5) {
                     context.getExternalContext().redirect("../index.xhtml");
+                }
+                if (u.getActivado().equalsIgnoreCase("nuevo")) {
+                    context.getExternalContext().redirect("cambiarPassUser.xhtml");
                 }
             }
         } catch (Exception e) {
@@ -520,15 +528,69 @@ public class UsuarioBean implements Serializable {
     public String activarCuenta() {
         List<Usuario> usuarios = this.usuarioFacade.findAll();
         for (Usuario usuario1 : usuarios) {
-            if (usuario1.getActivado().equals(usuario.getActivado()) && !usuario1.getActivado().equals("activo")) {
-                usuario1.setActivado("activado");
+            if (usuario1.getActivado().equals(usuario.getActivado())
+                    && !usuario1.getActivado().equalsIgnoreCase("activado")) {
+                int nivelUser = usuario1.getNivelusuarioIdnivelusuario().getIdnivelusuario().intValue();
+
+                if (nivelUser == 2 || nivelUser == 4) {
+
+                    usuario1.setActivado("activado");
+
+                } else {
+                    usuario1.setActivado("nuevo");
+                }
                 this.usuarioFacade.edit(usuario1);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("¡Cuenta activada exitosamente!"));
 
-                return "loginUsuario";
+                return "loginUsuario?faces-redirect=true";
             }
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Código incorrecto"));
         return null;
     }
+
+    public void noPass() {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Usuario u = (Usuario) context.getExternalContext().getSessionMap().get("user");
+            if (u == null) {
+                context.getExternalContext().redirect("../../faces/index.xhtml");
+            } else {
+                String estadoTrabajador = u.getActivado();
+                if (!estadoTrabajador.equalsIgnoreCase("nuevo")) {
+                    context.getExternalContext().redirect("../../faces/index.xhtml");
+                }
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public String changePass() {
+        try {
+            if (userLogueado == null) {
+                return "null";
+            } else {
+                if (userLogueado.getActivado().equalsIgnoreCase("nuevo")) {
+                    this.usuario = this.usuarioFacade.find(userLogueado.getIdusuario());
+                    //Encriptación password
+                    this.usuario.setPass(DigestUtils.md5Hex(this.ingresoClave));
+                    //Activar Usuario
+                    usuario.setActivado("activado");
+                    this.usuarioFacade.edit(usuario);
+                    FacesContext context = FacesContext.getCurrentInstance();
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡Clave modificada exitosamente!", "Clave modificada"));
+                    return "/Visita/loginUsuario?faces-redirect=true";
+                }
+                return "null";
+
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR", "Vuelva a ingresar los datos."));
+            return "inicioTrabajador";
+        }
+
+    }
+
 }

@@ -2,18 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/NivelUsuarioBean.java</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/addUser.xhtml</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/seleccionarPeriodo.xhtml</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Cajero/aprobarVentas.xhtml</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/tipoUsuarioConverter.java</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/menuAdmin.xhtml</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/UsuarioBean.java</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Visita/registroUsuario.xhtml</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/addDireccion.xhtml</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/src/java/beans/PedidoBean.java</file>
-            <file>file:/C:/Users/Centro%20de%20Trabajo/Documents/NetBeansProjects/SistemaSushi/SistemaSushi-war/web/Admin/reporteVentas.xhtml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

@@ -30,10 +30,10 @@
                 </p:column>
                 <p:column headerText=" " style="width:150px;text-align: center">
                     <p:commandButton value="Agregar al sistema de inventario online" update=":form:msgs,:form:tabla1,:form:tabla2" 
-                                             actionListener="#{productoBean.anadirInventarioProducto(p.idproducto)}"/>
+                                     actionListener="#{productoBean.anadirInventarioProducto(p.idproducto)}"/>
                 </p:column>
             </p:dataTable>
-            
+
             <h1>Productos activos en el inventario</h1>
             <br/>
             <p:dataTable value="#{productoBean.productosInventarios}" var="p" id="tabla2">
@@ -49,11 +49,42 @@
                 <p:column headerText="Valor" style="width:100px;text-align: center">
                     <h:outputText value="$#{p.valor}"/>
                 </p:column>
+                <p:column headerText="EDITAR" style="width:100px;text-align: center">
+                    <p:commandButton update=":formEditarP:panelEditar" 
+                                     oncomplete="PF('dialogo').show()" 
+                                     icon="ui-icon-search" title="Editar">
+                        <f:setPropertyActionListener value="#{p}" target="#{productoBean.producto}" />
+                    </p:commandButton>
+                </p:column>
                 <p:column headerText=" " style="width:150px;text-align: center">
                     <p:commandButton value="Sacar del inventario online" update=":form:msgs,:form:tabla1,:form:tabla2" 
-                                             actionListener="#{productoBean.sacarInventarioProducto(p.idproducto)}"/>
+                                     actionListener="#{productoBean.sacarInventarioProducto(p.idproducto)}"/>
                 </p:column>
             </p:dataTable>
+        </h:form>
+
+        <h:form id="formEditarP">
+            <p:dialog header="Editar Producto" widgetVar="dialogo" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="panelEditar" style="text-align:center;">
+                    <p:panelGrid  columns="2">
+                        <p:outputLabel for="cantidadProducto" value="Cantidad: " />
+                        <p:spinner id="cantidadProducto" 
+                                   required="true"
+                                   value="#{productoBean.producto.cantidad}" 
+                                   min="0" />
+                        <p:outputLabel for="valorProducto" value="Valor: " />
+                        <p:spinner id="valorProducto" 
+                                   required="true"
+                                   value="#{productoBean.producto.valor}" 
+                                   prefix="$" min="0" stepFactor="1000" />
+
+                        <p:commandButton value="Actualizar" 
+                                         actionListener="#{productoBean.modificarProducto()}"
+                                         update=":form:msgs :form:tabla2"
+                                         oncomplete="PF('dialogo').hide();"/>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
         </h:form>
     </ui:define>
 </ui:composition>
