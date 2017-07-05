@@ -17,13 +17,12 @@
         <h:form id="myform">
             <h:panelGrid columns="2" cellpadding="5">
                 <p:outputLabel for="fecha1" value="Inicio periodo" />
-                <p:calendar id="fecha1" value="#{pedidoBean.fechaPeriodoInicio}" showOn="button" pattern="dd-MMM-yyyy"/>
+                <p:calendar id="fecha1" value="#{pedidoBean.fechaPeriodoInicio}" showOn="button" pattern="dd-MMM-yyyy" locale="es"/>
                 <p:outputLabel for="fecha2" value="Fin periodo" />
-                <p:calendar id="fecha2" value="#{pedidoBean.fechaPeriodoFinal}" showOn="button" pattern="dd-MMM-yyyy"/>
+                <p:calendar id="fecha2" value="#{pedidoBean.fechaPeriodoFinal}" showOn="button" pattern="dd-MMM-yyyy" locale="es"/>
             </h:panelGrid>
 
             <p:commandButton value="Obtener Reporte" action="#{pedidoBean.generarReporte()}" icon="ui-icon-check" />
         </h:form>
     </ui:define>
 </ui:composition>
-

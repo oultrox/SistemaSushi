@@ -151,10 +151,10 @@ public class ProductoBean implements Serializable {
             //if (file != null) {
             //    upload();
             this.producto.setIdproducto(BigDecimal.valueOf(1));
-            //Faltaba esto(?). les consultare hoy de todos modos (Rodrigo).
             this.producto.setNombre(this.producto.getNombre());
             this.producto.setCantidad(cantidad);
             this.producto.setValor(valor);
+            this.producto.setInventarioIdinventario(null);
 
             this.productoFacade.create(producto);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto " + this.producto.getNombre() + " ingresado."));
@@ -228,25 +228,45 @@ public class ProductoBean implements Serializable {
         }
     }
 
+    //Metodo para comprobar si existe este producto en el inventario
+    private Boolean enInventario(BigDecimal id) {
+        Boolean bandera = false;
+        Producto ped = productoFacade.find(id);
+        for (Producto pInventario : getProductosInventarios()) {
+            if (pInventario.getNombre().equals(ped.getNombre())) {
+                bandera = true;
+                break;
+            }
+        }
+        return bandera;
+    }
+
     public void anadirInventarioProducto(BigDecimal id) {
         try {
             //llamamos al producto seleccionado
             Producto ped = productoFacade.find(id);
-            Producto pro = new Producto();
-            pro.setIdproducto(BigDecimal.valueOf(1));
-            pro.setNombre(ped.getNombre());
-            pro.setCantidad(ped.getCantidad());
-            pro.setValor(ped.getValor());
+            
+            //Comprobamos que un no exista un producto en el inventario con el mismo nombre
+            if (this.enInventario(id)) {
+                FacesMessage msg = new FacesMessage("Error! producto con el mismo nombre ya agregado.");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } else {
+                Producto pro = new Producto();
+                pro.setIdproducto(BigDecimal.valueOf(1));
+                pro.setNombre(ped.getNombre());
+                pro.setCantidad(ped.getCantidad());
+                pro.setValor(ped.getValor());
 
-            //buscamos el primer item de nuestra bd de inventarios, ya que usaremos
-            //solo una tabla de inventario para el sistema. o por lo menos así
-            //es lo actual, dispuesto a cambios.
-            List<Inventario> inv = inventarioFacade.findAll();
-            //se asigna el producto al inventario para que al fin salga en la tienda online!
-            pro.setInventarioIdinventario(inv.get(0));
-            this.productoFacade.create(pro);
-            FacesMessage msg = new FacesMessage("Exitoso! producto agregado al inventario online.");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+                //buscamos el primer item de nuestra bd de inventarios, ya que usaremos
+                //solo una tabla de inventario para el sistema. o por lo menos así
+                //es lo actual, dispuesto a cambios.
+                //se asigna el producto al inventario para que al fin salga en la tienda online!
+                pro.setInventarioIdinventario(inventarioFacade.findAll().get(0));
+                this.productoFacade.create(pro);
+                FacesMessage msg = new FacesMessage("Exitoso! producto agregado al inventario online.");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Error! producto no pudo ser"
                     + " agregado. ¿No hay un inventario disponible?");
