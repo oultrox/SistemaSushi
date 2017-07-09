@@ -107,7 +107,7 @@ public class UsuarioBean implements Serializable {
             return 4;
         }
         int idTipoCliente = 0;
-        if (this.usuario.getNivelusuarioIdnivelusuario().getNombrenivelusuario() == null) {
+        if (this.usuario.getNivelusuarioIdnivelusuario() == null) {
             idTipoCliente = 2;
         } else {
             String nombreTipoUser = this.usuario.getNivelusuarioIdnivelusuario().getNombrenivelusuario();

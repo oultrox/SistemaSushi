@@ -14,9 +14,12 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.model.UploadedFile;
-import pojos.Inventario;
 import pojos.Pedido;
 import pojos.Producto;
 import servicios.InventarioFacadeLocal;
@@ -28,6 +31,7 @@ import servicios.ProductoFacadeLocal;
  * @author Fukusuke group
  */
 @Named(value = "productoBean")
+@ManagedBean
 @SessionScoped
 public class ProductoBean implements Serializable {
 
@@ -148,8 +152,9 @@ public class ProductoBean implements Serializable {
         try {
             BigInteger cantidad = BigInteger.valueOf(this.cantidadP);
             BigInteger valor = BigInteger.valueOf(this.valorP);
-            //if (file != null) {
-            //    upload();
+            if (file != null) {
+                upload();
+            }
             this.producto.setIdproducto(BigDecimal.valueOf(1));
             this.producto.setNombre(this.producto.getNombre());
             this.producto.setCantidad(cantidad);
@@ -193,39 +198,42 @@ public class ProductoBean implements Serializable {
     //                          OTRA IDEA SERÍA BLOBL EN LA BASE DE DATOS
     //--------------------------------------------------------------------------
     public void upload() {
-        System.out.println("uploading");
         if (file != null) {
-            System.out.println("the file is" + file);
-            FacesMessage msg = new FacesMessage("Succesful" + file.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
             try {
                 copyFile(file.getFileName(), file.getInputstream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("upload finished");
     }
 
     public void copyFile(String fileName, InputStream in) {
+        InputStream inputStr = null;
         try {
-
-            // write the inputStream to a FileOutputStream
-            OutputStream out = new FileOutputStream(new File(destination + fileName));
-            int read = 0;
-            byte[] bytes = new byte[1024];
-
-            while ((read = in.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-            in.close();
-            out.flush();
-            out.close();
-
-            System.out.println("New file created!");
+            inputStr = file.getInputstream();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            //log error
         }
+
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        String directory = externalContext.getInitParameter("uploadDirectory");
+        //String directoryB = externalContext.getInitParameter("uploadDirectoryB");
+        //String filename = FilenameUtils.getName(file.getFileName());
+        String extension = FilenameUtils.getExtension(file.getFileName());
+        String filename = this.producto.getNombre() + "." + extension;
+        filename = filename.toLowerCase();
+        File destFile = new File(directory, filename);
+        // File destFileB = new File(directoryB, filename);
+
+        //use org.apache.commons.io.FileUtils to copy the File
+        try {
+            FileUtils.copyInputStreamToFile(inputStr, destFile);
+            //   FileUtils.copyInputStreamToFile(inputStr, destFileB);
+        } catch (IOException e) {
+            //log error
+        }
+        FacesMessage msg = new FacesMessage(file.getFileName() + " subido correctamente.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     //Metodo para comprobar si existe este producto en el inventario
@@ -245,7 +253,7 @@ public class ProductoBean implements Serializable {
         try {
             //llamamos al producto seleccionado
             Producto ped = productoFacade.find(id);
-            
+
             //Comprobamos que un no exista un producto en el inventario con el mismo nombre
             if (this.enInventario(id)) {
                 FacesMessage msg = new FacesMessage("Error! producto con el mismo nombre ya agregado.");
