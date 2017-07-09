@@ -10,10 +10,10 @@
     </ui:define>
 
     <ui:define name="content">
-                <center>
+        <center>
             <h1>Ingresa Nuevo Producto</h1>
         </center>
-        <h:form id="form">
+        <h:form id="form" enctype="multipart/form-data">
             <p:growl id="msgs" sticky="true" showDetail="true" life="3000" />
             <p:fieldset id="Registrar" legend="Formulario de registro de un producto!" 
                         style="margin-top: 20px; width: 500px;">
@@ -22,6 +22,7 @@
                     <h:outputText value="NOMBRE" /> 
                     <p:inputText value="#{productoBean.producto.nombre}" size="26"
                                  id="nombreProducto"
+                                 onblur="value = value.toUpperCase()"
                                  required="true" placeholder="Ingrese el nombre del producto" 
                                  requiredMessage="Debe ingresar un nombre del producto"/>
 
@@ -38,12 +39,21 @@
                         <p:spinner id="valorProducto" 
                                    required="true"
                                    value="#{productoBean.valorP}" 
-                                   prefix="$" min="0" stepFactor="1000" />
+                                   prefix="$" min="0" stepFactor="500" />
+                    </p:column>
+                    <h:outputText value="SUBIR IMAGEN" /> 
+                    <p:column>
+                        <p:fileUpload value="#{productoBean.file}"  
+                                      mode="simple" required="true"
+                                      requiredMessage="Debe selecconar una imagen"
+                                      allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                      sizeLimit="2048">
+                        </p:fileUpload>
                     </p:column>
                     <br/>
 
                     <p:commandButton value="Ingresar Producto"  id="botonIngresar"
-                                     update="msgs"
+                                     update="msgs" ajax="false"
                                      action="#{productoBean.ingresarProducto()}"/>       
                 </h:panelGrid>
 
