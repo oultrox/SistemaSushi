@@ -22,7 +22,7 @@
                     <h:outputText value="Tipo de Usuario" /> 
                     <p:selectOneMenu id="tipoUsuario" 
                                      value="#{usuarioBean.usuario.nivelusuarioIdnivelusuario}" 
-                                     style="width:125px"
+                                     style="width:220px"
                                      converter="tipoUsuarioConverter">
                         <f:selectItem itemLabel="Seleccione una" itemValue="" />
                         <f:selectItems value="#{nivelUsuarioBean.nivelTrabajadores}" 
@@ -59,7 +59,7 @@
                                 required="true" requiredMessage="Debe ingresar clave" 
                                 match="clave2" placeholder="Ingresa tu contraseña" 
                                 validatorMessage="La contraseña no coincide"/>
-                    <h:outputText value="Repetir Contrañesa" />
+                    <h:outputText value="Repetir Contraseña" />
                     <p:password id="clave2" value="#{usuarioBean.usuario.pass}" 
                                 required="true" requiredMessage="Debe re-ingresar su clave"
                                 placeholder="Confirma tu contraseña"/>

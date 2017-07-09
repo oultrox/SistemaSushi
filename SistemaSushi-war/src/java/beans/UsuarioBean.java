@@ -57,6 +57,25 @@ public class UsuarioBean implements Serializable {
         return usuarioFacade.findAll();
     }
 
+    public List<Usuario> getUsuariosSistema() {
+        List<Usuario> usuarios = this.usuarioFacade.findAll();
+        usuarios.clear();
+        for (Usuario esteUser : this.usuarioFacade.findAll()) {
+            if (!esteUser.getNivelusuarioIdnivelusuario().getNombrenivelusuario().equalsIgnoreCase("usuario")) {
+                usuarios.add(esteUser);
+            }
+        }
+
+        return usuarios;
+    }
+    
+        public String eliminarUsuario(Usuario u) {
+        Usuario user = usuarioFacade.find(u.getIdusuario());
+        this.usuarioFacade.remove(user);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario Eliminado"));
+        return "listaUsuarios";
+    }
+
     public List<Usuario> getClientes() {
         List<Usuario> clientes = this.usuarioFacade.findAll();
         clientes.clear();
@@ -178,6 +197,26 @@ public class UsuarioBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_FATAL,
                             "ERROR", "Vuelva a ingresar los datos."));
 
+        }
+    }
+
+    public void editarUsuario() {
+        try {
+            Usuario us = usuarioFacade.find(userLogueado.getIdusuario());
+            us.setNombre(userLogueado.getNombre());
+            us.setApellidopaterno(userLogueado.getApellidopaterno());
+            us.setPass(DigestUtils.md5Hex(userLogueado.getPass()));
+            usuarioFacade.edit(us);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Usuario Modificado", "Usuario "
+                            + userLogueado.getNombre()
+                            + " "
+                            + userLogueado.getApellidopaterno()
+                            + " modificado correctamente"));
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Vuelva a ingresar los datos"));
         }
     }
 

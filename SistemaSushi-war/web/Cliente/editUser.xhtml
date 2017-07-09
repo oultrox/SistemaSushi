@@ -1,0 +1,57 @@
+<ui:composition template="templateCliente.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Sistema SUSHI
+    </ui:define>
+
+    <ui:define name="content">
+        <center>
+            <h1>Datos Usuario</h1>
+
+            <h:form id="myform">
+                <p:fieldset id="editUsuario" legend="Datos usuarios" 
+                            style="margin-top: 20px; width: 500px;">
+                    <h:panelGrid columns="2" cellpadding="5">  
+
+                        <h:outputText value="Nombre" /> 
+                        <p:inputText value="#{usuarioBean.userLogueado.nombre}" size="26"
+                                     id="nombre"
+                                     required="true" placeholder="Ingrese el nombre del usuario" 
+                                     requiredMessage="Debe ingresar el nombre del usuario"/>
+
+                        <h:outputText value="Apellido" /> 
+                        <p:inputText value="#{usuarioBean.userLogueado.apellidopaterno}" size="26"
+                                     id="apellido"
+                                     required="true" placeholder="Ingrerse el apellido del usuario" 
+                                     requiredMessage="Debe seleccionar el apellido del usuario"/>
+
+                        <h:outputText value="Contraseña" />
+                        <p:password id="clave1" value="#{usuarioBean.userLogueado.pass}" 
+                                    required="true" requiredMessage="Debe ingresar clave" 
+                                    match="clave2" placeholder="Ingresa tu contraseña" 
+                                    validatorMessage="La contraseña no coincide"/>
+
+                        <h:outputText value="Repetir Contraseña" />
+                        <p:password id="clave2" value="#{usuarioBean.userLogueado.pass}" 
+                                    required="true" requiredMessage="Debe re-ingresar su clave"
+                                    placeholder="Confirma tu contraseña"/>
+                        <h:outputText value="" />
+
+                        <p:commandButton value="Editar Datos"  id="btnEditUser"
+                                         update="msgs"
+                                         action="#{usuarioBean.editarUsuario()}"/>       
+                    </h:panelGrid>
+
+
+                </p:fieldset>
+
+            </h:form>
+        </center>
+    </ui:define>
+
+</ui:composition>

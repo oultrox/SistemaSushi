@@ -11,7 +11,7 @@ import pojos.Direccion;
 import pojos.Producto;
 import pojos.Usuario;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-08T22:40:32")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-09T07:18:50")
 @StaticMetamodel(Pedido.class)
 public class Pedido_ { 
 

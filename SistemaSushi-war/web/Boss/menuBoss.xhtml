@@ -11,33 +11,57 @@
         <h:form>  
             <p:menubar>
 
-                <p:menuitem value="Inicio" outcome="inicioBoss.xhtml" icon="ui-icon-home" />
+                <p:menuitem value="Inicio" outcome="inicioBoss.xhtml" 
+                            icon="ui-icon-home" />
 
                 <p:submenu label="Productos" icon="ui-icon-help">
-                    <p:menuitem value="Agregar Producto" outcome="registroProducto.xhtml" icon="ui-icon-person" />
-                    <p:menuitem value="Editar Producto" outcome="mantenedorProducto.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Agregar Producto" 
+                                outcome="registroProducto.xhtml" 
+                                icon="ui-icon-person" />
+                    <p:menuitem value="Editar Producto" 
+                                outcome="mantenedorProducto.xhtml" 
+                                icon="ui-icon-person" />
                 </p:submenu>
 
 
-                <p:menuitem value="Inventario" outcome="inventarioActivo.xhtml" icon="ui-icon-help" />
+                <p:menuitem value="Inventario" 
+                            outcome="inventarioActivo.xhtml" 
+                            icon="ui-icon-help" />
 
 
-                <p:submenu label="Clientes" icon="ui-icon-person">
-                    <p:menuitem value="Ver Cliente" outcome="listaClientes.xhtml" icon="ui-icon-person" />
+                <p:submenu label="Clientes" 
+                           icon="ui-icon-person">
+                    <p:menuitem value="Ver Cliente" 
+                                outcome="listaClientes.xhtml" 
+                                icon="ui-icon-person" />
                 </p:submenu>
 
-                <p:submenu label="Usuarios" icon="ui-icon-person">
-                    <p:menuitem value="Nuevo Usuario" outcome="addUser.xhtml" icon="ui-icon-person" />
+                <p:submenu label="Usuarios" 
+                           icon="ui-icon-person">
+                    <p:menuitem value="Nuevo Usuario" 
+                                outcome="addUser.xhtml" 
+                                icon="ui-icon-person" />
+                    <p:menuitem value="Editar Usuario" 
+                                outcome="listaUsuarios.xhtml" 
+                                icon="ui-icon-person" />
                 </p:submenu>
 
                 <p:submenu label="Direcciones" icon="ui-icon-help">
-                    <p:menuitem value="Agregar Direcciones" outcome="addDireccion.xhtml" icon="ui-icon-person" />
-                    <p:menuitem value="Ver direcciones" outcome="mantenedorDireccion.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Agregar Direcciones" 
+                                outcome="addDireccion.xhtml" 
+                                icon="ui-icon-person" />
+                    <p:menuitem value="Ver direcciones" 
+                                outcome="mantenedorDireccion.xhtml" 
+                                icon="ui-icon-person" />
                 </p:submenu>
 
-                <p:menuitem value="Reporte de Ventas" outcome="seleccionarPeriodo.xhtml" icon="ui-icon-calculator" />
+                <p:menuitem value="Reporte de Ventas" 
+                            outcome="seleccionarPeriodo.xhtml" 
+                            icon="ui-icon-calculator" />
 
-                <p:menuitem value="Cerrar Sesión" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
+                <p:menuitem value="Cerrar Sesión" 
+                            action="#{usuarioBean.logOut()}" 
+                            icon="ui-icon-person" />
 
             </p:menubar>
         </h:form>
