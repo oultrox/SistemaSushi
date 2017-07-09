@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import pojos.Pedido;
 import pojos.Usuario;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-08T21:51:46")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2017-07-08T22:40:32")
 @StaticMetamodel(Direccion.class)
 public class Direccion_ { 
 
