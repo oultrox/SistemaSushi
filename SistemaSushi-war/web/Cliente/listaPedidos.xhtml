@@ -1,0 +1,81 @@
+<ui:composition template="templateCliente.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Historial de Pedidos
+    </ui:define>
+
+    <ui:define name="content">
+        <center>
+            <h1>Tus Pedidos Actuales</h1>
+            <h:form id="formPedidosEnTransito">
+                <br/>
+                <p:dataTable value="#{pedidoBean.pedidosClienteEnTransito(usuarioBean.userLogueado)}" var="p">
+
+                    <p:column headerText="ID" style="text-align: center">
+                        <h:outputText value="#{p.idpedido}"/>
+                    </p:column>
+
+                    <p:column headerText="Fecha" style="text-align: center">
+                        <h:outputText value="#{p.fecha}">
+                            <f:convertDateTime dateStyle="long" locale="es" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Valor" style="text-align: center">
+                        <h:outputText value="#{p.valor}">
+                            <f:convertNumber pattern="$ ###,###,###,##0 pesos" 
+                                             locale="es-CL" 
+                                             type="currency"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="ESTADO" style="text-align: center">
+                        <h:outputText value="#{p.estado.toUpperCase()}"/>
+                    </p:column>
+
+                    <p:column headerText="Cancelar Pedido" style="width:150px;text-align: center">
+                        <p:commandButton icon="ui-icon-close" 
+                                         title="Cancelar"
+                                         update="formPedidosEnTransito formPedidosRealizados"
+                                         action="#{pedidoBean.cancelarPedido(p)}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <h1>Tus Pedidos Históricos</h1>
+            <br/>
+            <h:form id="formPedidosRealizados">
+                <p:dataTable value="#{pedidoBean.pedidosClienteDespachado(usuarioBean.userLogueado)}" var="p">
+
+                    <p:column headerText="ID" style="text-align: center">
+                        <h:outputText value="#{p.idpedido}"/>
+                    </p:column>
+
+                    <p:column headerText="Fecha" style="text-align: center">
+                        <h:outputText value="#{p.fecha}">
+                            <f:convertDateTime dateStyle="long" locale="es" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Valor" style="text-align: center">
+                        <h:outputText value="#{p.valor}">
+                            <f:convertNumber pattern="$ ###,###,###,##0 pesos" 
+                                             locale="es-CL" 
+                                             type="currency"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="ESTADO" style="text-align: center">
+                        <h:outputText value="#{p.estado.toUpperCase()}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </center>
+    </ui:define>
+</ui:composition>

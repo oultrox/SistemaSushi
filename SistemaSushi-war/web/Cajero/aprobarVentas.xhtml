@@ -10,31 +10,35 @@
     </ui:define>
 
     <ui:define name="content">
-        <p:messages id="mensaje" showDetail="true" autoUpdate="false"/>
         <center>
             <h1>Ventas</h1>
+            <h:form id="ventas">
+                <p:dataTable id="checkVentas" var="ven" value="#{pedidoBean.pedidosPorPagar()}" >
+                    <p:column headerText="Numero">
+                        <h:outputText value="#{ven.idpedido}" />
+                    </p:column>
+                    <p:column headerText="Nombre Cliente">
+                        <h:outputText value="#{ven.usuarioIdusuario.nombre} #{ven.usuarioIdusuario.apellidopaterno}" />
+                    </p:column>
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{ven.estado}" />
+                    </p:column>
+                    <p:column headerText="Pagado">
+                        <center>
+                            <p:commandButton value="Pagado"
+                                             action="#{pedidoBean.aprobarPago(ven)}" 
+                                             update="checkVentas" icon="ui-icon-check"/>
+                        </center>
+                    </p:column>
+                    <p:column headerText="Cancelar">
+                        <p:commandButton value="Cancelar"
+                                         action="#{pedidoBean.cancelarPedido(ven)}" 
+                                         update="ventas" 
+                                         icon="ui-icon-close"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </center>
-
-        <h:form id="ventas">
-            <p:dataTable id="checkVentas" var="ven" value="#{pedidoBean.pedidosPorPagar()}" >
-                <p:column headerText="Numero">
-                    <h:outputText value="#{ven.idpedido}" />
-                </p:column>
-                <p:column headerText="Nombre Cliente">
-                    <h:outputText value="#{ven.usuarioIdusuario.nombre} #{ven.usuarioIdusuario.apellidopaterno}" />
-                </p:column>
-                <p:column headerText="Estado">
-                    <h:outputText value="#{ven.estado}" />
-                </p:column>
-                <p:column headerText="Pagado">
-                    <center>
-                        <p:commandButton value="Pagado"
-                                         action="#{pedidoBean.aprobarPago(ven)}" 
-                                         update="checkVentas" icon="ui-icon-check"/>
-                    </center>
-                </p:column>
-            </p:dataTable>
-        </h:form>
     </ui:define>
 </ui:composition>
 

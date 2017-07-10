@@ -133,6 +133,96 @@ public class PedidoBean implements Serializable {
         return pedidosPorPagar;
     }
 
+    public List<Pedido> pedidosCliente(Usuario user) {
+        List<Pedido> pedidosCliente = this.pedidoFacade.findAll();
+        pedidosCliente.clear();
+
+        for (Pedido pe : this.pedidoFacade.findAll()) {
+            if (pe.getUsuarioIdusuario().equals(user)) {
+
+                pedidosCliente.add(pe);
+
+            }
+        }
+
+        return pedidosCliente;
+
+    }
+
+    public List<Pedido> pedidosClienteEnTransito(Usuario user) {
+        List<Pedido> pedidosCliente = this.pedidoFacade.findAll();
+        pedidosCliente.clear();
+
+        for (Pedido pe : this.pedidoFacade.findAll()) {
+            if (pe.getUsuarioIdusuario().equals(user)) {
+                if (!pe.getEstado().equalsIgnoreCase("DESPACHADO")) {
+                    if (!pe.getEstado().equalsIgnoreCase("CANCELADO")) {
+                        if (!pe.getEstado().equalsIgnoreCase("DEPOSITADO")) {
+                            pedidosCliente.add(pe);
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+
+        return pedidosCliente;
+
+    }
+
+    public List<Pedido> pedidosClienteDespachado(Usuario user) {
+        List<Pedido> pedidosCliente = this.pedidoFacade.findAll();
+        pedidosCliente.clear();
+
+        for (Pedido pe : this.pedidoFacade.findAll()) {
+            if (pe.getUsuarioIdusuario().equals(user)) {
+                if (pe.getEstado().equalsIgnoreCase("DESPACHADO")) {
+                    pedidosCliente.add(pe);
+                }
+
+            }
+        }
+
+        return pedidosCliente;
+
+    }
+
+    public List<Pedido> pedidosDeliveryCancelados() {
+        List<Pedido> pedidosCliente = this.pedidoFacade.findAll();
+        pedidosCliente.clear();
+
+        for (Pedido pe : this.pedidoFacade.findAll()) {
+            if (pe.getEstado().equalsIgnoreCase("CANCELADO")) {
+                if (!(pe.getDireccionIddireccion() == null)) {
+                    pedidosCliente.add(pe);
+                }
+
+            }
+        }
+
+        return pedidosCliente;
+
+    }
+
+    public List<Pedido> pedidosParaDevolucion() {
+        List<Pedido> pedidosCliente = this.pedidoFacade.findAll();
+        pedidosCliente.clear();
+
+        for (Pedido pe : this.pedidoFacade.findAll()) {
+            if (pe.getEstado().equalsIgnoreCase("DEPOSITAR")) {
+                if (!(pe.getDireccionIddireccion() == null)) {
+                    pedidosCliente.add(pe);
+                }
+
+            }
+        }
+
+        return pedidosCliente;
+
+    }
+
     public List<Pedido> pedidosHoy() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
         LocalDate localDate = LocalDate.now();
@@ -145,6 +235,55 @@ public class PedidoBean implements Serializable {
             }
         }
         return pd;
+    }
+
+    public String aprobarDevolucion(Pedido pedido) {
+        try {
+            this.pedido = this.pedidoFacade.find(pedido.getIdpedido());
+            pedido.setEstado("DEPOSITAR");
+            this.pedidoFacade.edit(pedido);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "Pedido aprobado exitosamente!!!",
+                    "Pedido N" + pedido.getIdpedido() + " aprobado para la devolución del dinero"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "ERROR",
+                    "Error"));
+        }
+        return null;
+    }
+
+    public String cancelarPedido(Pedido pedido) {
+        try {
+            this.pedido = this.pedidoFacade.find(pedido.getIdpedido());
+            pedido.setEstado("CANCELADO");
+            this.pedidoFacade.edit(pedido);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "Pedido cancelado exitosamente!!!",
+                    "Pedido N" + pedido.getIdpedido() + " Cancelado"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "ERROR",
+                    "Error"));
+        }
+        return null;
+    }
+
+    public String cancelarPedidoDelivery(Pedido pedido) {
+        try {
+            this.pedido = this.pedidoFacade.find(pedido.getIdpedido());
+            pedido.setEstado("CANCELADO");
+            pedido.setDireccionIddireccion(null);
+            this.pedidoFacade.edit(pedido);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "Pedido cancelado exitosamente!!!",
+                    "Pedido N" + pedido.getIdpedido() + " Cancelado"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "ERROR",
+                    "Error"));
+        }
+        return null;
     }
 
     public String aprobarPago(Pedido pedido) {
@@ -308,8 +447,7 @@ public class PedidoBean implements Serializable {
             Date date = new Date();
             pedido.setFecha(date);
             pedido.setEstado("EN PROCESO DE PAGO");
-
-            //aun no implementado
+            pedido.setDireccionIddireccion(null);
             if (d != null) {
                 pedido.setDireccionIddireccion(d);
             }

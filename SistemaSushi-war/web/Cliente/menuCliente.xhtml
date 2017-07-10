@@ -12,14 +12,15 @@
             <p:growl id="messages"/>
             <p:menubar>
                 <p:menuitem value="Inicio" outcome="inicioCliente.xhtml" icon="ui-icon-home" />
-                <p:menuitem value="Perfil" outcome="editUser.xhtml" icon="ui-icon-home" />
-                <p:submenu label="Direcciones" icon="ui-icon-help">
+                <p:menuitem value="Mi Perfil" outcome="editUser.xhtml" icon="ui-icon-home" />
+                <p:submenu label="Mis Direcciones" icon="ui-icon-help">
                     <p:menuitem value="Agregar Dirección" outcome="addDireccionCliente.xhtml" icon="ui-icon-person" />
-                    <p:menuitem value="Ver mis direcciones" outcome="verDirecciones.xhtml" icon="ui-icon-person" />
+                    <p:menuitem value="Ver Mis Direcciones" outcome="verDirecciones.xhtml" icon="ui-icon-person" />
                 </p:submenu>
-
+                <p:menuitem value="Mis Pedidos" outcome="listaPedidos.xhtml" icon="ui-icon-calculator" />
                 <p:menuitem value="Comprar" outcome="promos.xhtml" icon="ui-icon-person" />
                 <p:menuitem value="Carrito" onclick="PF('dlg3').show();" /> 
+
                 <p:menuitem value="Cerrar Sesión" action="#{usuarioBean.logOut()}" icon="ui-icon-person" />
             </p:menubar>
             <p:dialog header="Carrito de compras" widgetVar="dlg3" showEffect="explode" hideEffect="bounce" height="300" width="600">
