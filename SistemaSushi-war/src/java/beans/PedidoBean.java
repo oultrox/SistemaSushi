@@ -36,7 +36,8 @@ import servicios.PedidoFacadeLocal;
 import servicios.ProductoFacadeLocal;
 import servicios.UsuarioFacadeLocal;
 import java.util.Date;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import pojos.Direccion;
 
 /**
@@ -44,6 +45,7 @@ import pojos.Direccion;
  * @author Fukusuke media group
  */
 @Named(value = "pedidoBean")
+@ManagedBean
 @SessionScoped
 public class PedidoBean implements Serializable {
 
@@ -61,7 +63,7 @@ public class PedidoBean implements Serializable {
     private Pedido pedido;
     private Usuario usuario;
     private Direccion direccion;
-    private static ArrayList<Producto> productos = new ArrayList<>();
+    private ArrayList<Producto> productos = new ArrayList<>();
 
     private boolean delivery;
 
@@ -392,11 +394,10 @@ public class PedidoBean implements Serializable {
                 productos.add(p);
             }
 
-            System.out.println(productos.size());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingresado!", "Producto Añadido al carrito."));
             context.addCallbackParam("view", "promos.xhtml");
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error!", "El producto no ha podido ser añadido."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error!", "El producto no ha podido ser añadido."));
             context.addCallbackParam("view", "promos.xhtml");
         }
 
@@ -437,11 +438,64 @@ public class PedidoBean implements Serializable {
 
     }
 
+    public List<Producto> getProductosInventarioHoy() {
+        List<Producto> productosInventarioHoy;
+        productosInventarioHoy = this.productoFacade.findAll();
+        productosInventarioHoy.clear();
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
+        LocalDate localDate = LocalDate.now();
+        Date fechaHoy = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        for (Producto p : this.productoFacade.findAll()) {
+            if (!(p.getInventarioIdinventario() == null)) {
+                if ((p.getInventarioIdinventario().getFecha().equals(fechaHoy))
+                        || (p.getInventarioIdinventario().getFecha().after(fechaHoy))) {
+                    productosInventarioHoy.add(p);
+                }
+            }
+
+        }
+        return productosInventarioHoy;
+    }
+
+    public void descontarProductosInventario(Pedido pe) {
+
+        for (Producto p : getProductosInventarioHoy()) {
+            for (Producto producto : getProductosPedido(pe)) {
+                if (producto.getNombre().equals(p.getNombre())) {
+                    if (!(producto.getInventarioIdinventario() == null)) {
+                        if (producto.getInventarioIdinventario().equals(p.getInventarioIdinventario())) {
+                            p.setCantidad(p.getCantidad().subtract(producto.getCantidad()));
+                            this.productoFacade.edit(p);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    public List<Producto> getProductosPedido(Pedido p) {
+        List<Producto> productosPedido;
+        productosPedido = this.productoFacade.findAll();
+        productosPedido.clear();
+
+        for (Producto pro : this.productoFacade.findAll()) {
+            if (!(pro.getPedidoIdpedido() == null)) {
+                if (pro.getPedidoIdpedido().equals(p)) {
+                    productosPedido.add(pro);
+                }
+            }
+        }
+
+        return productosPedido;
+    }
+
     public String generarPedido(Direccion d) {
         try {
             pedido.setDetalle("Compras");
             pedido.setIdpedido(BigDecimal.ZERO);
-            //qué fastidio lo de big integer, me hizo convertir el total en long...
             pedido.setValor(BigInteger.valueOf(getTotalCarrito()));
 
             Date date = new Date();
@@ -453,9 +507,19 @@ public class PedidoBean implements Serializable {
             }
 
             pedido.setUsuarioIdusuario(asignarUsuario());
-
             this.pedidoFacade.create(pedido);
+            Pedido ped;
+            ped = new Pedido();
+            ped.setIdpedido(BigDecimal.ZERO);
+            for (Pedido p : this.pedidoFacade.findAll()) {
+                if (p.getIdpedido().compareTo(ped.getIdpedido()) > 0) {
+                    ped = p;
+                }
 
+            }
+
+            //crearProductosPedidos(ped);
+            //descontarProductosInventario(ped);
             if (d == null) {
                 FacesContext context = FacesContext.getCurrentInstance();
                 context.getExternalContext().redirect("transaccionExitosa.xhtml");
@@ -466,6 +530,14 @@ public class PedidoBean implements Serializable {
             return null;
         }
 
+    }
+
+    private void crearProductosPedidos(Pedido ped) {
+        for (Producto product : productos) {
+            product.setIdproducto(BigDecimal.ONE);
+            product.setPedidoIdpedido(ped);
+            this.productoFacade.create(product);
+        }
     }
 
     private Usuario asignarUsuario() {

@@ -13,18 +13,22 @@
         <h1>SITIO donde ver las promociones</h1>
         <p>Imagenes cor descuentos y promociones</p>
         <h:form id="form">
-            <p:carousel value="#{productoBean.productosInventarioHoy}" headerText="Combos disponibles!" var="p" itemStyle="text-align:center" responsive="true">
-                <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">         
+            <p:carousel value="#{productoBean.productosInventarioHoy}"  
+                        headerText="Combos disponibles!" var="p" 
+                        itemStyle="text-align:center" responsive="true">
+                <p:panelGrid columns="2" style="width:100%;margin:10px 0px" 
+                             columnClasses="label,value" 
+                             layout="grid" styleClass="ui-panelgrid-blank">         
                     <f:facet name="header">
                         <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.png" style="width:100px; height: 50px;"/> 
                         <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.jpg" style="width:100px; height: 50px;"/>
                         <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.gif" style="width:100px; height: 50px;"/>
                     </f:facet>
-
-                    <p:growl id="msg" sticky="true" showDetail="true" life="3000" />   
+                    
                     <h:outputText value="" />
                     <h:outputText value="Cantidad en Stock" />
-                    <h:outputText value="#{p.cantidad eq 0 ? 'No disponible' : '¡disponible!'}"  style="color: #{p.cantidad eq 0 ? 'red' : 'green'}" />
+                    <h:outputText value="#{p.cantidad eq 0 ? 'No disponible' : '¡disponible!'}"  
+                                  style="color: #{p.cantidad eq 0 ? 'red' : 'green'}" />
 
                     <h:outputText value="Nombre" />
                     <h:outputText value="#{p.nombre}"/>
@@ -33,7 +37,7 @@
                     <h:outputText value="$#{p.valor}" />
 
                     <h:outputText value="" />
-                    <p:commandButton value="Anadir Carrito" update="msg,:clienteMenu:carritoTable"
+                    <p:commandButton value="Anadir Carrito" update="clienteMenu:carritoTable"
                                      actionListener="#{pedidoBean.anadirCarrito(p.idproducto)}"/>    
                 </p:panelGrid>
 

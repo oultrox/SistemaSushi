@@ -36,7 +36,6 @@ import servicios.ProductoFacadeLocal;
  * @author Fukusuke group
  */
 @Named(value = "productoBean")
-@ManagedBean
 @SessionScoped
 public class ProductoBean implements Serializable {
 
@@ -146,7 +145,7 @@ public class ProductoBean implements Serializable {
         List<Producto> productosInventario = productoFacade.findAll();
         productosInventario.removeAll(productosInventario);
         for (Producto p : productos) {
-            if (p.getInventarioIdinventario() == null) {
+            if ((p.getInventarioIdinventario() == null) && (p.getPedidoIdpedido() == null)) {
                 productosInventario.add(p);
             }
         }
@@ -168,13 +167,13 @@ public class ProductoBean implements Serializable {
     }
 
     public List<Producto> getProductosInventarioHoy() {
-        List<Producto> productos = productoFacade.findAll();
+        List<Producto> prod = productoFacade.findAll();
         List<Producto> productosInventario = productoFacade.findAll();
         productosInventario.clear();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
         LocalDate localDate = LocalDate.now();
 
-        for (Producto p : productos) {
+        for (Producto p : prod) {
             if (p.getInventarioIdinventario() != null) {
                 if ((p.getInventarioIdinventario().getFecha().after(Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())))
                         || (p.getInventarioIdinventario().getFecha().equals(Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())))) {
