@@ -38,7 +38,7 @@
 
             <h1>Inventario</h1>
             <br/>
-            <p:dataTable value="#{productoBean.productosInventarios}" var="p" id="tabla2">
+            <p:dataTable value="#{productoBean.productosInventarioHoy}" var="p" id="tabla2">
                 <p:column headerText="ID" style="width:32px;text-align: center">
                     <h:outputText value="#{p.idproducto}"/>
                 </p:column>
@@ -50,6 +50,11 @@
                 </p:column>
                 <p:column headerText="Valor" style="width:100px;text-align: center">
                     <h:outputText value="$#{p.valor}"/>
+                </p:column>
+                <p:column headerText="Fecha" style="width:100px;text-align: center">
+                    <h:outputText value="#{p.inventarioIdinventario.fecha}">
+                        <f:convertDateTime dateStyle="long" locale="es" />
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="EDITAR" style="width:100px;text-align: center">
                     <p:commandButton update=":formEditarP:panelEditar" 

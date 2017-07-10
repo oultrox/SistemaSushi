@@ -52,7 +52,8 @@
                                              converter="tipoUsuarioConverter">
                                 <f:selectItem itemLabel="Seleccione una" itemValue="" />
                                 <f:selectItems value="#{nivelUsuarioBean.nivelTrabajadores}" 
-                                               var="n" itemValue="#{n}" itemLabel="#{n.getNombrenivelusuario().toUpperCase()}" />
+                                               var="n" itemValue="#{n}" 
+                                               itemLabel="#{n.getNombrenivelusuario().toUpperCase()}" />
                             </p:selectOneMenu>
 
                             <h:outputText value="RUT" /> 

@@ -8,6 +8,7 @@
     <h:head>
         <title>TÍTULO SECCIÓN</title>
         <f:event type="preRenderView" listener="#{usuarioBean.verificarNivelUsuarioBoss()}"/>
+        <f:event type="preRenderView" listener="#{productoBean.crearInventarioHoy()}"/>
         <link href="../resources/css/estilo.css" rel="stylesheet" type="text/css"/>
     </h:head>
     <h:body>
@@ -15,7 +16,7 @@
             <ui:include src="menuBoss.xhtml" />
         </div>
         <p:messages id="msgs" autoUpdate="true" showDetail="true" />
-        
+
         <div id="content"><ui:insert name="content">MATERIAL DINÁMICO</ui:insert></div>
         <div id="footer"></div>
 

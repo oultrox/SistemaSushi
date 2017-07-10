@@ -8,7 +8,11 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -20,6 +24,7 @@ import javax.faces.context.FacesContext;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.model.UploadedFile;
+import pojos.Inventario;
 import pojos.Pedido;
 import pojos.Producto;
 import servicios.InventarioFacadeLocal;
@@ -54,6 +59,9 @@ public class ProductoBean implements Serializable {
     private ArrayList<Producto> productosCarrito;
     private int cantidadP;
     private int valorP;
+    private Date fechaHoy;
+
+    private Inventario inventario;
 
     public ProductoBean() {
         producto = new Producto();
@@ -105,6 +113,22 @@ public class ProductoBean implements Serializable {
         return productoFacade.findAll();
     }
 
+    public Date getFechaHoy() {
+        return fechaHoy;
+    }
+
+    public void setFechaHoy(Date fechaHoy) {
+        this.fechaHoy = fechaHoy;
+    }
+
+    public Inventario getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(Inventario inventario) {
+        this.inventario = inventario;
+    }
+
     public List<Producto> getProductosTipo() {
         List<Producto> productosTipo = productoFacade.findAll();
         productosTipo.clear();
@@ -143,8 +167,33 @@ public class ProductoBean implements Serializable {
         return productosInventario;
     }
 
+    public List<Producto> getProductosInventarioHoy() {
+        List<Producto> productos = productoFacade.findAll();
+        List<Producto> productosInventario = productoFacade.findAll();
+        productosInventario.clear();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
+        LocalDate localDate = LocalDate.now();
+
+        for (Producto p : productos) {
+            if (p.getInventarioIdinventario() != null) {
+                if ((p.getInventarioIdinventario().getFecha().after(Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())))
+                        || (p.getInventarioIdinventario().getFecha().equals(Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())))) {
+
+                    productosInventario.add(p);
+
+                }
+            }
+
+        }
+        return productosInventario;
+    }
+
     public int getcantidadProductos() {
         return getProductosInventarios().size();
+    }
+
+    public int getcantidadProductosInvetarioHoy() {
+        return this.getProductosInventarioHoy().size();
     }
 
     //ingresamos un producto al sistema en general. sin inventario asignado.
@@ -236,14 +285,38 @@ public class ProductoBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void crearInventarioHoy() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yy");
+        LocalDate localDate = LocalDate.now();
+        this.fechaHoy = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Boolean flag = false;
+        for (Inventario inv : this.inventarioFacade.findAll()) {
+            if ((inv.getFecha().after(fechaHoy)) || (inv.getFecha().equals(fechaHoy))) {
+                flag = true;
+                this.inventario = inv;
+                break;
+            }
+        }
+        if (!flag) {
+            this.inventario = new Inventario();
+            this.inventario.setIdinventario(BigDecimal.ZERO);
+            this.inventario.setFecha(fechaHoy);
+            this.inventarioFacade.create(inventario);
+        }
+
+    }
+
     //Metodo para comprobar si existe este producto en el inventario
     private Boolean enInventario(BigDecimal id) {
         Boolean bandera = false;
         Producto ped = productoFacade.find(id);
         for (Producto pInventario : getProductosInventarios()) {
             if (pInventario.getNombre().equals(ped.getNombre())) {
-                bandera = true;
-                break;
+                if (pInventario.getInventarioIdinventario().equals(this.inventario)) {
+                    bandera = true;
+                    break;
+                }
+
             }
         }
         return bandera;
@@ -269,7 +342,7 @@ public class ProductoBean implements Serializable {
                 //solo una tabla de inventario para el sistema. o por lo menos así
                 //es lo actual, dispuesto a cambios.
                 //se asigna el producto al inventario para que al fin salga en la tienda online!
-                pro.setInventarioIdinventario(inventarioFacade.findAll().get(0));
+                pro.setInventarioIdinventario(inventario);
                 this.productoFacade.create(pro);
                 FacesMessage msg = new FacesMessage("Exitoso! producto agregado al inventario online.");
                 FacesContext.getCurrentInstance().addMessage(null, msg);

@@ -12,10 +12,11 @@
             </ui:insert>
         </title>
         <f:event type="preRenderView" listener="#{usuarioBean.verificarNivelUsuarioCliente()}"/>
+        <f:event type="preRenderView" listener="#{productoBean.crearInventarioHoy()}"/>
         <link href="../resources/css/estilo.css" rel="stylesheet" type="text/css"/>         
     </h:head>
     <h:body>
-         <section id="banner" data-video="../resources/images/banner">
+        <section id="banner" data-video="../resources/images/banner">
 
             <div class="inner">
                 <header>
@@ -29,9 +30,9 @@
         <div id="menu">
             <ui:include src="menuCliente.xhtml" />
         </div>
-        
+
         <p:messages id="msgs" autoUpdate="true" showDetail="true" />
-        
+
         <div id="content">
             <ui:insert name="content">
                 MATERIAL DINÁMICO
