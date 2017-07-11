@@ -522,17 +522,24 @@ public class UsuarioBean implements Serializable {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
             message.setSubject("Confirmacion cuenta creada SistemaSushi");
-            message.setText("Estimado " + this.usuario.getNombre() + " " + this.usuario.getApellidopaterno()
+            message.setText
+                    ("Estimado " + this.usuario.getNombre()
                     + "\nGracias por ingresar al sistema de compras de Sushi a domicilio"
                     + "\n\n"
                     + "CODIGO DE ACTIVACION: " + this.usuario.getActivado()
                     + "\n <a href='http://localhost:8081/SistemaSushi-war/faces/Visita/activacionCuenta.xhtml'> Clickea aquí para activar </a>"
-                    + "SUS DATOS SON:"
+                    + "\nSUS DATOS SON:"
                     + "\n Rut :" + this.usuario.getRut()
                     + "\n Correo: " + this.usuario.getEmail()
                     + "\n Pass: " + this.usuario.getPass()
                     + "\n\n"
+                    + "Si usted no se registró en Fukusuke systems, por favor ignore este mensaje."
+                    + "\n\n"
+                    + "Saludos cordiales,"
+                    +"\nFukusuke Systems team."
             );
+            
+            message.setContent(message,"text/html");
 
             Transport.send(message);
             return true;

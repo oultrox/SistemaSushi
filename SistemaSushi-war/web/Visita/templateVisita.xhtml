@@ -14,7 +14,6 @@
         <link href="../resources/css/estilo.css" rel="stylesheet" type="text/css"/>         
     </h:head>
     <h:body>
-        <p:messages id="msgs" autoUpdate="true" showDetail="true" />
         <section id="banner" data-video="../resources/images/banner">
 
             <div class="inner">
@@ -26,9 +25,11 @@
                 <a href="loginUsuario.xhtml" class="more">Learn More</a>
             </div>
         </section>
+        
         <div id="menu">
             <ui:include src="menuVisita.xhtml" />
         </div>
+        <p:messages id="msgs" autoUpdate="true" showDetail="true" />
         <div id="content">
             <ui:insert name="content">
                 MATERIAL DINAMICO
