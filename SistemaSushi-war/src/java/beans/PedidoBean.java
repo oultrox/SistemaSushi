@@ -8,6 +8,7 @@ package beans;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -558,15 +560,25 @@ public class PedidoBean implements Serializable {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         //String logo = externalContext.getRealPath("") + File.separator + "resources" + File.separator + "demo" + File.separator + "images" + File.separator + "prime_logo.png";
         //pdf.add(Image.getInstance(logo));
-
-        String totales = "TOTAL VENTAS PERIODO: $ " + this.calcularTotalPeriodo() + " pesos";
+        Paragraph header = new Paragraph("FUKUSUKE SYSTEMS");
+        Paragraph subEncabezado = new Paragraph("SISTEMA DE REPORTE DE VENTAS");
+        subEncabezado.setAlignment(Element.ALIGN_CENTER);
+        header.setAlignment(Element.ALIGN_CENTER);
+        
+        pdf.add(new Paragraph(header));
+        pdf.add(new Paragraph(subEncabezado));
+        
+        Date date = this.getFechaPeriodoInicio();
+        String fechaInicio = new SimpleDateFormat("dd-MM-yyyy").format(date);
+        Date dateFinal = this.getFechaPeriodoFinal();
+        String fechaFinal = new SimpleDateFormat("dd-MM-yyyy").format(dateFinal);
+        String fechas = "Del " + fechaInicio + " al " + fechaFinal;
+        Paragraph fechasPDF = new Paragraph(fechas);
+        fechasPDF.setAlignment(Element.ALIGN_CENTER);
+        pdf.add(new Paragraph(fechasPDF));
+        
+        String totales = "Total de las ventas: $" + this.calcularTotalPeriodo() + " pesos";
         pdf.add(new Paragraph(totales));
-
-        String inicio = "INICIO PERIODO: " + this.getFechaPeriodoInicio();
-        pdf.add(new Paragraph(inicio));
-
-        String fin = "FIN PERIODO: " + this.getFechaPeriodoFinal();
-        pdf.add(new Paragraph(fin));
 
         String salto = " ";
         pdf.add(new Paragraph(salto));
