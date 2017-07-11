@@ -10,8 +10,7 @@
     </ui:define>
 
     <ui:define name="content">
-        <h1>SITIO donde ver las promociones</h1>
-        <p>Imagenes cor descuentos y promociones</p>
+        <h1>promociones de hoy</h1>
         <h:form id="form">
             <p:carousel value="#{productoBean.productosInventarioHoy}"  
                         headerText="Combos disponibles!" var="p" 
@@ -20,13 +19,12 @@
                              columnClasses="label,value" 
                              layout="grid" styleClass="ui-panelgrid-blank">         
                     <f:facet name="header">
-                        <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.png" style="width:100px; height: 50px;"/> 
-                        <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.jpg" style="width:100px; height: 50px;"/>
-                        <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.gif" style="width:100px; height: 50px;"/>
+                        <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.png" style="max-width: 100px; height: auto;"/> 
+                        <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.jpg" style="max-width: 100px; height: auto;"/>
+                        <p:graphicImage value="../resources/images/producto/#{p.nombre.toLowerCase()}.gif" style="max-width: 100px; height: auto;"/>
                     </f:facet>
-                    
-                    <h:outputText value="" />
-                    <h:outputText value="Cantidad en Stock" />
+
+                    <h:outputText value="Stock" />
                     <h:outputText value="#{p.cantidad eq 0 ? 'No disponible' : '¡disponible!'}"  
                                   style="color: #{p.cantidad eq 0 ? 'red' : 'green'}" />
 

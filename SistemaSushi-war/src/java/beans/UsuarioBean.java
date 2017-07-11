@@ -68,8 +68,8 @@ public class UsuarioBean implements Serializable {
 
         return usuarios;
     }
-    
-        public String eliminarUsuario(Usuario u) {
+
+    public String eliminarUsuario(Usuario u) {
         Usuario user = usuarioFacade.find(u.getIdusuario());
         this.usuarioFacade.remove(user);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario Eliminado"));
@@ -522,24 +522,23 @@ public class UsuarioBean implements Serializable {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
             message.setSubject("Confirmacion cuenta creada SistemaSushi");
-            message.setText
-                    ("Estimado " + this.usuario.getNombre()
+            message.setText("Estimado " + this.usuario.getNombre()
                     + "\nGracias por ingresar al sistema de compras de Sushi a domicilio"
                     + "\n\n"
                     + "CODIGO DE ACTIVACION: " + this.usuario.getActivado()
-                    + "\n <a href='http://localhost:8081/SistemaSushi-war/faces/Visita/activacionCuenta.xhtml'> Clickea aquí para activar </a>"
-                    + "\nSUS DATOS SON:"
-                    + "\n Rut :" + this.usuario.getRut()
-                    + "\n Correo: " + this.usuario.getEmail()
-                    + "\n Pass: " + this.usuario.getPass()
-                    + "\n\n"
+                    + "\nhttp://localhost:8081/SistemaSushi-war/faces/Visita/activacionCuenta.xhtml"
+                    + "\nCopia el código de activación y haz click en el enlace para activar tu cuenta"
+                    + "\n"
+                    + "\nTUS DATOS SON:"
+                    + "\nRut :" + this.usuario.getRut()
+                    + "\nCorreo: " + this.usuario.getEmail()
+                    + "\nPass: " + this.usuario.getPass()
+                    + "\n"
                     + "Si usted no se registró en Fukusuke systems, por favor ignore este mensaje."
                     + "\n\n"
                     + "Saludos cordiales,"
-                    +"\nFukusuke Systems team."
+                    + "\nFukusuke Systems team."
             );
-            
-            message.setContent(message,"text/html");
 
             Transport.send(message);
             return true;

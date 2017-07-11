@@ -36,6 +36,7 @@ import servicios.ProductoFacadeLocal;
  * @author Fukusuke group
  */
 @Named(value = "productoBean")
+@ManagedBean
 @SessionScoped
 public class ProductoBean implements Serializable {
 
@@ -133,7 +134,10 @@ public class ProductoBean implements Serializable {
         productosTipo.clear();
         for (Producto val : getProductos()) {
             if (val.getInventarioIdinventario() == null) {
-                productosTipo.add(val);
+                if (val.getPedidoIdpedido() == null) {
+                    productosTipo.add(val);
+                }
+
             }
         }
         return productosTipo;

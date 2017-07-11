@@ -35,12 +35,13 @@
                     </p:column>
 
                     <p:column headerText="ESTADO" style="text-align: center">
-                        <h:outputText value="#{p.estado.toUpperCase()}"/>
+                        <h:outputText value="#{p.estado.toUpperCase() eq 'DEPOSITAR' ? 'DEPOSITO AL CLIENTE' : p.estado.toUpperCase()}"/>
                     </p:column>
 
                     <p:column headerText="Cancelar Pedido" style="width:150px;text-align: center">
                         <p:commandButton icon="ui-icon-close" 
                                          title="Cancelar"
+                                         rendered="#{p.estado.toUpperCase() eq 'DEPOSITAR' ? false : true}"
                                          update="formPedidosEnTransito formPedidosRealizados"
                                          action="#{pedidoBean.cancelarPedido(p)}"/>
                     </p:column>

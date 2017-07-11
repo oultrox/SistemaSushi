@@ -40,12 +40,14 @@
                     <h:outputText value="Nombre" /> 
                     <p:inputText value="#{usuarioBean.usuario.nombre}" size="26"
                                  id="nombre"
+                                 onblur="value = value.toUpperCase()"
                                  required="true" placeholder="Ingrese el nombre del usuario" 
                                  requiredMessage="Debe ingresar el nombre del usuario"/>
 
                     <h:outputText value="Apellido" /> 
                     <p:inputText value="#{usuarioBean.usuario.apellidopaterno}" size="26"
                                  id="apellido"
+                                 onblur="value = value.toUpperCase()"
                                  required="true" placeholder="Ingrerse el apellido del usuario" 
                                  requiredMessage="Debe seleccionar el apellido del usuario"/>
 
